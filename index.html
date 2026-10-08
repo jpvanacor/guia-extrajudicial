@@ -785,6 +785,24 @@ mark.c-hit{background:var(--aviso-bg);color:inherit;border-radius:3px;padding:0 
   .c-resumo{margin-left:0;width:100%}
   .g-hist-it{grid-template-columns:72px 1fr}
 }
+
+/* v45: índice de envolvidos visível em cada linha */
+.c-idx{appearance:none;font:inherit;font-size:10.5px;font-weight:700;letter-spacing:.01em;display:inline-flex;align-items:center;gap:4px;padding:0 7px 0 5px;border-radius:6px;line-height:16px;cursor:pointer;flex:none;white-space:nowrap;border:1px solid transparent;transition:box-shadow .12s}
+.c-idx-ic{display:inline-flex;width:11px;height:11px}
+.c-idx-ic svg{width:11px;height:11px}
+.c-idx.sim{background:var(--t-pratica-bg);color:var(--t-pratica);border-color:var(--t-pratica-bg)}
+.c-idx.nao{background:transparent;color:var(--t-atencao);border:1px dashed currentColor}
+.c-idx:hover{box-shadow:0 0 0 2px var(--line)}
+.c-idx:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.g-ids .c-idx{font-size:11px;line-height:20px;padding:0 8px 0 6px}
+.c-l2 > .c-idx{min-width:104px}
+@media (max-width:720px){
+  .c-ferr .c-sel,.c-ferr .c-btfiltros{flex:1 1 calc(50% - 4px);min-width:0;max-width:none}
+  .c-ferr .c-btfiltros{justify-content:center}
+  .c-l2 > .c-idx{min-width:0}
+}
+.g-sec.g-destaque{animation:gdest 1.6s ease-out}
+@keyframes gdest{0%{background:var(--aviso-bg);box-shadow:0 0 0 8px var(--aviso-bg)}100%{background:transparent;box-shadow:0 0 0 8px transparent}}
 </style>
 </head>
 <body>
@@ -902,7 +920,7 @@ const S = { aba: 'controle' };
 const dobradas = new Set();
 const diasAbertosFeitos = new Set();
 let ultimaBaseHandle = null;
-const filtrosProc = { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, tipo: '' };
+const filtrosProc = { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, tipo: '', indice: '' };
 let ordemProc = { campo: 'prazoEfetivo', asc: true };
 let gavetaId = null;
 const ST = { subaba: 'tarefas', filtroTarefa: 'pendentes', busca: '' };
@@ -2681,6 +2699,30 @@ function textoPrazo(d, longo) {
   if (d === 1) return longo ? 'vence amanhã' : 'amanhã';
   return (longo ? 'vence em ' : 'em ') + d + ' dias';
 }
+/* o procedimento está no Índice de envolvidos? com quantas pessoas e entidades */
+let cacheIdx = null;
+function infoIndice(p) {
+  if (!cacheIdx || cacheIdx.db !== db || cacheIdx.t !== contadorTouch) cacheIdx = { db: db, t: contadorTouch, mapa: new Map() };
+  let r = cacheIdx.mapa.get(p.id);
+  if (!r) {
+    const exp = expedienteDoProc(p);
+    r = { exp: exp, n: exp ? vinculosDe(exp.id).filter((x) => tipoDe(x.outro.id) !== 'expediente').length : 0 };
+    cacheIdx.mapa.set(p.id, r);
+  }
+  return r;
+}
+function pillIndice(p, aoClicar) {
+  const r = infoIndice(p);
+  const ic = el('span', { class: 'c-idx-ic', 'aria-hidden': 'true' });
+  ic.innerHTML = ICONES_ABA.indice;
+  const titulo = r.exp
+    ? (r.n ? 'Indexado: ' + r.n + (r.n === 1 ? ' pessoa ou entidade' : ' pessoas ou entidades') + ' no Índice de envolvidos.' : 'Indexado: o expediente está no Índice, ainda sem pessoas ou entidades vinculadas.')
+    : 'Não indexado: este procedimento ainda não está no Índice de envolvidos.';
+  const b = el('button', { type: 'button', class: 'c-idx ' + (r.exp ? 'sim' : 'nao'), title: titulo, 'aria-label': titulo }, ic, r.exp ? 'Indexado' + (r.n ? ' · ' + r.n : '') : 'Não indexado');
+  b.addEventListener('click', (e) => { e.stopPropagation(); aoClicar(); });
+  b.addEventListener('keydown', (e) => e.stopPropagation());
+  return b;
+}
 function estaNoFoco(id) { return db.focoDia.some((f) => f.procedimentoId === id && f.data === hojeStr()); }
 
 /* preferências do Controle guardadas neste navegador */
@@ -2756,7 +2798,10 @@ function passaFiltros(p, ignorar, busca) {
   if (f.assunto && !procTemAssunto(p, f.assunto)) return false;
   if (f.tema && !(p.temas || []).some((t2) => norm(t2) === norm(f.tema))) return false;
   if (ignorar !== 'situacao' && f.situacao && p.situacao !== f.situacao) return false;
-  if (f.semIndice && procIndexado(p)) return false;
+  if (ignorar !== 'indice') {
+    const modo = f.indice || (f.semIndice ? 'nao' : '');
+    if (modo && (modo === 'sim') !== !!infoIndice(p).exp) return false;
+  }
   if (ignorar !== 'prazo' && f.prazo) {
     const b = bandaPrazo(p);
     if (f.prazo === 'prox') { if (b !== 'sete' && b !== 'trinta') return false; }
@@ -2915,6 +2960,7 @@ function linhaProc(p, termo) {
   const main = el('div', { class: 'c-main' });
   main.append(el('div', { class: 'c-tit', title: p.titulo || '' }, realcar(tituloVisivel(p), termo)));
   const l2 = el('div', { class: 'c-l2' });
+  l2.append(pillIndice(p, () => abrirProc(p.id, 'indice')));
   l2.append(el('span', { class: 'c-num' }, realcar(p.numero || 's/ nº', termo)));
   const cl = classeAgrupada(p.classe);
   if (cl) l2.append(el('span', { class: 'c-cl' }, cl));
@@ -2945,7 +2991,7 @@ function linhaProc(p, termo) {
     const interno = !!(p.prazoInterno && pe === p.prazoInterno && p.prazoInterno !== p.prazo);
     prazoEl.title = (interno ? 'Prazo interno ' : 'Prazo ') + pe + (banda === 'concl' ? '' : ' · ' + textoPrazo(d, true));
     prazoEl.append(el('span', { class: 'c-rel' }, banda === 'concl' ? 'concluído' : textoPrazo(d, false)),
-      el('span', { class: 'c-data' }, (paraBR(pe) || pe) + (interno ? ' · interno' : '')));
+      el('span', { class: 'c-data' }, (interno ? 'int. ' : '') + (paraBR(pe) || pe)));
   }
 
   const feito = feitoHoje(p);
@@ -3047,25 +3093,26 @@ function telaControle() {
       menuAcoes([['Importar JSON…', importarJsonProc], ['Exportar CSV (lista filtrada)', exportarCsvProc]], '⋯', 'Importar e exportar')));
 
   /* linha 2: busca, situação, ordem, filtros */
-  const busca = el('input', { type: 'search', class: 'c-busca', id: 'busca-proc', placeholder: 'Buscar número, título, assunto ou pessoa…  ( / )', value: filtrosProc.busca, autocomplete: 'off', spellcheck: 'false', 'aria-label': 'Buscar procedimentos' });
+  const busca = el('input', { type: 'search', class: 'c-busca', id: 'busca-proc', placeholder: 'Buscar número, título, assunto ou pessoa…', title: 'Atalho: tecla /', value: filtrosProc.busca, autocomplete: 'off', spellcheck: 'false', 'aria-label': 'Buscar procedimentos' });
   const lupa = el('span', { class: 'c-lupa', 'aria-hidden': 'true' });
   lupa.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
   const selSit = el('select', { class: 'c-sel', 'aria-label': 'Situação' });
+  const selIdx = el('select', { class: 'c-sel', 'aria-label': 'Índice de envolvidos' });
   const selOrd = el('select', { class: 'c-sel', 'aria-label': 'Ordenar' });
   for (const o of ORDENS_CONTROLE) selOrd.append(el('option', { value: o[0] }, 'Ordenar: ' + o[1]));
   selOrd.value = ordemProc.campo;
   const btFiltros = el('button', { type: 'button', class: 'btn ghost sm c-btfiltros', 'aria-haspopup': 'dialog' }, 'Filtros', el('span', { class: 'c-nfiltros' }));
-  const linha2 = el('div', { class: 'c-ferr' }, el('div', { class: 'c-busca-wrap' }, lupa, busca), selSit, selOrd, btFiltros);
+  const linha2 = el('div', { class: 'c-ferr' }, el('div', { class: 'c-busca-wrap' }, lupa, busca), selSit, selIdx, selOrd, btFiltros);
 
   /* linha 3: faixas de prazo e resumo */
   const faixas = el('div', { class: 'c-faixas' });
   const resumo = el('div', { class: 'c-resumo' });
   const ativos = el('div', { class: 'c-ativos' });
   const listaWrap = el('div', { class: 'c-lista' });
-  const algumFiltroExtra = () => !!(filtrosProc.classe || filtrosProc.assunto || filtrosProc.tema || filtrosProc.arquivados || filtrosProc.semIndice);
-  const algumFiltro = () => !!(filtrosProc.busca || filtrosProc.situacao || filtrosProc.prazo || algumFiltroExtra());
+  const algumFiltroExtra = () => !!(filtrosProc.classe || filtrosProc.assunto || filtrosProc.tema || filtrosProc.arquivados);
+  const algumFiltro = () => !!(filtrosProc.busca || filtrosProc.situacao || filtrosProc.prazo || filtrosProc.indice || filtrosProc.semIndice || algumFiltroExtra());
   const limparTudo = () => {
-    Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false });
+    Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, indice: '' });
     busca.value = '';
     fecharPopover();
     desenharTudo();
@@ -3079,6 +3126,14 @@ function telaControle() {
     for (const s of SITUACOES) selSit.append(el('option', { value: s[0] }, s[1] + ' · ' + (cont[s[0]] || 0)));
     selSit.value = filtrosProc.situacao;
     selSit.classList.toggle('ativo', !!filtrosProc.situacao);
+  };
+  const desenharSelIdx = (contBusca) => {
+    let sim = 0, nao = 0;
+    for (const p of db.procedimentos) if (passaFiltros(p, 'indice', contBusca)) { if (infoIndice(p).exp) sim++; else nao++; }
+    selIdx.innerHTML = '';
+    selIdx.append(el('option', { value: '' }, 'Índice: todos'), el('option', { value: 'sim' }, 'Indexados · ' + sim), el('option', { value: 'nao' }, 'Não indexados · ' + nao));
+    selIdx.value = filtrosProc.indice || (filtrosProc.semIndice ? 'nao' : '');
+    selIdx.classList.toggle('ativo', !!selIdx.value);
   };
   const desenharContagens = () => {
     const b = criarBusca(filtrosProc.busca);
@@ -3105,9 +3160,10 @@ function telaControle() {
       }
     }
     desenharSelSit(b);
+    desenharSelIdx(b);
     faixas.append(resumo);
     /* filtros extras ativos */
-    const nExtra = [filtrosProc.classe, filtrosProc.assunto, filtrosProc.tema, filtrosProc.arquivados, filtrosProc.semIndice].filter(Boolean).length;
+    const nExtra = [filtrosProc.classe, filtrosProc.assunto, filtrosProc.tema, filtrosProc.arquivados].filter(Boolean).length;
     btFiltros.querySelector('.c-nfiltros').textContent = nExtra ? String(nExtra) : '';
     btFiltros.classList.toggle('ativo', nExtra > 0);
     ativos.innerHTML = '';
@@ -3116,8 +3172,7 @@ function telaControle() {
     if (filtrosProc.assunto) ativos.append(chipAtivo('Assunto: ' + filtrosProc.assunto, () => { filtrosProc.assunto = ''; }));
     if (filtrosProc.tema) ativos.append(chipAtivo('Eixo: ' + filtrosProc.tema, () => { filtrosProc.tema = ''; }));
     if (filtrosProc.arquivados) ativos.append(chipAtivo('Com arquivados', () => { filtrosProc.arquivados = false; }));
-    if (filtrosProc.semIndice) ativos.append(chipAtivo('Só não indexados', () => { filtrosProc.semIndice = false; }));
-    if (filtrosProc.situacao || filtrosProc.prazo || algumFiltroExtra()) ativos.append(el('button', { type: 'button', class: 'c-limpar', onclick: limparTudo }, 'Limpar filtros'));
+    if (filtrosProc.situacao || filtrosProc.prazo || filtrosProc.indice || filtrosProc.semIndice || algumFiltroExtra()) ativos.append(el('button', { type: 'button', class: 'c-limpar', onclick: limparTudo }, 'Limpar filtros'));
     ativos.classList.toggle('oculto', !ativos.childNodes.length);
   };
   const desenharResumo = () => {
@@ -3179,6 +3234,7 @@ function telaControle() {
     if (e.key === 'Enter' && ultimaListaIds.length) { e.preventDefault(); abrirProc(ultimaListaIds[0]); }
   });
   selSit.addEventListener('change', () => { filtrosProc.situacao = selSit.value; desenharTudo(); });
+  selIdx.addEventListener('change', () => { filtrosProc.indice = selIdx.value; filtrosProc.semIndice = false; desenharTudo(); });
   selOrd.addEventListener('change', () => { ordemProc = { campo: selOrd.value, asc: true }; guardarPrefControle(); desenharLista(); });
   btFiltros.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -3207,13 +3263,11 @@ function painelFiltros(aoMudar) {
     cb.addEventListener('change', () => { filtrosProc[chave] = cb.checked; aoMudar(); });
     return el('label', { class: 'c-marca' }, cb, el('span', {}, rotulo, dica ? el('span', { class: 'muted' }, ' · ' + dica) : null));
   };
-  const nSemIdx = db.procedimentos.filter((x) => !x.arquivado && !procIndexado(x)).length;
   return el('div', { class: 'pf-corpo' },
     sel('Classe', classes, filtrosProc.classe, (v) => { filtrosProc.classe = v; }),
     sel('Assunto', todosAssuntos(), filtrosProc.assunto, (v) => { filtrosProc.assunto = v; }),
     temas.length ? sel('Eixo temático', temas, filtrosProc.tema, (v) => { filtrosProc.tema = v; }) : null,
-    marca('Mostrar os arquivados', 'arquivados'),
-    marca('Só os que não estão no Índice', 'semIndice', String(nSemIdx)));
+    marca('Mostrar os arquivados', 'arquivados'));
 }
 
 /* gaveta do procedimento */
@@ -3393,7 +3447,7 @@ function navegarGaveta(delta) {
 function secaoG(titulo, ...kids) {
   return el('section', { class: 'g-sec' }, titulo ? el('h3', {}, titulo) : null, ...kids);
 }
-function abrirProc(id) {
+function abrirProc(id, foco) {
   const mesmo = gavetaId === id;
   if (gavetaId && gavetaCampos) aplicarGaveta();
   const p = acharProc(id);
@@ -3415,6 +3469,15 @@ function abrirProc(id) {
   if (p.numero) ids.append(botaoCopiar(p.numero, 'Número copiado.'));
   const pj = numeroJudicial(p);
   if (pj) ids.append(el('span', { class: 'g-pj mono' }, 'PJ ' + pj), botaoCopiar(pj, 'Número do processo judicial copiado.'));
+  let secEnvRef = null;
+  const irParaIndice = () => {
+    if (!secEnvRef) return;
+    corpo.scrollTop = Math.max(0, secEnvRef.offsetTop - corpo.offsetTop - 8);
+    secEnvRef.classList.remove('g-destaque');
+    void secEnvRef.offsetWidth;
+    secEnvRef.classList.add('g-destaque');
+  };
+  ids.append(pillIndice(p, irParaIndice));
   $('#g-aviso').textContent = (p.arquivado ? 'Arquivado · ' : '') + (p.alteradoEm ? 'Alterado em ' + fmtDataHora(p.alteradoEm) : '');
   $('#g-arquivar').textContent = p.arquivado ? 'Desarquivar' : 'Arquivar';
   atualizarNavGaveta();
@@ -3559,6 +3622,8 @@ function abrirProc(id) {
   /* envolvidos, vindos do Índice */
   const exp = expedienteDoProc(p);
   const secEnv = secaoG('Envolvidos no Índice');
+  secEnv.id = 'g-sec-indice';
+  secEnvRef = secEnv;
   if (exp) {
     const rel = vinculosDe(exp.id).filter((r) => tipoDe(r.outro.id) !== 'expediente')
       .sort((a, b) => rotuloDe(a.outro).localeCompare(rotuloDe(b.outro), 'pt-BR'));
@@ -3610,6 +3675,7 @@ function abrirProc(id) {
   if (secVinc) corpo.append(secVinc);
   corpo.append(secHist, secEnv, secAnexos, det);
   corpo.scrollTop = rolagem;
+  if (foco === 'indice') irParaIndice();
   const gav = $('#gaveta');
   gav.dataset.faixa = faixaPrazo(p) || '';
   gav.classList.add('aberta');
@@ -4321,7 +4387,7 @@ function telaTemasIx() {
     if (procs.length) {
       const rotTema = IX.tema;
       c.append(el('button', { class: 'btn ghost sm', style: 'margin-top:8px', onclick: () => {
-        Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', arquivados: false, semIndice: false, tipo: '' });
+        Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', arquivados: false, semIndice: false, tipo: '', indice: '' });
         filtrosProc.tema = (todosTemas().find((x) => norm(x) === norm(rotTema))) || rotTema;
         S.aba = 'controle'; render();
       } }, 'Ver no Controle com este filtro'));
