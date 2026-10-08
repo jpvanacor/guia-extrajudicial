@@ -803,6 +803,143 @@ mark.c-hit{background:var(--aviso-bg);color:inherit;border-radius:3px;padding:0 
 }
 .g-sec.g-destaque{animation:gdest 1.6s ease-out}
 @keyframes gdest{0%{background:var(--aviso-bg);box-shadow:0 0 0 8px var(--aviso-bg)}100%{background:transparent;box-shadow:0 0 0 8px transparent}}
+
+/* v46: índice de envolvidos redesenhado */
+.ix-ferr{margin:2px 0 4px}
+.ix-ferr .c-busca-wrap{flex:1 1 340px}
+.ix-novo .menu-pop{min-width:170px}
+.ix-painel{background:var(--card);border:1px solid var(--line);border-radius:var(--raio);overflow:hidden}
+.ix-row{display:flex;gap:12px;align-items:center;padding:9px 12px 9px 14px;cursor:pointer;position:relative;transition:background .1s;min-width:0}
+.ix-row + .ix-row{border-top:1px solid var(--line)}
+.ix-row:hover{background:var(--paper)}
+.ix-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.ix-row.ix-volta{animation:ixvolta 1.4s ease-out}
+@keyframes ixvolta{0%{background:var(--accent-soft)}100%{background:transparent}}
+.ix-ic{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--chip);color:var(--muted)}
+.ix-ic svg{width:16px;height:16px}
+.ix-ic.expediente{background:var(--accent-soft);color:var(--accent)}
+.ix-main{flex:1;min-width:0}
+.ix-l1{display:flex;gap:4px 10px;align-items:baseline;min-width:0;white-space:nowrap;overflow:hidden;line-height:1.4}
+.ix-l1 > *{flex:none}
+.ix-nome{font-size:14px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-width:0}
+.ix-num{font-size:12.5px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.ix-tipo{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.ix-doc{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.ix-alias{font-size:11.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-width:0}
+.ix-status{font-size:11px;color:var(--t-pratica);background:var(--t-pratica-bg);border-radius:6px;padding:0 7px;line-height:18px}
+.ix-status.fim{color:var(--muted);background:var(--chip)}
+.ix-l2{display:flex;gap:4px 8px;align-items:baseline;font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;min-width:0;line-height:1.45}
+.ix-l2 > *{flex:none}
+.ix-l2 > .ix-tx,.ix-l2 > .ix-obs{flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.ix-obs{color:var(--ink);opacity:.82}
+.ix-tx + .ix-obs::before,.ix-data + .ix-obs::before{content:'·';margin-right:7px;color:var(--muted)}
+.ix-data{font-size:11px;font-variant-numeric:tabular-nums}
+.ix-l3{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;align-items:center}
+.ix-onde{appearance:none;font:inherit;font-size:11.5px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:2px 4px 2px 8px;display:inline-flex;gap:6px;align-items:center;cursor:pointer;max-width:100%;min-width:0;white-space:nowrap;transition:border-color .12s}
+.ix-onde .mono{overflow:hidden;text-overflow:ellipsis;min-width:0}
+.ix-onde .ix-papel{flex:none}
+.ix-onde:hover{border-color:var(--accent)}
+.ix-onde .mono{font-size:11px}
+.ix-mais{font-size:11.5px;color:var(--muted)}
+.ix-papel{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border-radius:6px;padding:0 7px;line-height:18px;background:var(--chip);color:var(--muted);white-space:nowrap}
+.ix-papel.alvo{background:var(--t-regra-bg);color:var(--t-regra)}
+.ix-dir{flex:none;display:flex;gap:6px;align-items:center;margin-left:auto}
+.ix-dir-acoes{display:flex;gap:4px;align-items:center}
+.ix-n{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ix-n.rec{color:var(--accent);font-weight:700}
+.ix-acoes{display:flex;gap:2px;opacity:0;transition:opacity .1s}
+.ix-acoes .c-ic{opacity:1}
+.ix-row:hover .ix-acoes,.ix-row:focus-within .ix-acoes{opacity:1}
+.ix-acoes .ix-rm:hover{color:var(--t-regra);background:var(--t-regra-bg)}
+.ix-controle{appearance:none;font:inherit;font-size:11.5px;font-weight:600;color:var(--muted);background:transparent;border:1px solid var(--line-forte);border-radius:7px;padding:2px 8px;cursor:pointer;white-space:nowrap}
+.ix-controle:hover{color:var(--accent);border-color:var(--accent)}
+.ix-grupo.fixo{cursor:default}
+.ix-grupo.fixo:hover{color:var(--muted)}
+.c-grupo.alvo,.c-grupo.alvo .c-grupo-n{color:var(--t-regra)}
+.ix-contagem{font-size:12px;margin:8px 2px 0;min-height:0}
+.ix-contagem:empty{display:none}
+.ix-vertodos{margin:8px 2px 0}
+/* início do índice */
+.ix-totais{display:flex;gap:4px 18px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin:14px 2px 0}
+.ix-totais strong{color:var(--ink);font-size:14px;font-variant-numeric:tabular-nums;margin-right:2px}
+.ix-colunas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 22px;align-items:start}
+.ix-aviso-controle{display:flex;gap:8px 14px;align-items:center;justify-content:space-between;flex-wrap:wrap;border:1px dashed var(--line-forte);border-radius:var(--raio);padding:10px 14px;margin-top:22px;font-size:13px;color:var(--muted)}
+.ix-aviso-controle strong{color:var(--t-atencao)}
+.ix-nada{margin:18px 2px}
+.ix-nada p{margin:0 0 10px;font-size:13.5px}
+.ix-nada-bts{display:flex;gap:6px;flex-wrap:wrap}
+/* temas */
+.ix-tema-dica{font-size:12.5px;margin:6px 2px 0}
+.ix-tema-tit{font-size:20px;font-weight:700;letter-spacing:-.01em;margin:2px 0 0}
+/* ficha */
+.ix-cab{background:var(--card);border:1px solid var(--line);border-radius:var(--raio);padding:16px 18px;box-shadow:var(--sombra);margin-bottom:4px}
+.ix-cab-l1{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.ix-cab-tit{display:flex;gap:12px;align-items:center;min-width:0;flex:1 1 320px}
+.ix-cab-tit .ix-ic{width:42px;height:42px;border-radius:12px}
+.ix-cab-tit .ix-ic svg{width:21px;height:21px}
+.ix-cab-txt{min-width:0}
+.ix-cab-txt .linha-eyebrow{margin:0 0 2px}
+.ix-titulo{margin:0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:20px;line-height:1.25}
+.ix-titulo .mono{font-size:18px}
+.ix-cab .ficha-acoes{align-items:center}
+.ix-cab .menu-wrap > .btn{min-width:34px}
+.ix-fatos{display:flex;gap:6px 16px;flex-wrap:wrap;align-items:center;margin-top:12px;font-size:13px;color:var(--ink)}
+.ix-fato{display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap}
+.ix-fato + .ix-fato::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--line-forte);margin-right:10px}
+.ix-resumo{margin:12px 0 0;font-size:13.5px;line-height:1.55;color:var(--ink)}
+.ix-extra{margin-top:8px;font-size:13px;line-height:1.5}
+/* formulário de vínculo */
+.ix-vpar{margin:0 0 4px;font-size:13.5px}
+.ix-vbusca{width:100%}
+.ix-vlista{display:grid;gap:4px;margin-top:8px}
+.ix-vitem{appearance:none;display:flex;gap:10px;align-items:center;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:5px 10px;cursor:pointer;min-width:0}
+.ix-vitem:hover,.ix-vitem:focus-visible{border-color:var(--accent);outline:none}
+.ix-vitem .ix-ic{width:26px;height:26px;border-radius:8px}
+.ix-vitem .ix-ic svg{width:14px;height:14px}
+.ix-vitem-tx{display:flex;gap:10px;align-items:baseline;min-width:0;flex:1}
+.ix-vitem-tx strong{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto;min-width:0}
+.ix-vitem-tx .muted{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1 1 0;min-width:0}
+.ix-vja{font-size:11px;color:var(--muted);white-space:nowrap}
+.ix-vdica{font-size:12.5px;padding:2px 2px}
+.ix-vcad{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12.5px;margin-top:6px}
+.ix-vsel:not(.on){display:none}
+.ix-vsel.on{display:flex;gap:10px;align-items:center;background:var(--accent-soft);border:1px solid var(--accent);border-radius:10px;padding:8px 10px}
+.ix-vsel-tx{display:flex;flex-direction:column;min-width:0;flex:1}
+.ix-vsel-tx strong{font-size:14px}
+.ix-vsel-tx .muted{font-size:12px}
+.ix-papel-ed{display:grid;gap:8px}
+.ix-papeis-esc{display:flex;gap:6px;flex-wrap:wrap}
+.ix-papel-op{appearance:none;font:inherit;font-size:12px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line-forte);border-radius:999px;padding:4px 11px;cursor:pointer;transition:all .12s}
+.ix-papel-op:hover{border-color:var(--muted)}
+.ix-papel-op:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ix-papel-op.on{background:var(--ink);border-color:var(--ink);color:var(--card)}
+.ix-papel-op.alvo.on{background:var(--t-regra);border-color:var(--t-regra);color:#fff}
+/* gaveta do Controle: envolvidos com o mesmo papel padronizado */
+.env-linha .ix-papel{flex:none}
+@media (hover:none){.ix-acoes{opacity:1}}
+@media (max-width:900px){.ix-colunas{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:720px){
+  .ix-ferr .c-busca-wrap{flex-basis:100%}
+  .ix-ferr .c-sel{flex:1 1 0}
+  .ix-novo .menu-pop{left:0;right:auto}
+  .ix-row{gap:10px;padding:9px 10px 9px 12px;align-items:flex-start}
+  .ix-ic{width:28px;height:28px}
+  .ix-l1{flex-wrap:wrap;white-space:normal}
+  .ix-nome{white-space:normal}
+  .ix-l2{flex-wrap:wrap;white-space:normal}
+  .ix-l2 > .ix-tx,.ix-l2 > .ix-obs{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .ix-dir{flex-direction:column;align-items:flex-end;gap:4px}
+  .ix-row.com-n .ix-dir{position:absolute;top:10px;right:12px}
+  .ix-row.com-n .ix-l1{padding-right:84px}
+  .ix-row.com-acoes{flex-wrap:wrap}
+  .ix-row.com-acoes .ix-dir{flex-direction:row;flex-basis:100%;justify-content:flex-end;margin-top:-4px}
+  .ix-fatos{flex-direction:column;align-items:flex-start;gap:4px}
+  .ix-fato + .ix-fato::before{display:none}
+  .ix-vitem-tx{flex-direction:column;gap:0}
+  .ix-vitem-tx .muted{flex:none;max-width:100%}
+  .ix-cab{padding:14px}
+  .ix-cab .ficha-acoes{width:100%}
+}
 </style>
 </head>
 <body>
@@ -924,7 +1061,7 @@ const filtrosProc = { busca: '', classe: '', situacao: '', prazo: '', assunto: '
 let ordemProc = { campo: 'prazoEfetivo', asc: true };
 let gavetaId = null;
 const ST = { subaba: 'tarefas', filtroTarefa: 'pendentes', busca: '' };
-const IX = { view: 'busca', q: '', fichaId: null, tema: null, filtro: { pessoas: '', entidades: '', expedientes: '' } };
+const IX = { view: 'busca', q: '', fichaId: null, tema: null, filtro: { pessoas: '', entidades: '', expedientes: '' }, ordem: {} };
 const pilhaIx = [];
 
 /* ---------- utilitários ---------- */
@@ -1970,7 +2107,11 @@ function montarAbas() {
   for (const par of defs) {
     const b = el('button', {
       class: 'aba' + (S.aba === par[0] ? ' ativa' : '') + (db ? '' : ' desligada'),
-      onclick: () => { if (!db) return; S.aba = par[0]; fecharGaveta(); render(); }
+      onclick: () => {
+        if (!db) return;
+        if (S.aba !== par[0]) for (let i = pilhaIx.length - 1; i >= 0; i--) if ('controle' in pilhaIx[i]) pilhaIx.splice(i, 1);
+        S.aba = par[0]; fecharGaveta(); render();
+      }
     });
     const ic = el('span', { style: 'display:inline-flex' });
     ic.innerHTML = ICONES_ABA[par[0]] || '';
@@ -3626,20 +3767,21 @@ function abrirProc(id, foco) {
   secEnvRef = secEnv;
   if (exp) {
     const rel = vinculosDe(exp.id).filter((r) => tipoDe(r.outro.id) !== 'expediente')
-      .sort((a, b) => rotuloDe(a.outro).localeCompare(rotuloDe(b.outro), 'pt-BR'));
+      .sort((a, b) => ordemPapel(papelCanonico(a.v.papel)) - ordemPapel(papelCanonico(b.v.papel)) || rotuloDe(a.outro).localeCompare(rotuloDe(b.outro), 'pt-BR'));
     if (!rel.length) secEnv.append(el('div', { class: 'muted g-dica' }, 'Expediente indexado, ainda sem pessoas ou entidades vinculadas.'));
     const todos = envolvidosAbertos.has(p.id);
     const lista = el('div', { class: 'g-env' });
     for (const r of (todos ? rel : rel.slice(0, 8))) {
       lista.append(el('div', { class: 'env-linha', role: 'button', tabindex: '0', title: 'Abrir ficha no Índice',
-        onclick: () => { fecharGaveta(); abrirFicha(r.outro.id); } },
+        onclick: () => { const pid = p.id; fecharGaveta(); abrirFicha(r.outro.id, { controle: pid }); },
+        onkeydown: (e) => { if (e.key === 'Enter') { e.preventDefault(); e.currentTarget.click(); } } },
         el('span', { class: 'env-nome' }, rotuloDe(r.outro)),
-        r.v.papel ? chip(r.v.papel, 'papel') : el('span', { class: 'muted env-tipo' }, tipoDe(r.outro.id) === 'pessoa' ? 'pessoa' : 'entidade')));
+        chipPapel(r.v.papel) || el('span', { class: 'muted env-tipo' }, tipoDe(r.outro.id) === 'pessoa' ? 'pessoa' : 'entidade')));
     }
     if (rel.length) secEnv.append(lista);
     const rodape = el('div', { class: 'g-env-pe' });
     if (rel.length > 8) rodape.append(el('button', { class: 'btn ghost sm', onclick: () => { if (todos) envolvidosAbertos.delete(p.id); else envolvidosAbertos.add(p.id); abrirProc(p.id); } }, todos ? 'Mostrar menos' : 'Ver todos os ' + rel.length));
-    rodape.append(el('button', { class: 'btn ghost sm', onclick: () => { fecharGaveta(); abrirFicha(exp.id); } }, 'Abrir expediente no Índice'));
+    rodape.append(el('button', { class: 'btn ghost sm', onclick: () => { const pid = p.id; fecharGaveta(); abrirFicha(exp.id, { controle: pid }); } }, 'Abrir expediente no Índice'));
     secEnv.append(rodape);
   } else {
     secEnv.append(el('div', { class: 'muted g-dica' }, 'Ainda não está no Índice de envolvidos.'));
@@ -4104,7 +4246,6 @@ function vinculosDe(id) {
     .map((v) => ({ v: v, outro: achar(v.origem === id ? v.destino : v.origem) }))
     .filter((r) => r.outro);
 }
-function expedientesDe(id) { return vinculosDe(id).filter((r) => tipoDe(r.outro.id) === 'expediente'); }
 function hayPessoa(p) { return norm([p.nome, (p.aliases || []).join(' '), p.cargo, p.orgao, p.obs].join(' ')); }
 function hayEntidade(e2) { return norm([e2.nome, (e2.aliases || []).join(' '), e2.tipo, e2.obs].join(' ')); }
 function hayExpediente(x) { return norm([x.numero, x.tipo, (x.temas || []).join(' '), x.status, x.resumo, x.obs].join(' ')); }
@@ -4175,6 +4316,227 @@ function removerVinculo(vid) {
   oferecerDesfazer('Vínculo removido.', foto);
 }
 
+/* ---------- índice (v46): papéis, contagens, linhas compactas ---------- */
+/* a mesma função escrita de jeitos diferentes aparece de uma forma só (o que está salvo não muda) */
+const PAPEIS_GENERO = {
+  noticiado: 'Noticiado(a)', investigado: 'Investigado(a)', interessado: 'Interessado(a)', contratado: 'Contratado(a)',
+  servidor: 'Servidor(a)', socio: 'Sócio(a)', advogado: 'Advogado(a)', beneficiario: 'Beneficiário(a)',
+  denunciado: 'Denunciado(a)', requerido: 'Requerido(a)', representado: 'Representado(a)', reclamado: 'Reclamado(a)'
+};
+function papelCanonico(papel) {
+  const s = String(papel || '').trim();
+  if (!s) return '';
+  const base = norm(s).replace(/\s*\((a|o|as|os)\)\s*$/, '').trim();
+  for (const c of [base, base.replace(/a$/, 'o'), base.replace(/ora$/, 'or')]) if (PAPEIS_GENERO[c]) return PAPEIS_GENERO[c];
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+const ORDEM_PAPEIS = ['Investigado(a)', 'Noticiado(a)', 'Denunciado(a)', 'Requerido(a)', 'Representado(a)', 'Reclamado(a)', 'Noticiante', 'Representante', 'Vítima', 'Interessado(a)', 'Testemunha', 'Dirigente', 'Sócio(a)', 'Servidor(a)', 'Contratante', 'Contratado(a)', 'Advogado(a)', 'Beneficiário(a)'];
+const PAPEIS_ALVO = new Set(['Investigado(a)', 'Noticiado(a)', 'Denunciado(a)', 'Requerido(a)', 'Representado(a)', 'Reclamado(a)']);
+const PAPEIS_RAPIDOS = ['Investigado(a)', 'Noticiado(a)', 'Noticiante', 'Representante', 'Interessado(a)', 'Testemunha', 'Vítima', 'Dirigente', 'Sócio(a)', 'Servidor(a)', 'Contratado(a)', 'Advogado(a)'];
+function chipPapel(papel) {
+  const c = papelCanonico(papel);
+  if (!c) return null;
+  const salvo = String(papel).trim();
+  return el('span', { class: 'ix-papel' + (PAPEIS_ALVO.has(c) ? ' alvo' : ''), title: c !== salvo ? 'Salvo como "' + salvo + '"' : null }, c);
+}
+function ordemPapel(c) { const i = ORDEM_PAPEIS.indexOf(c); return i === -1 ? (c ? 100 : 999) : i; }
+function capitalizar(s) { s = String(s || '').trim(); return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+
+/* vínculos e registros por id, guardados até a próxima alteração */
+let cacheIx = null;
+function estatIx() {
+  if (cacheIx && cacheIx.db === db && cacheIx.t === contadorTouch) return cacheIx;
+  const porId = new Map();
+  const reg = new Map();
+  for (const r of db.pessoas) reg.set(r.id, r);
+  for (const r of db.entidades) reg.set(r.id, r);
+  for (const r of db.expedientes) reg.set(r.id, r);
+  const add = (id, v, outro) => { let l = porId.get(id); if (!l) { l = []; porId.set(id, l); } l.push({ v: v, outro: outro }); };
+  for (const v of db.vinculos) { add(v.origem, v, v.destino); add(v.destino, v, v.origem); }
+  cacheIx = { db: db, t: contadorTouch, porId: porId, reg: reg, exps: new Map(), env: new Map() };
+  return cacheIx;
+}
+function vincsIx(id) {
+  const E = estatIx();
+  return (E.porId.get(id) || []).map((x) => ({ v: x.v, outro: E.reg.get(x.outro) })).filter((x) => x.outro);
+}
+/* expedientes de uma pessoa ou entidade: um por expediente, com os vínculos (papéis) */
+function expsIx(id) {
+  const E = estatIx();
+  if (E.exps.has(id)) return E.exps.get(id);
+  const m = new Map();
+  for (const x of vincsIx(id)) {
+    if (tipoDe(x.outro.id) !== 'expediente') continue;
+    const e = m.get(x.outro.id) || { x: x.outro, vs: [] };
+    e.vs.push(x.v);
+    m.set(x.outro.id, e);
+  }
+  const lista = Array.from(m.values()).sort((a, b) => (b.x.data || '').localeCompare(a.x.data || '') || (a.x.numero || '').localeCompare(b.x.numero || ''));
+  E.exps.set(id, lista);
+  return lista;
+}
+function nEnvolvidos(xid) {
+  const E = estatIx();
+  if (!E.env.has(xid)) E.env.set(xid, new Set(vincsIx(xid).filter((y) => tipoDe(y.outro.id) !== 'expediente').map((y) => y.outro.id)).size);
+  return E.env.get(xid);
+}
+function recorrentesIx() {
+  const lista = [];
+  for (const r of db.pessoas.concat(db.entidades)) { const n = expsIx(r.id).length; if (n >= 2) lista.push({ r: r, n: n }); }
+  return lista.sort((a, b) => b.n - a.n || rotuloDe(a.r).localeCompare(rotuloDe(b.r), 'pt-BR'));
+}
+/* quem divide 2 ou mais expedientes com este registro */
+function juntoCom(id) {
+  const cont = new Map();
+  for (const e of expsIx(id)) {
+    const vistos = new Set();
+    for (const y of vincsIx(e.x.id)) {
+      const oid = y.outro.id;
+      if (oid === id || tipoDe(oid) === 'expediente' || vistos.has(oid)) continue;
+      vistos.add(oid);
+      const c = cont.get(oid) || { r: y.outro, n: 0 };
+      c.n++;
+      cont.set(oid, c);
+    }
+  }
+  return Array.from(cont.values()).filter((c) => c.n >= 2).sort((a, b) => b.n - a.n || rotuloDe(a.r).localeCompare(rotuloDe(b.r), 'pt-BR'));
+}
+const ICONES_IX = {
+  pessoa: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+  entidade: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M9 15h.01M15 15h.01M10 21v-3h4v3"/></svg>',
+  expediente: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>'
+};
+function iconeIx(t) { const s = el('span', { class: 'ix-ic ' + t, 'aria-hidden': 'true' }); s.innerHTML = ICONES_IX[t] || ''; return s; }
+function rotuloExp(x) { return (x.tipo || 'Exp.') + ' ' + (x.numero || 's/ nº'); }
+function statusEncerrado(s) { return /arquiv|declin|encerr|conclu/i.test(String(s || '')); }
+/* ↑ ↓ entre as linhas da tela, Enter abre */
+function teclasIx(row, abrir) {
+  row.addEventListener('keydown', (e) => {
+    if (e.target !== row) return;
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(); return; }
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      const linhas = Array.from(document.querySelectorAll('#main .ix-row'));
+      const i = linhas.indexOf(row);
+      const alvo = linhas[e.key === 'ArrowDown' ? i + 1 : i - 1];
+      if (alvo) { e.preventDefault(); alvo.focus(); }
+      else if (e.key === 'ArrowUp') { const b = document.querySelector('#main input.ix-campo'); if (b) { e.preventDefault(); b.focus(); } }
+    }
+  });
+}
+/* linha compacta de pessoa, entidade ou expediente
+   opcoes: termo (realce), ondeAparece (expedientes em que aparece), vinculo ({papel, obs}),
+           acoes (nó à direita), contagem ('sempre' | 'repetidos' | false), sub (texto extra),
+           nota (texto à direita), ocultar (textos já ditos na tela, como o nome da entidade aberta) */
+function ixLinha(r, opcoes) {
+  opcoes = opcoes || {};
+  const t = tipoDe(r.id);
+  const termo = opcoes.termo || '';
+  const v = opcoes.vinculo || null;
+  const abrir = () => abrirFicha(r.id, { linha: r.id });
+  const row = el('div', { class: 'ix-row', tabindex: '0', role: 'button', 'data-id': r.id, 'aria-label': 'Abrir ' + rotuloDe(r) });
+  const l1 = el('div', { class: 'ix-l1' });
+  const l2 = el('div', { class: 'ix-l2' });
+  if (v && v.papel) { const pp = chipPapel(v.papel); if (pp) l2.append(pp); }
+  if (t === 'expediente') {
+    l1.append(el('span', { class: 'ix-tipo' }, r.tipo || 'Exp.'), el('strong', { class: 'mono ix-num' }, realcar(r.numero || 's/ nº', termo)));
+    if (r.status) l1.append(el('span', { class: 'ix-status' + (statusEncerrado(r.status) ? ' fim' : '') }, r.status));
+    if (r.data) l2.append(el('span', { class: 'mono ix-data' }, fmtData(r.data)));
+    if (v) { if (v.obs) l2.append(el('span', { class: 'ix-obs' }, v.obs)); if (r.resumo) row.title = r.resumo; }
+    else if (r.resumo) l2.append(el('span', { class: 'ix-tx' }, realcar(recorte(r.resumo, 260), termo)));
+  } else {
+    l1.append(el('strong', { class: 'ix-nome' }, realcar(r.nome || '(sem nome)', termo)));
+    const doc = t === 'pessoa' ? r.cpf : r.cnpj;
+    if (doc) l1.append(el('span', { class: 'mono ix-doc' }, (t === 'pessoa' ? 'CPF ' : 'CNPJ ') + fmtDoc(doc)));
+    if (termo) {
+      const tk = termo.split(' ').filter(Boolean);
+      if (tk.length && !tk.every((x) => norm(r.nome).indexOf(x) !== -1)) {
+        const al = (r.aliases || []).find((a) => tk.every((x) => norm(a).indexOf(x) !== -1));
+        if (al) l1.append(el('span', { class: 'ix-alias' }, 'também ', realcar(al, termo)));
+      }
+    }
+    const partes = (t === 'pessoa' ? [r.cargo, r.orgao] : [capitalizar(r.tipo)]).filter(Boolean);
+    const ocultar = opcoes.ocultar || [];
+    const detalhe = partes.filter((p) => ocultar.indexOf(norm(p)) === -1).join(' · ');
+    if (detalhe) l2.append(el('span', { class: 'ix-tx' }, realcar(detalhe, termo)));
+    if (v && v.obs && !partes.some((p) => norm(p) === norm(v.obs))) l2.append(el('span', { class: 'ix-obs' }, v.obs));
+  }
+  if (opcoes.sub) l2.append(el('span', { class: 'ix-tx' }, opcoes.sub));
+  const main = el('div', { class: 'ix-main' }, l1);
+  if (l2.childNodes.length) main.append(l2);
+  if (opcoes.ondeAparece && t !== 'expediente') {
+    const exps = expsIx(r.id);
+    if (exps.length) {
+      const l3 = el('div', { class: 'ix-l3' });
+      for (const e of exps.slice(0, 3)) {
+        const papeis = Array.from(new Set(e.vs.map((x) => papelCanonico(x.papel)).filter(Boolean))).slice(0, 2);
+        const ch = el('button', { type: 'button', class: 'ix-onde', title: 'Abrir ' + rotuloExp(e.x) }, el('span', { class: 'mono' }, rotuloExp(e.x)), ...papeis.map((p) => chipPapel(p)));
+        ch.addEventListener('click', (ev) => { ev.stopPropagation(); abrirFicha(e.x.id, { linha: r.id }); });
+        ch.addEventListener('keydown', (ev) => ev.stopPropagation());
+        l3.append(ch);
+      }
+      if (exps.length > 3) l3.append(el('span', { class: 'ix-mais' }, '+' + (exps.length - 3)));
+      main.append(l3);
+    }
+  }
+  row.append(iconeIx(t), main);
+  const dir = el('div', { class: 'ix-dir' });
+  const modo = opcoes.contagem === undefined ? 'sempre' : opcoes.contagem;
+  if (modo) {
+    if (t === 'expediente') {
+      const n = nEnvolvidos(r.id);
+      if (modo === 'sempre') dir.append(el('span', { class: 'ix-n' }, n ? n + (n === 1 ? ' envolvido' : ' envolvidos') : 'ninguém ainda'));
+    } else {
+      const n = expsIx(r.id).length;
+      if (modo === 'sempre' || n >= 2) dir.append(el('span', { class: 'ix-n' + (n >= 2 ? ' rec' : ''), title: n >= 2 ? 'Aparece em ' + n + ' expedientes do Índice' : null }, n ? n + ' exp.' : 'sem exp.'));
+    }
+  }
+  if (opcoes.nota) dir.append(el('span', { class: 'ix-n rec' }, opcoes.nota));
+  if (opcoes.acoes) { dir.append(opcoes.acoes); row.classList.add('com-acoes'); }
+  else if (dir.childNodes.length) row.classList.add('com-n');
+  if (dir.childNodes.length) row.append(dir);
+  row.addEventListener('click', abrir);
+  teclasIx(row, abrir);
+  return row;
+}
+/* cabeçalho de grupo no estilo do Controle; sem chave, não dobra */
+function cabIx(chave, titulo, n, aoAlternar, classe) {
+  const fechado = !!chave && dobradas.has(chave);
+  const filhos = [chave ? el('span', { class: 'seta-dobra' }, fechado ? '▸' : '▾') : null, titulo, n !== null && n !== undefined ? el('span', { class: 'c-grupo-n' }, String(n)) : null, el('span', { class: 'srule' })];
+  const cls = 'c-grupo ix-grupo' + (classe ? ' ' + classe : '');
+  if (!chave) return { el: el('div', { class: cls + ' fixo' }, ...filhos), fechado: false };
+  const b = el('button', { type: 'button', class: cls, 'aria-expanded': String(!fechado) }, ...filhos);
+  b.addEventListener('click', () => { if (dobradas.has(chave)) dobradas.delete(chave); else dobradas.add(chave); aoAlternar(); });
+  return { el: b, fechado: fechado };
+}
+function painelIx(linhas) { const p = el('div', { class: 'ix-painel' }); for (const l of linhas) p.append(l); return p; }
+function campoBuscaIx(attrs) {
+  const inp = el('input', Object.assign({ type: 'search', class: 'c-busca ix-campo', autocomplete: 'off', spellcheck: 'false' }, attrs));
+  const lupa = el('span', { class: 'c-lupa', 'aria-hidden': 'true' });
+  lupa.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+  return { inp: inp, el: el('div', { class: 'c-busca-wrap' }, lupa, inp) };
+}
+function menuNovoIx() {
+  const m = menuAcoes([['Pessoa', () => formPessoa()], ['Entidade', () => formEntidade()], ['Expediente', () => formExpedienteIx()]], '+ Novo ▾', 'Cadastrar no Índice');
+  const b = m.querySelector('.btn');
+  if (b) b.className = 'btn primary sm';
+  m.classList.add('ix-novo');
+  return m;
+}
+
+/* ordem das listas, guardada neste navegador */
+const ORDENS_IX = {
+  pessoas: [['az', 'A–Z'], ['mais', 'Mais expedientes'], ['recentes', 'Cadastradas por último']],
+  entidades: [['az', 'A–Z'], ['mais', 'Mais expedientes'], ['recentes', 'Cadastradas por último']],
+  expedientes: [['data', 'Entrada mais recente'], ['envolvidos', 'Mais envolvidos'], ['numero', 'Número'], ['recentes', 'Indexados por último']]
+};
+function lerPrefIndice() {
+  let pref = {};
+  try { pref = JSON.parse(lerLocal('ge:indice') || '{}') || {}; } catch (e) { pref = {}; }
+  const o = pref.ordem && typeof pref.ordem === 'object' ? pref.ordem : {};
+  for (const k of Object.keys(ORDENS_IX)) if (ORDENS_IX[k].some((x) => x[0] === o[k])) IX.ordem[k] = o[k];
+}
+function guardarPrefIndice() { guardarLocal('ge:indice', JSON.stringify({ ordem: IX.ordem })); }
+
 /* ---------- índice: navegação e telas ---------- */
 function abaDaFichaIx() {
   if (!IX.fichaId) return 'busca';
@@ -4196,8 +4558,11 @@ function contagemTemas() {
   for (const p of db.procedimentos) if (!p.arquivado) add(p.temas);
   return Array.from(m.values()).map((e) => [e.rot, e.n]).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'pt-BR'));
 }
-function abrirFicha(id) {
-  pilhaIx.push({ view: IX.view, fichaId: IX.fichaId, tema: IX.tema });
+/* origem: { controle: id do procedimento } quando vem da gaveta do Controle; { linha: id } da linha clicada */
+function abrirFicha(id, origem) {
+  const aqui = { view: IX.view, fichaId: IX.fichaId, tema: IX.tema, y: S.aba === 'indice' ? (window.scrollY || 0) : 0, linha: (origem && origem.linha) || null };
+  if (origem && 'controle' in origem) aqui.controle = origem.controle || null;
+  pilhaIx.push(aqui);
   IX.view = 'ficha'; IX.fichaId = id;
   S.aba = 'indice';
   render();
@@ -4205,12 +4570,29 @@ function abrirFicha(id) {
 }
 function voltarIx() {
   const s = pilhaIx.pop();
+  const saindo = (s && s.linha) || IX.fichaId;
   if (s) { IX.view = s.view; IX.fichaId = s.fichaId; IX.tema = s.tema; }
   else { IX.view = 'busca'; IX.fichaId = null; }
+  if (s && 'controle' in s) {
+    S.aba = 'controle';
+    render();
+    if (s.controle && acharProc(s.controle)) abrirProc(s.controle);
+    return;
+  }
   render();
+  const y = (s && s.y) || 0;
+  try { window.scrollTo(0, y); } catch (e) { /* sem rolagem */ }
+  /* a linha de onde se saiu volta com o foco */
+  const linha = saindo ? Array.from(document.querySelectorAll('#main .ix-row')).find((r) => r.dataset.id === saindo) : null;
+  if (linha) {
+    try { linha.focus({ preventScroll: true }); } catch (e) { linha.focus(); }
+    const q = linha.getBoundingClientRect();
+    if (q.top < 0 || q.bottom > window.innerHeight) linha.scrollIntoView({ block: 'center' });
+    linha.classList.add('ix-volta');
+  }
 }
 function telaIndice() {
-  const c = el('div');
+  const c = el('div', { class: 'indice' });
   const sub = el('div', { class: 'subnav' });
   const ABAS_IX = [['busca', 'Busca'], ['pessoas', 'Pessoas'], ['entidades', 'Entidades'], ['expedientes', 'Expedientes'], ['temas', 'Temas']];
   for (const par of ABAS_IX) {
@@ -4223,7 +4605,7 @@ function telaIndice() {
     const ativa = IX.view === id || (IX.view === 'ficha' && abaDaFichaIx() === id);
     sub.append(el('button', {
       class: 'subaba' + (ativa ? ' ativa' : ''),
-      onclick: () => { pilhaIx.length = 0; IX.view = id; IX.tema = null; IX.fichaId = null; render(); }
+      onclick: () => { pilhaIx.length = 0; IX.view = id; IX.tema = null; IX.fichaId = null; render(); window.scrollTo(0, 0); }
     }, par[1], cont ? el('span', { class: 'cont' }, String(cont)) : null));
   }
   c.append(sub);
@@ -4234,159 +4616,190 @@ function telaIndice() {
   else c.append(telaBuscaIx());
   return c;
 }
-function linhaPessoa(p) {
-  const n = expedientesDe(p.id).length;
-  return el('div', {
-    class: 'linha', role: 'button', tabindex: '0',
-    onclick: () => abrirFicha(p.id),
-    onkeydown: (e) => { if (e.key === 'Enter') abrirFicha(p.id); }
-  },
-    el('div', { class: 'linha-eyebrow' }, 'Pessoa'),
-    el('div', { class: 'linha-titulo' }, el('strong', {}, p.nome || '(sem nome)'), p.cpf ? el('span', { class: 'mono muted' }, '  CPF ' + fmtDoc(p.cpf)) : null),
-    el('div', { class: 'linha-sub muted' }, [p.cargo, p.orgao].filter(Boolean).join(' · ') || 'sem cargo/órgão informado', n ? ' · ' + n + ' expediente' + (n > 1 ? 's' : '') : ' · sem expedientes vinculados')
-  );
-}
-function linhaEntidade(e2) {
-  const n = expedientesDe(e2.id).length;
-  return el('div', {
-    class: 'linha', role: 'button', tabindex: '0',
-    onclick: () => abrirFicha(e2.id),
-    onkeydown: (e) => { if (e.key === 'Enter') abrirFicha(e2.id); }
-  },
-    el('div', { class: 'linha-eyebrow' }, 'Entidade' + (e2.tipo ? ' · ' + e2.tipo : '')),
-    el('div', { class: 'linha-titulo' }, el('strong', {}, e2.nome || '(sem nome)'), e2.cnpj ? el('span', { class: 'mono muted' }, '  CNPJ ' + fmtDoc(e2.cnpj)) : null),
-    el('div', { class: 'linha-sub muted' }, n ? n + ' expediente' + (n > 1 ? 's' : '') : 'sem expedientes vinculados')
-  );
-}
-function linhaExpedienteIx(x) {
-  const env = vinculosDe(x.id).length;
-  const sub = [fmtData(x.data), recorte(x.resumo, 110)].filter(Boolean).join(' · ');
-  return el('div', {
-    class: 'linha', role: 'button', tabindex: '0',
-    onclick: () => abrirFicha(x.id),
-    onkeydown: (e) => { if (e.key === 'Enter') abrirFicha(x.id); }
-  },
-    el('div', { class: 'linha-eyebrow' }, x.tipo || 'Expediente'),
-    el('div', { class: 'linha-titulo' },
-      el('strong', { class: 'mono' }, x.numero || 's/ nº'), ' ',
-      x.status ? chip(x.status, 'st') : null,
-      (x.temas || []).slice(0, 4).map((t) => chip(t))
-    ),
-    el('div', { class: 'linha-sub muted' }, sub || (env ? env + ' envolvido(s)' : 'sem detalhes'))
-  );
-}
 function telaBuscaIx() {
   const c = el('div');
-  const inp = el('input', { class: 'busca', type: 'search', placeholder: 'Nome, CPF/CNPJ, nº do expediente ou tema…', value: IX.q, autocomplete: 'off' });
+  const b = campoBuscaIx({ placeholder: 'Nome, CPF ou CNPJ, nº do expediente, cargo, órgão ou tema…', value: IX.q, 'aria-label': 'Buscar no Índice', title: 'Atalho: tecla /' });
+  const inp = b.inp;
   const res = el('div', { class: 'res' });
   inp.addEventListener('input', () => { IX.q = inp.value; desenharResultadosIx(res, IX.q); });
-  c.append(el('div', { class: 'busca-wrap', style: 'margin:2px 0 10px' }, inp));
-  c.append(el('div', { class: 'rapidas' },
-    el('span', { class: 'muted' }, 'Cadastro rápido:'),
-    el('button', { class: 'btn ghost sm', onclick: () => formPessoa() }, '+ Pessoa'),
-    el('button', { class: 'btn ghost sm', onclick: () => formEntidade() }, '+ Entidade'),
-    el('button', { class: 'btn ghost sm', onclick: () => formExpedienteIx() }, '+ Expediente')
-  ));
+  inp.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') { const r = res.querySelector('.ix-row'); if (r) { e.preventDefault(); r.focus(); } }
+    if (e.key === 'Enter' && norm(inp.value)) { const r = res.querySelector('.ix-row'); if (r) { e.preventDefault(); r.click(); } }
+  });
+  c.append(el('div', { class: 'c-ferr ix-ferr' }, b.el, menuNovoIx()));
   c.append(res);
   desenharResultadosIx(res, IX.q);
-  setTimeout(() => inp.focus(), 0);
+  setTimeout(() => {
+    const ativo = document.activeElement;
+    if (!document.contains(inp) || document.querySelector('dialog[open]') || gavetaId || (ativo && ativo.classList && ativo.classList.contains('ix-row'))) return;
+    try { inp.focus({ preventScroll: true }); } catch (e) { inp.focus(); }
+  }, 0);
+  return c;
+}
+function inicioIx() {
+  const c = el('div', { class: 'ix-inicio' });
+  if (db.pessoas.length + db.entidades.length + db.expedientes.length === 0) {
+    c.append(el('p', { class: 'muted dica' }, 'O índice está vazio. Use "+ Novo" ou o "Colar do Claude" (skill indexar-envolvidos) para começar.'));
+    return c;
+  }
+  c.append(el('div', { class: 'ix-totais' },
+    el('span', {}, el('strong', {}, String(db.pessoas.length)), ' pessoas'),
+    el('span', {}, el('strong', {}, String(db.entidades.length)), ' entidades'),
+    el('span', {}, el('strong', {}, String(db.expedientes.length)), ' expedientes'),
+    el('span', {}, el('strong', {}, String(db.vinculos.length)), ' vínculos')));
+  const colunas = el('div', { class: 'ix-colunas' });
+  const rec = recorrentesIx();
+  const colA = el('section', { class: 'ix-col' });
+  colA.append(cabIx(null, 'Aparecem em mais de um expediente', rec.length).el);
+  if (!rec.length) colA.append(el('p', { class: 'muted dica' }, 'Ninguém ainda. Quando a mesma pessoa ou entidade entrar em outro expediente, ela aparece aqui.'));
+  else {
+    const todos = dobradas.has('ix:rec:todos');
+    colA.append(painelIx((todos ? rec : rec.slice(0, 8)).map((x) => ixLinha(x.r))));
+    if (rec.length > 8) colA.append(el('button', { class: 'c-limpar ix-vertodos', onclick: () => { if (todos) dobradas.delete('ix:rec:todos'); else dobradas.add('ix:rec:todos'); render(); } }, todos ? 'Mostrar menos' : 'Ver todos os ' + rec.length));
+  }
+  const colB = el('section', { class: 'ix-col' });
+  const recentes = db.expedientes.slice().sort((a, b) => String(b.id).localeCompare(String(a.id))).slice(0, 6);
+  colB.append(cabIx(null, 'Indexados por último', null).el);
+  colB.append(painelIx(recentes.map((x) => ixLinha(x))));
+  colunas.append(colA, colB);
+  c.append(colunas);
+  const semIdx = db.procedimentos.filter((p) => !p.arquivado && tipoProc(p) === 'extra' && !procIndexado(p)).length;
+  if (semIdx) {
+    c.append(el('div', { class: 'ix-aviso-controle' },
+      el('span', {}, el('strong', {}, String(semIdx)), semIdx === 1 ? ' procedimento extrajudicial do Controle ainda não está no Índice.' : ' procedimentos extrajudiciais do Controle ainda não estão no Índice.'),
+      el('button', { class: 'btn ghost sm', onclick: () => {
+        Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, tipo: 'extra', indice: 'nao' });
+        S.aba = 'controle'; render(); window.scrollTo(0, 0);
+      } }, 'Ver no Controle')));
+  }
   return c;
 }
 function desenharResultadosIx(res, q) {
   res.innerHTML = '';
-  const vazia = db.pessoas.length + db.entidades.length + db.expedientes.length === 0;
-  if (!q || (!norm(q) && digits(q).length < 3)) {
-    res.append(el('p', { class: 'muted dica' }, vazia
-      ? 'O índice está vazio. Use o cadastro rápido acima ou o botão "Colar do Claude" para começar.'
-      : 'Digite para consultar. A busca ignora acentos, maiúsculas e a ordem dos nomes; CPF, CNPJ e números de expediente podem ser digitados com ou sem pontuação.'));
+  if (!q || (!norm(q) && digits(q).length < 3)) { res.append(inicioIx()); return; }
+  const r = buscar(q);
+  if (!r) {
+    res.append(el('p', { class: 'muted dica' }, 'Digite pelo menos 3 números para buscar por CPF, CNPJ ou número.'));
     return;
   }
-  const r = buscar(q);
-  if (!r) return;
+  const termo = norm(q);
   const total = r.pessoas.length + r.entidades.length + r.expedientes.length;
   if (!total) {
-    res.append(el('p', { class: 'muted dica' }, 'Nada encontrado. Se for um envolvido novo, cadastre já: assim a próxima denúncia sobre ele será cruzada.'));
+    res.append(el('div', { class: 'ix-nada' },
+      el('p', { class: 'muted' }, 'Nada encontrado. Se for um envolvido novo, cadastre já: assim a próxima denúncia sobre ele será cruzada.'),
+      el('div', { class: 'ix-nada-bts' },
+        el('button', { class: 'btn ghost sm', onclick: () => formPessoa(null, preDaBusca(q, 'pessoa')) }, '+ Pessoa'),
+        el('button', { class: 'btn ghost sm', onclick: () => formEntidade(null, preDaBusca(q, 'entidade')) }, '+ Entidade'),
+        el('button', { class: 'btn ghost sm', onclick: () => formExpedienteIx(null, preDaBusca(q, 'expediente')) }, '+ Expediente'))));
     return;
   }
-  if (r.pessoas.length) {
-    res.append(cabDobravel('busca:pessoas', 'Pessoas', r.pessoas.length, () => desenharResultadosIx(res, q)));
-    if (!dobradas.has('busca:pessoas')) r.pessoas.forEach((p) => res.append(linhaPessoa(p)));
+  const porNome = (a, b) => (a.nome || '').localeCompare(b.nome || '', 'pt-BR');
+  const grupos = [
+    ['busca:pessoas', 'Pessoas', r.pessoas.slice().sort(porNome)],
+    ['busca:entidades', 'Entidades', r.entidades.slice().sort(porNome)],
+    ['busca:expedientes', 'Expedientes', r.expedientes.slice().sort((a, b) => (b.data || '').localeCompare(a.data || ''))]
+  ];
+  for (const g of grupos) {
+    if (!g[2].length) continue;
+    const cab = cabIx(g[0], g[1], g[2].length, () => desenharResultadosIx(res, q));
+    res.append(cab.el);
+    if (!cab.fechado) res.append(painelIx(g[2].map((x) => ixLinha(x, { termo: termo, ondeAparece: true }))));
   }
-  if (r.entidades.length) {
-    res.append(cabDobravel('busca:entidades', 'Entidades', r.entidades.length, () => desenharResultadosIx(res, q)));
-    if (!dobradas.has('busca:entidades')) r.entidades.forEach((e2) => res.append(linhaEntidade(e2)));
-  }
-  if (r.expedientes.length) {
-    res.append(cabDobravel('busca:expedientes', 'Expedientes', r.expedientes.length, () => desenharResultadosIx(res, q)));
-    if (!dobradas.has('busca:expedientes')) r.expedientes.forEach((x) => res.append(linhaExpedienteIx(x)));
-  }
+}
+/* o que foi digitado na busca vira o primeiro campo do cadastro */
+function preDaBusca(q, tipo) {
+  const s = String(q || '').trim();
+  const d = digits(s);
+  const soNumero = d.length >= 3 && !norm(s.replace(/[\d.\-/\s]/g, ''));
+  if (tipo === 'expediente') return soNumero ? { numero: s } : {};
+  if (tipo === 'pessoa' && soNumero) return d.length === 11 ? { cpf: d } : {};
+  if (tipo === 'entidade' && soNumero) return d.length === 14 ? { cnpj: d } : {};
+  return { nome: s };
 }
 function telaListaIx(tipo) {
   const c = el('div');
   const conf = {
-    pessoas: { titulo: 'Pessoas', novo: () => formPessoa(), linha: linhaPessoa, itens: () => db.pessoas.slice().sort((a, b) => (a.nome || '').localeCompare(b.nome || '', 'pt-BR')) },
-    entidades: { titulo: 'Entidades', novo: () => formEntidade(), linha: linhaEntidade, itens: () => db.entidades.slice().sort((a, b) => (a.nome || '').localeCompare(b.nome || '', 'pt-BR')) },
-    expedientes: { titulo: 'Expedientes', novo: () => formExpedienteIx(), linha: linhaExpedienteIx, itens: () => db.expedientes.slice().sort((a, b) => (b.data || '').localeCompare(a.data || '') || b.id.localeCompare(a.id)) }
+    pessoas: { nome: 'pessoas', novo: () => formPessoa(), rotNovo: '+ Nova pessoa', itens: () => db.pessoas.slice() },
+    entidades: { nome: 'entidades', novo: () => formEntidade(), rotNovo: '+ Nova entidade', itens: () => db.entidades.slice() },
+    expedientes: { nome: 'expedientes', novo: () => formExpedienteIx(), rotNovo: '+ Novo expediente', itens: () => db.expedientes.slice() }
   }[tipo];
-  const filtro = el('input', { class: 'filtro', type: 'search', placeholder: 'Filtrar…', value: IX.filtro[tipo], autocomplete: 'off' });
+  const b = campoBuscaIx({ placeholder: 'Filtrar ' + conf.nome + '…', value: IX.filtro[tipo], 'aria-label': 'Filtrar ' + conf.nome });
+  const filtro = b.inp;
+  const sel = el('select', { class: 'c-sel', 'aria-label': 'Ordenar' });
+  for (const o of ORDENS_IX[tipo]) sel.append(el('option', { value: o[0] }, 'Ordenar: ' + o[1]));
+  sel.value = IX.ordem[tipo] || ORDENS_IX[tipo][0][0];
+  const contagem = el('div', { class: 'ix-contagem muted' });
   const listaEl = el('div');
   const desenhar = () => {
     listaEl.innerHTML = '';
     const q = IX.filtro[tipo];
-    let itens = conf.itens();
-    if (q && q.trim()) {
-      const r = buscar(q);
-      if (r) itens = itens.filter((i) => r[tipo].indexOf(i) !== -1);
-    }
-    if (!itens.length) {
-      listaEl.append(el('p', { class: 'muted dica' }, q ? 'Nada encontrado com esse filtro.' : 'Nenhum registro ainda. Clique em "Novo" para cadastrar.'));
-    }
-    itens.forEach((i) => listaEl.append(conf.linha(i)));
+    const todos = conf.itens();
+    let itens = todos;
+    if (q && q.trim()) { const r = buscar(q); if (r) { const ok = new Set(r[tipo]); itens = itens.filter((i) => ok.has(i)); } }
+    const o = IX.ordem[tipo] || ORDENS_IX[tipo][0][0];
+    const porNome = (a, b2) => (a.nome || '').localeCompare(b2.nome || '', 'pt-BR');
+    if (tipo === 'expedientes') {
+      if (o === 'numero') itens.sort((a, b2) => (a.numero || '').localeCompare(b2.numero || ''));
+      else if (o === 'envolvidos') itens.sort((a, b2) => nEnvolvidos(b2.id) - nEnvolvidos(a.id) || (b2.data || '').localeCompare(a.data || ''));
+      else if (o === 'recentes') itens.sort((a, b2) => String(b2.id).localeCompare(String(a.id)));
+      else itens.sort((a, b2) => (b2.data || '').localeCompare(a.data || '') || String(b2.id).localeCompare(String(a.id)));
+    } else if (o === 'mais') itens.sort((a, b2) => expsIx(b2.id).length - expsIx(a.id).length || porNome(a, b2));
+    else if (o === 'recentes') itens.sort((a, b2) => String(b2.id).localeCompare(String(a.id)));
+    else itens.sort(porNome);
+    contagem.textContent = q && q.trim() ? itens.length + ' de ' + todos.length : '';
+    if (!itens.length) { listaEl.append(el('p', { class: 'muted dica' }, q ? 'Nada encontrado com esse filtro.' : 'Nenhum registro ainda. Use "' + conf.rotNovo + '".')); return; }
+    listaEl.append(painelIx(itens.map((i) => ixLinha(i, { termo: norm(q || '') }))));
   };
   filtro.addEventListener('input', () => { IX.filtro[tipo] = filtro.value; desenhar(); });
-  c.append(el('div', { class: 'lista-topo' }, el('h2', { class: 'serif' }, conf.titulo), el('button', { class: 'btn primary sm', onclick: conf.novo }, 'Novo')));
-  c.append(filtro, listaEl);
+  filtro.addEventListener('keydown', (e) => { if (e.key === 'ArrowDown') { const r = listaEl.querySelector('.ix-row'); if (r) { e.preventDefault(); r.focus(); } } });
+  sel.addEventListener('change', () => { IX.ordem[tipo] = sel.value; guardarPrefIndice(); desenhar(); });
+  c.append(el('div', { class: 'c-ferr ix-ferr' }, b.el, sel, el('button', { class: 'btn primary sm', onclick: conf.novo }, conf.rotNovo)));
+  c.append(contagem, listaEl);
   desenhar();
   return c;
+}
+function linhaProcIx(p) {
+  const row = el('div', { class: 'ix-row', tabindex: '0', role: 'button', 'data-id': p.id, 'aria-label': 'Abrir no Controle ' + (p.numero || '') });
+  const main = el('div', { class: 'ix-main' },
+    el('div', { class: 'ix-l1' }, el('span', { class: 'ix-tipo' }, classeAgrupada(p.classe) || 'Procedimento'), el('strong', { class: 'mono ix-num' }, p.numero || '(s/ nº)'), el('span', { class: 'ix-status' }, rotuloSituacao(p.situacao))),
+    el('div', { class: 'ix-l2' }, el('span', { class: 'ix-tx' }, recorte(tituloVisivel(p) || 'sem título', 200))));
+  row.append(iconeIx('expediente'), main, el('div', { class: 'ix-dir' }, el('span', { class: 'ix-n' }, 'Controle ↗')));
+  const abrir = () => abrirProc(p.id);
+  row.addEventListener('click', abrir);
+  teclasIx(row, abrir);
+  return row;
 }
 function telaTemasIx() {
   const c = el('div');
   if (!IX.tema) {
-    c.append(el('h2', { class: 'serif' }, 'Temas'));
     const lista = contagemTemas();
     if (!lista.length) {
       c.append(el('p', { class: 'muted dica' }, 'Nenhum tema ainda. Os temas vêm dos eixos temáticos dos procedimentos (na gaveta, no Controle) e dos temas dos expedientes do Índice.'));
       return c;
     }
+    c.append(el('p', { class: 'muted ix-tema-dica' }, 'Eixos temáticos dos expedientes do Índice e dos procedimentos ativos do Controle. O número soma os dois.'));
     const nuvem = el('div', { class: 'nuvem' });
     for (const par of lista) {
-      nuvem.append(el('button', { class: 'tema-btn', onclick: () => { IX.tema = par[0]; render(); } }, par[0], el('span', { class: 'cont' }, String(par[1]))));
+      nuvem.append(el('button', { class: 'tema-btn', onclick: () => { IX.tema = par[0]; render(); window.scrollTo(0, 0); } }, par[0], el('span', { class: 'cont' }, String(par[1]))));
     }
     c.append(nuvem);
   } else {
-    c.append(el('div', { class: 'lista-topo' },
-      el('h2', { class: 'serif' }, 'Tema: ' + IX.tema),
-      el('button', { class: 'btn ghost sm', onclick: () => { IX.tema = null; render(); } }, 'Todos os temas')
-    ));
+    c.append(el('button', { class: 'voltar', onclick: () => { IX.tema = null; render(); } }, '‹ todos os temas'));
+    c.append(el('h2', { class: 'serif ix-tema-tit' }, IX.tema));
     const tN = norm(IX.tema);
     const itens = db.expedientes.filter((x) => (x.temas || []).some((t) => norm(t) === tN))
       .sort((a, b) => (b.data || '').localeCompare(a.data || ''));
     const procs = db.procedimentos.filter((p) => !p.arquivado && (p.temas || []).some((t) => norm(t) === tN))
       .sort((a, b) => (a.numero || '').localeCompare(b.numero || ''));
-    c.append(el('div', { class: 'seclab' }, 'Expedientes no Índice', el('span', { class: 'sn' }, String(itens.length)), el('span', { class: 'srule' })));
+    c.append(cabIx(null, 'Expedientes no Índice', itens.length).el);
     if (!itens.length) c.append(el('p', { class: 'muted dica' }, 'Nenhum expediente do Índice com este tema.'));
-    itens.forEach((x) => c.append(linhaExpedienteIx(x)));
-    c.append(el('div', { class: 'seclab', style: 'margin-top:18px' }, 'Procedimentos no Controle', el('span', { class: 'sn' }, String(procs.length)), el('span', { class: 'srule' })));
+    else c.append(painelIx(itens.map((x) => ixLinha(x))));
+    c.append(cabIx(null, 'Procedimentos no Controle', procs.length).el);
     if (!procs.length) c.append(el('p', { class: 'muted dica' }, 'Nenhum procedimento ativo com este eixo temático.'));
-    for (const p of procs) {
-      c.append(el('div', { class: 'linha', role: 'button', tabindex: '0', onclick: () => abrirProc(p.id), onkeydown: (e) => { if (e.key === 'Enter') abrirProc(p.id); } },
-        el('div', { class: 'linha-eyebrow' }, classeAgrupada(p.classe) || 'Procedimento'),
-        el('div', { class: 'linha-titulo' }, el('strong', { class: 'mono' }, p.numero || '(s/ nº)'), ' ', chip(rotuloSituacao(p.situacao))),
-        el('div', { class: 'linha-sub muted' }, recorte(p.titulo || '', 140) || 'sem título')));
-    }
+    else c.append(painelIx(procs.map(linhaProcIx)));
     if (procs.length) {
       const rotTema = IX.tema;
-      c.append(el('button', { class: 'btn ghost sm', style: 'margin-top:8px', onclick: () => {
+      c.append(el('button', { class: 'btn ghost sm', style: 'margin-top:10px', onclick: () => {
         Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', arquivados: false, semIndice: false, tipo: '', indice: '' });
         filtrosProc.tema = (todosTemas().find((x) => norm(x) === norm(rotTema))) || rotTema;
         S.aba = 'controle'; render();
@@ -4395,113 +4808,162 @@ function telaTemasIx() {
   }
   return c;
 }
+/* ações de um vínculo (aparecem ao apontar a linha): mudar papel e anotação, remover */
+function acoesVinculo(v) {
+  const box = el('div', { class: 'ix-acoes' });
+  const ed = el('button', { type: 'button', class: 'c-ic ix-ed', title: 'Mudar papel ou anotação deste vínculo', 'aria-label': 'Editar vínculo' }, '✎');
+  ed.addEventListener('click', (e) => { e.stopPropagation(); editarVinculo(v); });
+  const rm = el('button', { type: 'button', class: 'c-ic ix-rm', title: 'Remover este vínculo (dá para desfazer)', 'aria-label': 'Remover vínculo' }, '×');
+  rm.addEventListener('click', (e) => { e.stopPropagation(); removerVinculo(v.id); });
+  for (const b of [ed, rm]) b.addEventListener('keydown', (e) => e.stopPropagation());
+  box.append(ed, rm);
+  return box;
+}
+/* papel em um clique, ou escrito à mão */
+function seletorPapel(valor) {
+  let atual = String(valor || '').trim();
+  const chips = el('div', { class: 'ix-papeis-esc', role: 'group', 'aria-label': 'Papéis mais usados' });
+  const inp = texto(atual, { list: 'dl-papeis', placeholder: 'ou escreva outro papel', autocomplete: 'off', 'aria-label': 'Papel' });
+  const desenhar = () => {
+    chips.innerHTML = '';
+    const canon = papelCanonico(atual);
+    for (const p of PAPEIS_RAPIDOS) {
+      const on = canon === p;
+      chips.append(el('button', { type: 'button', class: 'ix-papel-op' + (on ? ' on' : '') + (PAPEIS_ALVO.has(p) ? ' alvo' : ''), 'aria-pressed': String(on), onclick: () => { atual = on ? '' : p; inp.value = atual; desenhar(); } }, p));
+    }
+  };
+  inp.addEventListener('input', () => { atual = inp.value.trim(); desenhar(); });
+  desenhar();
+  return { el: el('div', { class: 'ix-papel-ed' }, chips, inp), ler: () => inp.value.trim(), focar: () => inp.focus() };
+}
+function editarVinculo(v) {
+  const a = achar(v.origem), b = achar(v.destino);
+  const papel = seletorPapel(v.papel);
+  const obs = texto(v.obs, { placeholder: 'opcional, ex.: assinou o contrato; citado às fls. 12' });
+  abrirDialogo('Editar vínculo', [
+    el('p', { class: 'ix-vpar' }, el('strong', {}, rotuloDe(a)), el('span', { class: 'muted' }, ' ↔ '), el('strong', {}, rotuloDe(b))),
+    campo('Papel', papel.el),
+    campo('Anotação', obs)
+  ], () => {
+    const np = papel.ler(), no = obs.value.trim();
+    if (np === (v.papel || '') && no === (v.obs || '')) return;
+    const foto = fotoBase();
+    v.papel = np; v.obs = no;
+    touch();
+    setTimeout(() => oferecerDesfazer('Vínculo atualizado.', foto), 60);
+  }, 'Salvar');
+  setTimeout(() => obs.focus(), 50);
+}
 function telaFichaIx() {
   const r = achar(IX.fichaId);
   if (!r) { IX.view = 'busca'; IX.fichaId = null; return telaBuscaIx(); }
   const t = tipoDe(r.id);
-  const c = el('div');
-  c.append(el('button', { class: 'voltar', onclick: voltarIx }, '‹ voltar'));
-  const cab = el('div', { class: 'ficha-cab' });
-  cab.append(el('div', { class: 'linha-eyebrow' }, t === 'pessoa' ? 'Pessoa' : t === 'entidade' ? 'Entidade' + (r.tipo ? ' · ' + r.tipo : '') : (r.tipo || 'Expediente')));
-  cab.append(el('h2', { class: 'serif ficha-titulo' }, t === 'expediente' ? el('span', { class: 'mono' }, r.numero || 's/ nº') : (r.nome || '(sem nome)')));
+  const c = el('div', { class: 'ix-ficha' });
+  const topo = pilhaIx[pilhaIx.length - 1];
+  c.append(el('button', { class: 'voltar', onclick: voltarIx }, topo && 'controle' in topo ? '‹ voltar ao Controle' : '‹ voltar'));
+
+  /* cabeçalho */
+  const cab = el('div', { class: 'ix-cab' });
   const procLigado = t === 'expediente' ? procDoExpediente(r) : null;
-  cab.append(el('div', { class: 'ficha-acoes' },
+  const sobre = t === 'pessoa' ? 'Pessoa' : t === 'entidade' ? 'Entidade' + (r.tipo ? ' · ' + capitalizar(r.tipo) : '') : (r.tipo || 'Expediente') + (r.status ? ' · ' + r.status : '');
+  const titulo = t === 'expediente'
+    ? el('h2', { class: 'ficha-titulo ix-titulo' }, el('span', { class: 'mono' }, r.numero || 's/ nº'), r.numero ? botaoCopiar(r.numero, 'Número copiado.') : null)
+    : el('h2', { class: 'serif ficha-titulo ix-titulo' }, r.nome || '(sem nome)');
+  const acoes = el('div', { class: 'ficha-acoes' },
     el('button', { class: 'btn primary sm', onclick: () => formVinculo(r.id) }, 'Novo vínculo'),
     procLigado ? el('button', { class: 'btn ghost sm', onclick: () => { S.aba = 'controle'; render(); abrirProc(procLigado.id); } }, 'Abrir no Controle') : null,
     el('button', { class: 'btn ghost sm', onclick: () => (t === 'pessoa' ? formPessoa(r) : t === 'entidade' ? formEntidade(r) : formExpedienteIx(r)) }, 'Editar'),
-    el('button', { class: 'btn perigo sm', onclick: () => excluirRegistro(r.id) }, 'Excluir')
-  ));
+    menuAcoes([['Excluir do Índice…', () => excluirRegistro(r.id)]], '⋯', 'Mais ações'));
+  cab.append(el('div', { class: 'ix-cab-l1' },
+    el('div', { class: 'ix-cab-tit' }, iconeIx(t), el('div', { class: 'ix-cab-txt' }, el('div', { class: 'linha-eyebrow' }, sobre), titulo)),
+    acoes));
+  const fatos = el('div', { class: 'ix-fatos' });
+  const fato = (...kids) => fatos.append(el('span', { class: 'ix-fato' }, ...kids));
+  if (t === 'pessoa') {
+    if (r.cargo) fato(r.cargo);
+    if (r.orgao) fato(r.orgao);
+    if (r.cpf) fato(el('span', { class: 'mono' }, 'CPF ' + fmtDoc(r.cpf)), botaoCopiar(fmtDoc(r.cpf), 'CPF copiado.'));
+  } else if (t === 'entidade') {
+    if (r.cnpj) fato(el('span', { class: 'mono' }, 'CNPJ ' + fmtDoc(r.cnpj)), botaoCopiar(fmtDoc(r.cnpj), 'CNPJ copiado.'));
+  } else {
+    if (r.data) fato('entrada ', el('span', { class: 'mono' }, fmtData(r.data)));
+    if ((r.temas || []).length) fato(...r.temas.map((tm) => el('button', { class: 'chip clique', title: 'Ver o tema', onclick: () => { pilhaIx.push({ view: IX.view, fichaId: IX.fichaId, tema: IX.tema, y: window.scrollY || 0 }); IX.view = 'temas'; IX.tema = tm; IX.fichaId = null; render(); window.scrollTo(0, 0); } }, tm)));
+  }
+  if (fatos.childNodes.length) cab.append(fatos);
+  if ((r.aliases || []).length) cab.append(el('div', { class: 'ix-extra' }, el('span', { class: 'muted' }, 'Também aparece como: '), r.aliases.join(', ')));
+  if (t === 'expediente' && r.resumo) cab.append(el('p', { class: 'ix-resumo' }, r.resumo));
+  if (r.obs) cab.append(el('div', { class: 'ix-extra' }, el('span', { class: 'muted' }, 'Obs.: '), r.obs));
   c.append(cab);
-  c.append(metaFicha(r, t));
-  const rel = vinculosDe(r.id);
-  const gruposDef = t === 'expediente'
-    ? [['pessoa', 'Pessoas envolvidas'], ['entidade', 'Entidades envolvidas']]
-    : [['expediente', 'Expedientes'], [t === 'pessoa' ? 'entidade' : 'pessoa', t === 'pessoa' ? 'Entidades ligadas' : 'Pessoas ligadas']];
-  for (const par of gruposDef) {
-    const tt = par[0], titulo = par[1];
-    const grupo = rel.filter((x) => tipoDe(x.outro.id) === tt);
-    const sec = el('div');
-    const chave = 'ficha:' + r.id + ':' + tt;
-    sec.append(cabDobravel(chave, titulo, grupo.length, render));
-    if (!dobradas.has(chave)) {
-      if (!grupo.length) {
-        sec.append(el('p', { class: 'muted dica' }, tt === 'expediente' ? 'Nenhum expediente vinculado ainda. Use "Novo vínculo".' : 'Nenhum vínculo aqui ainda.'));
-      }
-      grupo.sort(ordenarVinc(tt)).forEach((g) => sec.append(linhaVinculo(g)));
+
+  const rel = vincsIx(r.id);
+  if (t === 'expediente') {
+    /* envolvidos agrupados pelo papel; pessoas e entidades juntas */
+    const envolvidos = rel.filter((x) => tipoDe(x.outro.id) !== 'expediente');
+    if (!envolvidos.length) c.append(el('p', { class: 'muted dica' }, 'Ninguém vinculado ainda. Use "Novo vínculo" ou o "Colar do Claude".'));
+    const grupos = new Map();
+    for (const x of envolvidos) {
+      const k = papelCanonico(x.v.papel);
+      if (!grupos.has(k)) grupos.set(k, []);
+      grupos.get(k).push(x);
     }
-    c.append(sec);
+    const chaves = Array.from(grupos.keys()).sort((a, b) => ordemPapel(a) - ordemPapel(b) || a.localeCompare(b, 'pt-BR'));
+    const tipoOrd = (x) => (tipoDe(x.outro.id) === 'pessoa' ? 0 : 1);
+    for (const k of chaves) {
+      const lista = grupos.get(k).sort((a, b) => tipoOrd(a) - tipoOrd(b) || rotuloDe(a.outro).localeCompare(rotuloDe(b.outro), 'pt-BR'));
+      const cabG = cabIx('ficha:' + r.id + ':papel:' + k, k || 'Sem papel', lista.length, render, PAPEIS_ALVO.has(k) ? 'alvo' : '');
+      c.append(cabG.el);
+      if (!cabG.fechado) c.append(painelIx(lista.map((x) => ixLinha(x.outro, { vinculo: { papel: '', obs: x.v.obs }, acoes: acoesVinculo(x.v), contagem: 'repetidos' }))));
+    }
+  } else {
+    /* expedientes em que aparece */
+    const exps = rel.filter((x) => tipoDe(x.outro.id) === 'expediente')
+      .sort((a, b) => (b.outro.data || '').localeCompare(a.outro.data || '') || (a.outro.numero || '').localeCompare(b.outro.numero || ''));
+    const cabE = cabIx('ficha:' + r.id + ':expediente', 'Expedientes', new Set(exps.map((x) => x.outro.id)).size, render);
+    c.append(cabE.el);
+    if (!cabE.fechado) {
+      if (!exps.length) c.append(el('p', { class: 'muted dica' }, 'Nenhum expediente vinculado ainda. Use "Novo vínculo".'));
+      else c.append(painelIx(exps.map((x) => {
+        const pl = procDoExpediente(x.outro);
+        const box = el('div', { class: 'ix-dir-acoes' });
+        if (pl) {
+          const bc = el('button', { type: 'button', class: 'ix-controle', title: 'Abrir ' + (pl.numero || 'o procedimento') + ' no Controle' }, 'Controle ↗');
+          bc.addEventListener('click', (e) => { e.stopPropagation(); S.aba = 'controle'; render(); abrirProc(pl.id); });
+          bc.addEventListener('keydown', (e) => e.stopPropagation());
+          box.append(bc);
+        }
+        box.append(acoesVinculo(x.v));
+        return ixLinha(x.outro, { vinculo: x.v, acoes: box, contagem: false });
+      })));
+    }
+    /* ligações diretas: dirigentes, sócios, servidores… */
+    const lig = rel.filter((x) => tipoDe(x.outro.id) !== 'expediente')
+      .sort((a, b) => ordemPapel(papelCanonico(a.v.papel)) - ordemPapel(papelCanonico(b.v.papel)) || rotuloDe(a.outro).localeCompare(rotuloDe(b.outro), 'pt-BR'));
+    if (lig.length) {
+      const cabL = cabIx('ficha:' + r.id + ':ligacoes', t === 'pessoa' ? 'Ligações com entidades e pessoas' : 'Ligações com pessoas e entidades', lig.length, render);
+      c.append(cabL.el);
+      const jaDito = t === 'entidade' ? [r.nome].concat(r.aliases || []).map(norm) : [];
+      if (!cabL.fechado) c.append(painelIx(lig.map((x) => ixLinha(x.outro, { vinculo: x.v, acoes: acoesVinculo(x.v), contagem: 'repetidos', ocultar: jaDito }))));
+    }
+    /* quem divide 2 ou mais expedientes com este registro */
+    const junto = juntoCom(r.id);
+    if (junto.length) {
+      const cabJ = cabIx('ficha:' + r.id + ':junto', 'Aparece junto com', junto.length, render);
+      c.append(cabJ.el);
+      if (!cabJ.fechado) c.append(painelIx(junto.map((x) => ixLinha(x.r, { nota: x.n + ' em comum', contagem: false }))));
+    }
   }
   return c;
 }
-function ordenarVinc(tt) {
-  return (a, b) => tt === 'expediente'
-    ? ((b.outro.data || '').localeCompare(a.outro.data || ''))
-    : rotuloDe(a.outro).localeCompare(rotuloDe(b.outro), 'pt-BR');
-}
-function metaFicha(r, t) {
-  const dl = el('dl', { class: 'meta' });
-  const add = (k, v, mono) => { if (!v) return; dl.append(el('dt', {}, k), el('dd', mono ? { class: 'mono' } : null, v)); };
-  if (t === 'pessoa') {
-    add('CPF', r.cpf ? fmtDoc(r.cpf) : '', true);
-    add('Cargo', r.cargo);
-    add('Órgão', r.orgao);
-    add('Outras grafias', (r.aliases || []).join(', '));
-    add('Observações', r.obs);
-  } else if (t === 'entidade') {
-    add('CNPJ', r.cnpj ? fmtDoc(r.cnpj) : '', true);
-    add('Tipo', r.tipo);
-    add('Outras grafias', (r.aliases || []).join(', '));
-    add('Observações', r.obs);
-  } else {
-    add('Status', r.status);
-    add('Data de entrada', fmtData(r.data));
-    if ((r.temas || []).length) {
-      dl.append(el('dt', {}, 'Temas'), el('dd', null, r.temas.map((tm) => el('button', {
-        class: 'chip clique',
-        onclick: () => { pilhaIx.push({ view: IX.view, fichaId: IX.fichaId, tema: IX.tema }); IX.view = 'temas'; IX.tema = tm; IX.fichaId = null; render(); }
-      }, tm))));
-    }
-    add('Resumo do fato', r.resumo);
-    add('Observações', r.obs);
-  }
-  if (!dl.children.length) return el('div');
-  return el('div', { class: 'card' }, dl);
-}
-function linhaVinculo(g) {
-  const o = g.outro;
-  const to = tipoDe(o.id);
-  const principal = el('div', {
-    class: 'linha-titulo clique', role: 'button', tabindex: '0',
-    onclick: () => abrirFicha(o.id),
-    onkeydown: (e) => { if (e.key === 'Enter') abrirFicha(o.id); }
-  });
-  if (to === 'expediente') {
-    principal.append(el('span', { class: 'linha-eyebrow inline' }, o.tipo || 'Expediente'), el('strong', { class: 'mono' }, ' ' + (o.numero || 's/ nº')));
-  } else {
-    principal.append(el('span', { class: 'linha-eyebrow inline' }, to === 'pessoa' ? 'Pessoa' : 'Entidade'), el('strong', null, ' ' + (o.nome || '(sem nome)')));
-  }
-  const det = el('div', { class: 'linha-sub' });
-  if (g.v.papel) det.append(chip(g.v.papel, 'papel'));
-  if (to === 'expediente') {
-    if (o.status) det.append(chip(o.status, 'st'));
-    (o.temas || []).slice(0, 3).forEach((tm) => det.append(chip(tm)));
-    if (o.data) det.append(el('span', { class: 'muted' }, ' ' + fmtData(o.data)));
-  } else if (to === 'pessoa' && o.cargo) {
-    det.append(el('span', { class: 'muted' }, ' ' + o.cargo));
-  }
-  if (g.v.obs) det.append(el('span', { class: 'muted' }, ' · ' + g.v.obs));
-  const rem = el('button', { class: 'x', title: 'Remover vínculo', onclick: (e) => { e.stopPropagation(); removerVinculo(g.v.id); } }, '×');
-  return el('div', { class: 'linha vinc' }, el('div', { class: 'vinc-main' }, principal, det), rem);
-}
 
 /* ---------- índice: formulários ---------- */
-function formPessoa(p) {
-  const nome = texto(p && p.nome, { placeholder: 'Nome completo' });
-  const cpf = texto(p && p.cpf, { placeholder: 'com ou sem pontuação', inputmode: 'numeric', class: 'mono' });
-  const cargo = texto(p && p.cargo, { placeholder: 'ex.: Secretário de Obras' });
-  const orgao = texto(p && p.orgao, { placeholder: 'ex.: Prefeitura de São Leopoldo' });
-  const aliases = texto(p && (p.aliases || []).join(', '), { placeholder: 'outras grafias, separadas por vírgula' });
-  const obs = areaTexto(p && p.obs, 3);
+function formPessoa(p, pre, depois) {
+  const v0 = p || pre || null;
+  const nome = texto(v0 && v0.nome, { placeholder: 'Nome completo' });
+  const cpf = texto(v0 && v0.cpf, { placeholder: 'com ou sem pontuação', inputmode: 'numeric', class: 'mono' });
+  const cargo = texto(v0 && v0.cargo, { placeholder: 'ex.: Secretário de Obras' });
+  const orgao = texto(v0 && v0.orgao, { placeholder: 'ex.: Prefeitura de São Leopoldo' });
+  const aliases = texto(v0 && (v0.aliases || []).join(', '), { placeholder: 'outras grafias, separadas por vírgula' });
+  const obs = areaTexto(v0 && v0.obs, 3);
   const alerta = el('div', { class: 'aviso oculto' });
   const checar = () => {
     const dup = pessoaPorCpf(cpf.value, p && p.id) || porNomeIgual(db.pessoas, nome.value, p && p.id);
@@ -4509,7 +4971,7 @@ function formPessoa(p) {
     if (dup) {
       alerta.classList.remove('oculto');
       alerta.append('Já cadastrado: ', el('strong', null, dup.nome || '(sem nome)'), dup.cpf ? ' · CPF ' + fmtDoc(dup.cpf) : '', ' ',
-        el('button', { class: 'btn ghost sm', onclick: () => { $('#dlg').close(); abrirFicha(dup.id); } }, 'Abrir ficha'));
+        el('button', { class: 'btn ghost sm', onclick: () => { $('#dlg').close(); if (depois) depois(dup); else abrirFicha(dup.id); } }, depois ? 'Usar este' : 'Abrir ficha'));
     } else {
       alerta.classList.add('oculto');
     }
@@ -4531,16 +4993,18 @@ function formPessoa(p) {
     if (dupC && !confirm('Já existe "' + (dupC.nome || '(sem nome)') + '" com este CPF. Salvar assim mesmo?')) return false;
     const dados = { nome: nm, cpf: digits(cpf.value), cargo: cargo.value.trim(), orgao: orgao.value.trim(), aliases: splitLista(aliases.value), obs: obs.value.trim() };
     const reg = salvarRegistro('pessoas', dados, p || null, 'p');
-    if (!p) abrirFicha(reg.id);
+    if (depois) setTimeout(() => depois(reg), 0);
+    else if (!p) abrirFicha(reg.id);
   });
   setTimeout(() => nome.focus(), 50);
 }
-function formEntidade(e2) {
-  const nome = texto(e2 && e2.nome, { placeholder: 'Razão social / nome' });
-  const cnpj = texto(e2 && e2.cnpj, { placeholder: 'com ou sem pontuação', inputmode: 'numeric', class: 'mono' });
-  const tipo = texto(e2 && e2.tipo, { list: 'dl-tipos-ent', placeholder: 'Fundação, Empresa, Órgão público…' });
-  const aliases = texto(e2 && (e2.aliases || []).join(', '), { placeholder: 'sigla, nome fantasia, separados por vírgula' });
-  const obs = areaTexto(e2 && e2.obs, 3);
+function formEntidade(e2, pre, depois) {
+  const v0 = e2 || pre || null;
+  const nome = texto(v0 && v0.nome, { placeholder: 'Razão social / nome' });
+  const cnpj = texto(v0 && v0.cnpj, { placeholder: 'com ou sem pontuação', inputmode: 'numeric', class: 'mono' });
+  const tipo = texto(v0 && v0.tipo, { list: 'dl-tipos-ent', placeholder: 'Fundação, Empresa, Órgão público…' });
+  const aliases = texto(v0 && (v0.aliases || []).join(', '), { placeholder: 'sigla, nome fantasia, separados por vírgula' });
+  const obs = areaTexto(v0 && v0.obs, 3);
   const alerta = el('div', { class: 'aviso oculto' });
   const checar = () => {
     const dup = entidadePorCnpj(cnpj.value, e2 && e2.id) || porNomeIgual(db.entidades, nome.value, e2 && e2.id);
@@ -4548,7 +5012,7 @@ function formEntidade(e2) {
     if (dup) {
       alerta.classList.remove('oculto');
       alerta.append('Já cadastrada: ', el('strong', null, dup.nome || '(sem nome)'), dup.cnpj ? ' · CNPJ ' + fmtDoc(dup.cnpj) : '', ' ',
-        el('button', { class: 'btn ghost sm', onclick: () => { $('#dlg').close(); abrirFicha(dup.id); } }, 'Abrir ficha'));
+        el('button', { class: 'btn ghost sm', onclick: () => { $('#dlg').close(); if (depois) depois(dup); else abrirFicha(dup.id); } }, depois ? 'Usar esta' : 'Abrir ficha'));
     } else {
       alerta.classList.add('oculto');
     }
@@ -4569,11 +5033,12 @@ function formEntidade(e2) {
     if (dupC && !confirm('Já existe "' + (dupC.nome || '(sem nome)') + '" com este CNPJ. Salvar assim mesmo?')) return false;
     const dados = { nome: nm, cnpj: digits(cnpj.value), tipo: tipo.value.trim(), aliases: splitLista(aliases.value), obs: obs.value.trim() };
     const reg = salvarRegistro('entidades', dados, e2 || null, 'e');
-    if (!e2) abrirFicha(reg.id);
+    if (depois) setTimeout(() => depois(reg), 0);
+    else if (!e2) abrirFicha(reg.id);
   });
   setTimeout(() => nome.focus(), 50);
 }
-function formExpedienteIx(x, pre) {
+function formExpedienteIx(x, pre, depois) {
   const v0 = x || pre || null;
   const numero = texto(v0 && v0.numero, { placeholder: 'ex.: 01710.000.123/2026', class: 'mono' });
   const tipo = texto(v0 && v0.tipo, { list: 'dl-tipos-exp', placeholder: 'NF, PP, IC, PA, ACP…' });
@@ -4589,7 +5054,7 @@ function formExpedienteIx(x, pre) {
     if (dup) {
       alerta.classList.remove('oculto');
       alerta.append('Número já cadastrado: ', el('strong', { class: 'mono' }, dup.numero), ' ',
-        el('button', { class: 'btn ghost sm', onclick: () => { $('#dlg').close(); abrirFicha(dup.id); } }, 'Abrir ficha'));
+        el('button', { class: 'btn ghost sm', onclick: () => { $('#dlg').close(); if (depois) depois(dup); else abrirFicha(dup.id); } }, depois ? 'Usar este' : 'Abrir ficha'));
     } else {
       alerta.classList.add('oculto');
     }
@@ -4610,73 +5075,115 @@ function formExpedienteIx(x, pre) {
     if (dup && !confirm('Já existe expediente com este número. Salvar assim mesmo?')) return false;
     const dados = { numero: nu, tipo: tipo.value.trim(), data: data.value, status: status.value.trim(), temas: edTemasX.ler(), resumo: resumo.value.trim(), obs: obs.value.trim() };
     const reg = salvarRegistro('expedientes', dados, x || null, 'x');
-    if (!x) abrirFicha(reg.id);
+    if (depois) setTimeout(() => depois(reg), 0);
+    else if (!x) abrirFicha(reg.id);
   });
   setTimeout(() => numero.focus(), 50);
 }
-function formVinculo(origemId) {
+/* novo vínculo em um passo: uma busca só, papel em um clique, e cadastro ali mesmo se ainda não existir.
+   pre: { id, papel, obs } para voltar ao formulário depois de cadastrar alguém novo */
+function formVinculo(origemId, pre) {
   const origem = achar(origemId);
   if (!origem) return;
   const tOrig = tipoDe(origemId);
-  const alvos = tOrig === 'expediente'
-    ? [['pessoa', 'Pessoa'], ['entidade', 'Entidade']]
-    : tOrig === 'pessoa'
-      ? [['expediente', 'Expediente'], ['entidade', 'Entidade']]
-      : [['expediente', 'Expediente'], ['pessoa', 'Pessoa']];
-  let tipoAlvo = alvos[0][0];
-  let selecionado = null;
-  const abasEl = el('div', { class: 'mini-abas' });
-  const buscaEl = el('input', { type: 'search', placeholder: 'Buscar registro…', autocomplete: 'off' });
-  const listaEl = el('div', { class: 'sel-lista' });
-  const selEl = el('div', { class: 'sel-atual muted' }, 'Nenhum registro selecionado.');
-  const papel = texto('', { list: 'dl-papeis', placeholder: 'ex.: Investigado(a), Noticiante, Dirigente…' });
-  const obsV = texto('', { placeholder: 'opcional, ex.: citado às fls. 12' });
-  const listaDe = (tt) => (tt === 'pessoa' ? db.pessoas : tt === 'entidade' ? db.entidades : db.expedientes);
+  const tipos = tOrig === 'expediente' ? ['pessoa', 'entidade'] : ['expediente', 'pessoa', 'entidade'];
   const chaveDe = (tt) => (tt === 'pessoa' ? 'pessoas' : tt === 'entidade' ? 'entidades' : 'expedientes');
-  const atualizarSel = () => {
-    selEl.innerHTML = '';
-    if (selecionado) selEl.append('Selecionado: ', el('strong', null, rotuloDe(selecionado)));
-    else selEl.append('Nenhum registro selecionado.');
+  const jaLigados = new Set(vincsIx(origemId).map((x) => x.outro.id));
+  let selecionado = pre && pre.id ? achar(pre.id) : null;
+  let itens = [];
+  const buscaEl = el('input', { type: 'search', class: 'ix-vbusca', autocomplete: 'off', spellcheck: 'false', 'aria-label': 'Buscar quem vincular',
+    placeholder: tOrig === 'expediente' ? 'Nome, CPF, CNPJ ou cargo da pessoa ou entidade…' : 'Número do expediente, nome, CPF ou CNPJ…' });
+  const listaEl = el('div', { class: 'ix-vlista' });
+  const selEl = el('div', { class: 'ix-vsel' });
+  const papel = seletorPapel(pre ? pre.papel : '');
+  const obsV = texto(pre ? pre.obs : '', { placeholder: 'opcional, ex.: assinou o contrato; citado às fls. 12' });
+  const subDe = (i) => {
+    const tt = tipoDe(i.id);
+    if (tt === 'pessoa') return [i.cargo, i.orgao].filter(Boolean).join(' · ') || (i.cpf ? 'CPF ' + fmtDoc(i.cpf) : '');
+    if (tt === 'entidade') return capitalizar(i.tipo) || (i.cnpj ? 'CNPJ ' + fmtDoc(i.cnpj) : '');
+    return [i.status, fmtData(i.data)].filter(Boolean).join(' · ');
   };
-  const desenharLista = () => {
-    listaEl.innerHTML = '';
+  const escolher = (i, focarPapel) => {
+    selecionado = i;
+    buscaEl.value = '';
+    desenhar();
+    if (focarPapel) papel.focar();
+  };
+  const cadastrar = (tt) => {
     const q = buscaEl.value;
-    let itens = listaDe(tipoAlvo).filter((i) => i.id !== origemId);
-    if (q && q.trim()) {
-      const r = buscar(q);
-      if (r) itens = itens.filter((i) => r[chaveDe(tipoAlvo)].indexOf(i) !== -1);
-    }
-    itens.slice(0, 8).forEach((i) => listaEl.append(el('button', {
-      class: 'sel-item' + (selecionado && selecionado.id === i.id ? ' ativa' : ''),
-      onclick: () => { selecionado = i; atualizarSel(); desenharLista(); }
-    }, rotuloDe(i), tipoAlvo === 'pessoa' && i.cpf ? el('span', { class: 'mono muted' }, '  ' + fmtDoc(i.cpf)) : null)));
-    if (!itens.length) listaEl.append(el('div', { class: 'muted dica' }, 'Nada encontrado. Se ainda não está cadastrado, cancele, cadastre na subaba correspondente e vincule depois.'));
+    const volta = { papel: papel.ler(), obs: obsV.value };
+    const depois = (reg) => formVinculo(origemId, Object.assign({ id: reg.id }, volta));
+    $('#dlg').close();
+    if (tt === 'pessoa') formPessoa(null, preDaBusca(q, 'pessoa'), depois);
+    else if (tt === 'entidade') formEntidade(null, preDaBusca(q, 'entidade'), depois);
+    else formExpedienteIx(null, preDaBusca(q, 'expediente'), depois);
   };
-  const desenharAbas = () => {
-    abasEl.innerHTML = '';
-    for (const par of alvos) {
-      abasEl.append(el('button', {
-        class: 'mini-aba' + (tipoAlvo === par[0] ? ' ativa' : ''),
-        onclick: () => { tipoAlvo = par[0]; selecionado = null; atualizarSel(); desenharAbas(); desenharLista(); }
-      }, par[1]));
+  const desenhar = () => {
+    selEl.innerHTML = '';
+    listaEl.innerHTML = '';
+    if (selecionado) {
+      selEl.className = 'ix-vsel on';
+      selEl.append(iconeIx(tipoDe(selecionado.id)),
+        el('div', { class: 'ix-vsel-tx' }, el('strong', {}, rotuloDe(selecionado)), el('span', { class: 'muted' }, jaLigados.has(selecionado.id) ? 'já tem vínculo com ' + rotuloDe(origem) + '; este será mais um papel' : subDe(selecionado))),
+        el('button', { type: 'button', class: 'btn ghost sm', onclick: () => { selecionado = null; desenhar(); buscaEl.focus(); } }, 'Trocar'));
+      buscaEl.hidden = true;
+      return;
     }
+    selEl.className = 'ix-vsel';
+    buscaEl.hidden = false;
+    const q = buscaEl.value;
+    itens = [];
+    if (!norm(q) && digits(q).length < 3) {
+      listaEl.append(el('div', { class: 'muted ix-vdica' }, 'Digite para buscar. Se ainda não estiver no Índice, dá para cadastrar daqui.'));
+      return;
+    }
+    const r = buscar(q);
+    if (r) for (const tt of tipos) itens = itens.concat(r[chaveDe(tt)].filter((i) => i.id !== origemId));
+    for (const i of itens.slice(0, 6)) {
+      const b = el('button', { type: 'button', class: 'ix-vitem' },
+        iconeIx(tipoDe(i.id)),
+        el('span', { class: 'ix-vitem-tx' }, el('strong', {}, realcar(rotuloDe(i), norm(q))), el('span', { class: 'muted' }, subDe(i))),
+        jaLigados.has(i.id) ? el('span', { class: 'ix-vja' }, 'já vinculado') : null);
+      b.addEventListener('click', () => escolher(i, false));
+      b.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+        e.preventDefault();
+        const bs = Array.from(listaEl.querySelectorAll('.ix-vitem'));
+        const k = bs.indexOf(b) + (e.key === 'ArrowDown' ? 1 : -1);
+        if (k < 0) buscaEl.focus(); else if (bs[k]) bs[k].focus();
+      });
+      listaEl.append(b);
+    }
+    if (itens.length > 6) listaEl.append(el('div', { class: 'muted ix-vdica' }, 'Mais ' + (itens.length - 6) + ' resultado(s). Digite mais para afinar.'));
+    if (!itens.length) listaEl.append(el('div', { class: 'muted ix-vdica' }, 'Nada encontrado com "' + q.trim() + '".'));
+    listaEl.append(el('div', { class: 'ix-vcad' }, el('span', { class: 'muted' }, itens.length ? 'Não é nenhum desses? Cadastrar:' : 'Cadastrar agora:'),
+      ...tipos.map((tt) => el('button', { type: 'button', class: 'btn ghost sm', onclick: () => cadastrar(tt) }, tt === 'pessoa' ? '+ Pessoa' : tt === 'entidade' ? '+ Entidade' : '+ Expediente'))));
   };
-  buscaEl.addEventListener('input', desenharLista);
-  desenharAbas();
-  desenharLista();
+  buscaEl.addEventListener('input', desenhar);
+  buscaEl.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') { const b = listaEl.querySelector('.ix-vitem'); if (b) { e.preventDefault(); b.focus(); } }
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      e.stopPropagation();
+      if (itens.length) escolher(itens[0], true);
+    }
+  });
+  desenhar();
   abrirDialogo('Novo vínculo · ' + rotuloDe(origem), [
-    campo('Vincular a', el('div', null, abasEl, buscaEl, listaEl, selEl)),
-    el('div', { class: 'grid2' }, campo('Papel', papel), campo('Anotação', obsV))
+    campo(tOrig === 'expediente' ? 'Quem' : 'Com quem', el('div', {}, selEl, buscaEl, listaEl)),
+    campo('Papel', papel.el),
+    campo('Anotação', obsV)
   ], () => {
-    if (!selecionado) { alert('Selecione o registro a vincular.'); return false; }
-    const pp = papel.value.trim();
-    const jaTem = db.vinculos.find((v) =>
-      ((v.origem === origemId && v.destino === selecionado.id) || (v.origem === selecionado.id && v.destino === origemId)) && norm(v.papel) === norm(pp)
-    );
-    if (jaTem) { alert('Este vínculo, com este papel, já existe.'); return false; }
+    if (!selecionado) { alert('Escolha com quem vincular.'); return false; }
+    const pp = papel.ler();
+    const igual = db.vinculos.find((v) =>
+      ((v.origem === origemId && v.destino === selecionado.id) || (v.origem === selecionado.id && v.destino === origemId)) && papelCanonico(v.papel) === papelCanonico(pp));
+    if (igual) { alert('Este vínculo, com este papel, já existe.'); return false; }
     db.vinculos.push({ id: uid('v'), origem: origemId, destino: selecionado.id, papel: pp, obs: obsV.value.trim() });
     touch();
+    recado('Vínculo criado: ' + rotuloDe(selecionado) + (pp ? ' · ' + papelCanonico(pp) : '') + '.');
   }, 'Vincular');
+  setTimeout(() => { if (selecionado) papel.focar(); else buscaEl.focus(); }, 50);
 }
 
 /* ---------- índice: colar bloco do Claude ---------- */
@@ -5627,6 +6134,7 @@ function montarBotaoSalvar() {
 }
 /* ---------- início ---------- */
 lerPrefControle();
+lerPrefIndice();
 ligarGaveta();
 render();
 window.addEventListener('resize', () => fecharPopover());
