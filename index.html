@@ -592,6 +592,198 @@ footer{font-size:11.5px;opacity:.8}
 .r-tar .ckm.on{background:var(--t-pratica);border-color:var(--t-pratica)}
 .r-tar.done{color:var(--muted);text-decoration:line-through}
 .r-hit{background:var(--aviso-bg);border-radius:4px;padding:0 2px}
+
+/* v43: Controle redesenhado */
+.abas-inner{overflow-x:auto;max-width:100%;scrollbar-width:none}
+.abas-inner::-webkit-scrollbar{display:none}
+.aba{flex:none}
+.c-topo{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:0 0 12px}
+.c-topo-dir{display:flex;gap:6px;align-items:center}
+.c-topo-dir .menu-wrap > .btn{min-width:36px;font-size:15px;line-height:1;padding:5px 10px}
+.seg{display:inline-flex;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:3px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.seg button{appearance:none;border:0;background:transparent;cursor:pointer;font:inherit;font-size:13px;font-weight:600;color:var(--muted);padding:6px 13px;border-radius:8px;display:inline-flex;gap:7px;align-items:baseline;white-space:nowrap;flex:none;transition:background .12s,color .12s}
+.seg button:hover{color:var(--ink)}
+.seg button.on{background:var(--ink);color:var(--card)}
+.seg .n{font-size:11.5px;font-weight:600;opacity:.75;font-variant-numeric:tabular-nums}
+.c-ferr{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.c-busca-wrap{flex:1 1 300px;position:relative;min-width:0}
+.c-busca{width:100%;font:inherit;font-size:14px;padding:9px 12px 9px 36px;border:1px solid var(--line-forte);border-radius:11px;background:var(--card);color:var(--ink);transition:border-color .12s,box-shadow .12s}
+.c-busca:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.c-busca::placeholder{color:var(--muted)}
+.c-lupa{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted);pointer-events:none;display:flex}
+.c-lupa svg{width:16px;height:16px}
+.c-sel{font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--line-forte);border-radius:10px;background:var(--card);color:var(--ink);max-width:250px;cursor:pointer}
+.c-sel:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.c-sel.ativo{border-color:var(--accent);color:var(--accent);font-weight:600}
+.c-btfiltros{display:inline-flex;gap:6px;align-items:center;padding:8px 13px;font-size:13px}
+.c-btfiltros.ativo{border-color:var(--accent);color:var(--accent)}
+.c-nfiltros:not(:empty){background:var(--accent);color:#fff;border-radius:999px;font-size:10.5px;min-width:17px;height:17px;display:inline-grid;place-items:center;padding:0 5px}
+.c-faixas{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:12px 0 0}
+.c-faixa{appearance:none;cursor:pointer;font:inherit;font-size:12.5px;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;display:inline-flex;gap:7px;align-items:baseline;white-space:nowrap;transition:border-color .12s,background .12s}
+.c-faixa:hover{border-color:var(--line-forte)}
+.c-faixa .n{font-variant-numeric:tabular-nums;font-weight:700}
+.c-faixa.venc .n{color:var(--t-regra)}
+.c-faixa.sete .n{color:var(--t-atencao)}
+.c-faixa.trinta .n{color:var(--t-modelo)}
+.c-faixa.folg .n{color:var(--t-pratica)}
+.c-faixa.sem .n,.c-faixa.concl .n{color:var(--muted)}
+.c-faixa.on{background:var(--ink);border-color:var(--ink);color:var(--card)}
+.c-faixa.on .n{color:inherit}
+.c-resumo{margin-left:auto;font-size:12.5px;color:var(--muted);white-space:nowrap}
+.c-link{appearance:none;border:0;background:transparent;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline;text-decoration-color:var(--line-forte);text-underline-offset:3px}
+.c-link:hover{color:var(--accent);text-decoration-color:currentColor}
+.c-ativos{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 0;align-items:center}
+.c-ativo{display:inline-flex;align-items:center;gap:2px;background:var(--accent-soft);color:var(--accent);border-radius:8px;padding:2px 3px 2px 10px;font-size:12.5px;font-weight:600;max-width:100%}
+.c-ativo button{appearance:none;border:0;background:transparent;color:inherit;cursor:pointer;font-size:15px;line-height:1;padding:1px 6px;border-radius:6px}
+.c-ativo button:hover{background:var(--card)}
+.c-limpar{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-size:12.5px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:2px 4px}
+.c-limpar:hover{color:var(--accent)}
+.c-lista{margin-top:6px}
+.c-grupo{appearance:none;border:0;background:transparent;cursor:pointer;width:100%;display:flex;align-items:center;gap:8px;font-family:"JetBrains Mono","Cascadia Code",Consolas,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:18px 2px 8px;text-align:left}
+.c-grupo:hover{color:var(--ink)}
+.c-grupo-n{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.c-grupo .srule{flex:1;height:1px;background:var(--line)}
+.c-grupo.g-venc,.c-grupo.g-venc .c-grupo-n{color:var(--t-regra)}
+.c-grupo.g-sete,.c-grupo.g-sete .c-grupo-n{color:var(--t-atencao)}
+.c-grupo .seta-dobra{color:inherit}
+.c-painel{background:var(--card);border:1px solid var(--line);border-radius:var(--raio);overflow:hidden}
+.c-painel:first-child{margin-top:14px}
+.c-row{display:grid;grid-template-columns:minmax(0,1fr) 172px 112px 64px;gap:14px;align-items:center;padding:9px 12px 9px 16px;cursor:pointer;position:relative;transition:background .1s}
+.c-row + .c-row{border-top:1px solid var(--line)}
+.c-row:hover{background:var(--paper)}
+.c-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:0}
+.c-row.atual{background:var(--accent-soft)}
+.c-row.atual::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+.c-row.arquivado{opacity:.55}
+.c-main{min-width:0}
+.c-tit{font-size:14px;font-weight:500;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.c-l2{display:flex;gap:4px 10px;align-items:baseline;font-size:12px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;min-width:0;line-height:1.4}
+.c-l2 > span{flex:none}
+.c-l2 > .c-acao,.c-l2 > .c-ev,.c-l2 > .c-motivo{flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.c-num{font-family:"JetBrains Mono","Cascadia Code",Consolas,monospace;font-size:11.5px;color:var(--ink);font-variant-numeric:tabular-nums}
+.c-pj{font-family:"JetBrains Mono","Cascadia Code",Consolas,monospace;font-size:11px}
+.c-acao{color:var(--ink);opacity:.85}
+.c-motivo{color:var(--accent);font-weight:600}
+.c-badge{font-size:11px}
+mark.c-hit{background:var(--aviso-bg);color:inherit;border-radius:3px;padding:0 1px;box-shadow:0 0 0 1px var(--aviso-borda)}
+.c-sit{appearance:none;border:0;background:transparent;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:7px;padding:5px 8px;border-radius:8px;justify-self:start;max-width:100%;min-width:0;color:var(--ink);text-align:left}
+.c-sit-tx{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.c-sit:hover{background:var(--chip)}
+.c-sit.vazia{color:var(--muted);font-weight:500;opacity:0}
+.c-row:hover .c-sit.vazia,.c-row:focus-within .c-sit.vazia,.c-row.atual .c-sit.vazia{opacity:1}
+.c-dot{width:8px;height:8px;border-radius:50%;flex:none;display:inline-block;background:var(--line-forte)}
+.d-sem_triagem{background:var(--line-forte)}
+.d-analise{background:var(--t-ferramenta)}
+.d-aguardando{background:var(--t-atencao)}
+.d-minutar{background:var(--t-regra)}
+.d-promotora{background:var(--t-promotora)}
+.d-concluido{background:var(--t-pratica)}
+.c-prazo{display:flex;flex-direction:column;align-items:flex-end;line-height:1.3;text-align:right;min-width:0}
+.c-rel{font-size:12.5px;font-weight:600;white-space:nowrap}
+.c-data{font-family:"JetBrains Mono","Cascadia Code",Consolas,monospace;font-size:11px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.c-prazo.venc .c-rel{color:var(--t-regra)}
+.c-prazo.sete .c-rel{color:var(--t-atencao)}
+.c-prazo.trinta .c-rel{color:var(--t-modelo)}
+.c-prazo.folg .c-rel{color:var(--t-pratica)}
+.c-prazo.concl .c-rel{color:var(--muted);font-weight:500}
+.c-acoes{display:flex;gap:4px;justify-content:flex-end}
+.c-ic{appearance:none;border:0;background:transparent;width:28px;height:28px;border-radius:8px;cursor:pointer;color:var(--muted);font-size:14px;line-height:1;display:inline-grid;place-items:center;opacity:0;transition:opacity .1s,background .1s,color .1s;font-family:inherit}
+.c-row:hover .c-ic,.c-row:focus-within .c-ic,.c-row.atual .c-ic,.c-ic.on,.c-ic:focus-visible{opacity:1}
+.c-ic:hover{background:var(--chip);color:var(--ink)}
+.c-ic.on{color:var(--t-pratica);background:var(--t-pratica-bg)}
+.c-ic.foco.on{color:var(--accent);background:var(--accent-soft)}
+.c-vazio{text-align:center;padding:36px 16px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:10px}
+.c-vazio p{margin:0}
+@media (hover:none){.c-ic,.c-sit.vazia{opacity:1}}
+
+/* janelinhas (situação, filtros) */
+.pop{position:fixed;z-index:80;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:var(--sombra-alta);padding:6px}
+.pop-menu{min-width:230px}
+.pop-item{display:flex;align-items:center;gap:10px;width:100%;appearance:none;border:0;background:transparent;font:inherit;font-size:13px;color:var(--ink);padding:8px 10px;border-radius:8px;cursor:pointer;text-align:left}
+.pop-item:hover,.pop-item:focus-visible{background:var(--paper);outline:none}
+.pop-item.atual{font-weight:700}
+.pop-item.atual::after{content:'✓';margin-left:auto;color:var(--accent);font-weight:700}
+.pop-filtros{width:min(340px,calc(100vw - 16px));padding:14px}
+.pf-corpo{display:grid;gap:12px}
+.c-marca{display:flex;gap:9px;align-items:center;font-size:13.5px;cursor:pointer}
+.c-marca input{width:16px;height:16px;accent-color:var(--accent);margin:0;flex:none}
+
+/* gaveta */
+.gaveta{width:min(520px,100vw)}
+.g-cab{display:block;padding:14px 18px 12px}
+.g-cab-l1{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:28px}
+.g-cab-l1 .linha-eyebrow{margin:0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.g-nav{display:flex;align-items:center;gap:2px;flex:none}
+.g-nav .btn-mini{font-size:18px;width:30px;height:30px;padding:0;display:inline-grid;place-items:center}
+.g-nav .btn-mini:disabled{opacity:.3;cursor:default;background:transparent;color:var(--muted)}
+.g-nav.sem-lista #g-ant,.g-nav.sem-lista #g-prox,.g-nav.sem-lista .g-pos{display:none}
+.g-pos{font-size:11.5px;min-width:58px;text-align:center;font-variant-numeric:tabular-nums;color:var(--muted)}
+.g-titulo{font-size:16.5px;font-weight:650;line-height:1.35;margin:4px 0 6px;letter-spacing:-.01em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.g-ids{display:flex;gap:6px 10px;align-items:center;flex-wrap:wrap;font-size:13px}
+.g-numero{font-size:13.5px;font-weight:700}
+.g-pj{font-size:12.5px;color:var(--muted)}
+.g-copiar{appearance:none;border:1px solid var(--line-forte);background:transparent;border-radius:6px;font:inherit;font-size:11px;font-weight:600;padding:1px 7px;color:var(--muted);cursor:pointer;line-height:1.5}
+.g-copiar:hover{color:var(--accent);border-color:var(--accent)}
+.g-aviso{font-size:11.5px;margin-top:4px}
+.g-aviso:empty{display:none}
+.g-corpo{display:block;padding:0 18px 22px}
+.g-sec{padding:16px 0;border-top:1px solid var(--line);display:grid;gap:12px}
+.g-sec:first-child{border-top:0;padding-top:14px}
+.g-sec > h3{margin:0;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;display:flex;gap:10px;align-items:baseline}
+.g-h3-dica{font-size:11.5px;letter-spacing:0;text-transform:none;font-weight:500}
+.g-fatos{display:grid;grid-template-columns:max-content 1fr;gap:5px 16px;font-size:13.5px;margin:0;align-items:baseline}
+.g-fatos dt{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.g-fatos dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.g-ev-tx{color:var(--muted);font-size:12.5px}
+.g-rel{font-weight:600}
+.g-rel.venc{color:var(--t-regra)}
+.g-rel.sete{color:var(--t-atencao)}
+.g-rel.trinta{color:var(--t-modelo)}
+.g-rel.folg{color:var(--t-pratica)}
+.g-sits{display:flex;flex-wrap:wrap;gap:6px}
+.g-sit{appearance:none;cursor:pointer;font:inherit;font-size:12.5px;font-weight:600;color:var(--muted);background:var(--card);border:1px solid var(--line-forte);border-radius:999px;padding:5px 12px 5px 10px;display:inline-flex;gap:7px;align-items:center;transition:all .12s}
+.g-sit:hover{color:var(--ink);border-color:var(--muted)}
+.g-sit.on{border-color:currentColor}
+.g-sit.on.s-sem_triagem{color:var(--ink);background:var(--paper)}
+.g-sit.on.s-analise{color:var(--t-ferramenta);background:var(--t-ferramenta-bg)}
+.g-sit.on.s-aguardando{color:var(--t-atencao);background:var(--t-atencao-bg)}
+.g-sit.on.s-minutar{color:var(--t-regra);background:var(--t-regra-bg)}
+.g-sit.on.s-promotora{color:var(--t-promotora);background:var(--t-promotora-bg)}
+.g-sit.on.s-concluido{color:var(--t-pratica);background:var(--t-pratica-bg)}
+.g-prazo-int{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.g-prazo-int input[type=date]{width:auto;flex:0 0 170px}
+.g-atalhos{display:flex;gap:5px;flex-wrap:wrap}
+.mini-chip{appearance:none;cursor:pointer;font:inherit;font-size:11.5px;font-weight:600;color:var(--muted);background:var(--paper);border:1px solid var(--line);border-radius:7px;padding:3px 8px;white-space:nowrap}
+.mini-chip:hover{color:var(--accent);border-color:var(--accent)}
+.g-hist{display:grid;gap:7px}
+.g-hist-it{display:grid;grid-template-columns:84px 1fr;gap:10px;font-size:13px;align-items:baseline;line-height:1.45}
+.g-hist-q{font-family:"JetBrains Mono","Cascadia Code",Consolas,monospace;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.g-hist-tag{font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-right:4px}
+.g-hist-tag.trab{color:var(--t-pratica)}
+.g-env{display:grid}
+.g-det{border-top:1px solid var(--line);padding:16px 0 0}
+.g-det > summary{cursor:pointer;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;list-style:none;display:flex;gap:10px;align-items:baseline}
+.g-det > summary::-webkit-details-marker{display:none}
+.g-det > summary::before{content:'▸';font-size:10px}
+.g-det[open] > summary::before{content:'▾'}
+.g-det > summary:hover{color:var(--accent)}
+.g-det-dica{font-size:11.5px;letter-spacing:0;text-transform:none;font-weight:500}
+.g-det-corpo{display:grid;gap:12px;padding-top:12px}
+.g-acoes .btn{flex:1}
+.feitos-metricas{margin:22px 0 0}
+
+@media (max-width:720px){
+  .c-row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"main acoes" "sit prazo";gap:4px 10px;padding:10px 12px}
+  .c-main{grid-area:main}
+  .c-acoes{grid-area:acoes;align-self:start}
+  .c-sit{grid-area:sit;padding-left:0}
+  .c-prazo{grid-area:prazo;flex-direction:row;gap:8px;align-items:baseline;justify-self:end}
+  .c-tit{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .c-busca-wrap{flex-basis:100%}
+  .c-sel{flex:1 1 0;min-width:0;max-width:none}
+  .c-resumo{margin-left:0;width:100%}
+  .g-hist-it{grid-template-columns:72px 1fr}
+}
 </style>
 </head>
 <body>
@@ -615,14 +807,20 @@ footer{font-size:11.5px;opacity:.8}
 <main id="main"></main>
 <footer>Os dados ficam só no arquivo da base (no seu computador ou no seu Google Drive). Salve com o botão 💾 ou Ctrl+S antes de fechar.</footer>
 <div id="fundo" class="fundo"></div>
-<aside id="gaveta" class="gaveta" aria-hidden="true">
+<aside id="gaveta" class="gaveta" aria-hidden="true" aria-labelledby="g-titulo">
   <div class="g-cab">
-    <div>
+    <div class="g-cab-l1">
       <div class="linha-eyebrow" id="g-classe"></div>
-      <div class="g-numero mono" id="g-numero"></div>
-      <div class="muted" id="g-aviso" style="font-size:11.5px"></div>
+      <div class="g-nav" id="g-nav">
+        <button class="btn-mini" id="g-ant" title="Anterior na lista (Alt+↑)" aria-label="Procedimento anterior">‹</button>
+        <span class="g-pos" id="g-pos"></span>
+        <button class="btn-mini" id="g-prox" title="Próximo na lista (Alt+↓)" aria-label="Próximo procedimento">›</button>
+        <button class="btn-mini" id="g-fechar" title="Fechar (Esc)" aria-label="Fechar" style="font-size:20px">×</button>
+      </div>
     </div>
-    <button class="btn-mini" id="g-fechar" title="Fechar" style="font-size:20px">×</button>
+    <div class="g-titulo" id="g-titulo"></div>
+    <div class="g-ids" id="g-ids"></div>
+    <div class="muted g-aviso" id="g-aviso"></div>
   </div>
   <div class="g-corpo" id="g-corpo"></div>
   <div class="g-pe">
@@ -635,6 +833,7 @@ footer{font-size:11.5px;opacity:.8}
 <dialog id="dlg"></dialog>
 <dialog id="dlg2"></dialog>
 <datalist id="dl-temas"></datalist>
+<datalist id="dl-acoes"></datalist>
 <datalist id="dl-categorias"></datalist>
 <datalist id="dl-papeis">
   <option value="Investigado(a)"></option>
@@ -702,7 +901,7 @@ const S = { aba: 'controle' };
 const dobradas = new Set();
 const diasAbertosFeitos = new Set();
 let ultimaBaseHandle = null;
-const filtrosProc = { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false };
+const filtrosProc = { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, tipo: '' };
 let ordemProc = { campo: 'prazoEfetivo', asc: true };
 let gavetaId = null;
 const ST = { subaba: 'tarefas', filtroTarefa: 'pendentes', busca: '' };
@@ -962,7 +1161,7 @@ function editandoTexto() {
   return false;
 }
 /* não troca a base por baixo de quem está escrevendo: espera o diálogo fechar, o campo perder o foco, a gaveta ser concluída */
-function adiarVerificacao() { return !!document.querySelector('dialog[open]') || editandoTexto() || gavetaTemEdicao(); }
+function adiarVerificacao() { return !!document.querySelector('dialog[open]') || editandoTexto() || gavetaTemEdicao() || !!popAtual; }
 function verificarArquivo(manual) {
   if (!db || !fileHandle || !baseComum) return Promise.resolve();
   if (!manual && (document.hidden || adiarVerificacao())) return Promise.resolve();
@@ -1687,10 +1886,10 @@ function atualizarCabecalho() {
   const caixa = st.parentNode;
   if (caixa) caixa.title = (fileHandle ? 'Arquivo: ' + fileHandle.name : 'Sem arquivo aberto: use Exportar para guardar') + (db.meta && db.meta.atualizadoEm ? '\nÚltima edição: ' + fmtDataHora(db.meta.atualizadoEm) : '') + (fileHandle ? '\nO app confere o arquivo a cada 30 segundos e quando você volta para a janela.' : '');
 }
-function menuAcoes(itensMenu) {
+function menuAcoes(itensMenu, rotulo, titulo) {
   const wrap = el('div', { class: 'menu-wrap' });
   const pop = el('div', { class: 'menu-pop' });
-  const btn = el('button', { class: 'btn ghost sm', onclick: (e) => { e.stopPropagation(); pop.classList.toggle('aberto'); } }, 'Mais ▾');
+  const btn = el('button', { class: 'btn ghost sm', title: titulo || null, 'aria-label': titulo || null, onclick: (e) => { e.stopPropagation(); fecharPopover(); pop.classList.toggle('aberto'); } }, rotulo || 'Mais ▾');
   for (const it of itensMenu) {
     if (!it) continue;
     pop.append(el('button', { class: 'menu-item', onclick: () => { pop.classList.remove('aberto'); it[1](); } }, it[0]));
@@ -1776,6 +1975,7 @@ function resetarNavegacao() {
 
 /* ---------- render ---------- */
 function render() {
+  fecharPopover();
   montarAbas();
   montarAcoesBase();
   montarFaixa();
@@ -1986,6 +2186,10 @@ function telaFeitosHoje() {
     }
     c.append(lista);
   }
+  const metricasBox = el('div', { class: 'feitos-metricas' });
+  const desenharMetricas = () => { metricasBox.innerHTML = ''; metricasBox.append(gerarMetricas(desenharMetricas)); };
+  desenharMetricas();
+  c.append(metricasBox);
   const hist = el('div', { class: 'feitos-hist' });
   hist.append(el('h3', { class: 'serif', style: 'font-size:15px;margin:0 0 8px' }, 'Últimos 7 dias'));
   const pad2 = (n) => String(n).padStart(2, '0');
@@ -2403,55 +2607,418 @@ function faixaPrazo(p) {
   if (d <= 30) return 'prox';
   return 'folg';
 }
+const cacheTextoProc = new WeakMap();
 function textoBuscaProc(p) {
-  return norm([p.numero, p.titulo, p.assunto, p.classe, p.evento, p.proximaAcao, p.anotacoes, (p.temas || []).join(' ')].join(' '));
+  const c = cacheTextoProc.get(p);
+  if (c && c.t === contadorTouch) return c.s;
+  const s = norm([p.numero, p.titulo, p.assunto, p.classe, p.evento, p.proximaAcao, p.anotacoes, (p.temas || []).join(' ')].join(' '));
+  cacheTextoProc.set(p, { t: contadorTouch, s: s });
+  return s;
 }
-function listarProc() {
-  const termo = norm(filtrosProc.busca);
-  let lista = db.procedimentos.filter((p) => {
-    if (!filtrosProc.arquivados && p.arquivado) return false;
-    if (filtrosProc.classe && classeAgrupada(p.classe) !== filtrosProc.classe) return false;
-    if (filtrosProc.assunto && !procTemAssunto(p, filtrosProc.assunto)) return false;
-    if (filtrosProc.tema && !(p.temas || []).some((t2) => norm(t2) === norm(filtrosProc.tema))) return false;
-    if (filtrosProc.situacao && p.situacao !== filtrosProc.situacao) return false;
-    if (filtrosProc.semIndice && procIndexado(p)) return false;
-    if (filtrosProc.prazo) {
-      const f = faixaPrazo(p);
-      if (filtrosProc.prazo === 'sem' && prazoEfetivo(p)) return false;
-      if (filtrosProc.prazo !== 'sem' && f !== filtrosProc.prazo) return false;
+
+/* ---------- controle (v43): tipo, faixas de prazo, último evento ---------- */
+const CLASSES_JUDICIAIS = new Set(['Juiz. Esp. Faz. Púb.', 'Improbidade Adm.', 'ACP', 'Ação Popular', 'Cumpr. de Sentença']);
+/* nos processos judiciais o SIM põe como título só "PJ <número do processo>" */
+function numeroJudicial(p) {
+  const m = String((p && p.titulo) || '').match(/^\s*PJ\s+([\d][\d.\-]{8,})/i);
+  return m ? m[1] : '';
+}
+function tipoProc(p) { return CLASSES_JUDICIAIS.has(classeAgrupada(p.classe)) || numeroJudicial(p) ? 'judi' : 'extra'; }
+/* o que a lista mostra como título: no processo judicial, o assunto diz mais que o número */
+function tituloVisivel(p) {
+  if (numeroJudicial(p)) {
+    const resto = String(p.titulo).replace(/^\s*PJ\s+[\d][\d.\-]+\s*[-–:]?\s*/i, '').trim();
+    if (resto) return resto;
+    const as = assuntosIndividuais(p.assunto);
+    return as.length ? as.join(' · ') : (p.assunto || p.titulo);
+  }
+  return p.titulo || assuntosIndividuais(p.assunto).join(' · ') || p.assunto || '(sem título)';
+}
+function dataEvento(p) { const m = String((p && p.evento) || '').match(/^\s*(\d{2}\/\d{2}\/\d{4})/); return m ? m[1] : ''; }
+function textoEvento(p) { return String((p && p.evento) || '').replace(/^\s*\d{2}\/\d{2}\/\d{4}\s*[-–]?\s*/, '').trim(); }
+/* "Juntada Documento: Email Movimento: Certidão (920...)" vira "Juntada: Email" */
+function rotuloEvento(p) {
+  const t = textoEvento(p);
+  if (!t) return '';
+  const limpa = (s) => String(s || '').replace(/\s*\(\d+\)\s*$/, '').trim();
+  const doc = t.match(/Documento:\s*(.*?)(?=\s+Movimento:|$)/);
+  const mov = t.match(/Movimento:\s*(.*)$/);
+  const acao = limpa(t.split(/\s+(?:Documento|Movimento):/)[0]);
+  if (doc && limpa(doc[1])) return (/^Juntada/i.test(acao) ? 'Juntada: ' : '') + limpa(doc[1]);
+  if (acao && !/^Manifesta/i.test(acao)) return acao;
+  if (mov && limpa(mov[1])) return limpa(mov[1]);
+  return acao || limpa(t);
+}
+function dataCurta(br) {
+  const d = paraData(br);
+  if (!d) return br || '';
+  const p2 = (n) => String(n).padStart(2, '0');
+  return p2(d.getDate()) + '/' + p2(d.getMonth() + 1) + (d.getFullYear() === new Date().getFullYear() ? '' : '/' + String(d.getFullYear()).slice(2));
+}
+function bandaPrazo(p) {
+  if (p.situacao === 'concluido') return 'concl';
+  const d = diasAte(prazoEfetivo(p));
+  if (d === null) return 'sem';
+  if (d < 0) return 'venc';
+  if (d <= 7) return 'sete';
+  if (d <= 30) return 'trinta';
+  return 'folg';
+}
+const BANDAS = [
+  ['venc', 'Vencidos', 'Vencidos'],
+  ['sete', 'Vencem em até 7 dias', 'Até 7 dias'],
+  ['trinta', 'Vencem em 8 a 30 dias', '8 a 30 dias'],
+  ['folg', 'Mais de 30 dias', 'Mais de 30 dias'],
+  ['sem', 'Sem prazo', 'Sem prazo'],
+  ['concl', 'Concluídos', 'Concluídos']
+];
+function textoPrazo(d, longo) {
+  if (d === null || d === undefined) return '';
+  if (d < -1) return (longo ? 'venceu há ' : 'há ') + Math.abs(d) + ' dias';
+  if (d === -1) return longo ? 'venceu ontem' : 'ontem';
+  if (d === 0) return longo ? 'vence hoje' : 'hoje';
+  if (d === 1) return longo ? 'vence amanhã' : 'amanhã';
+  return (longo ? 'vence em ' : 'em ') + d + ' dias';
+}
+function estaNoFoco(id) { return db.focoDia.some((f) => f.procedimentoId === id && f.data === hojeStr()); }
+
+/* preferências do Controle guardadas neste navegador */
+let gruposFechados = new Set();
+const ORDENS_CONTROLE = [
+  ['prazoEfetivo', 'Prazo'],
+  ['eventoRecente', 'Último evento (recente)'],
+  ['eventoAntigo', 'Último evento (antigo)'],
+  ['situacao', 'Situação'],
+  ['trabalho', 'Trabalhados por último'],
+  ['inicio', 'Início (recente)'],
+  ['numero', 'Número']
+];
+function lerPrefControle() {
+  let pref = {};
+  try { pref = JSON.parse(lerLocal('ge:controle') || '{}') || {}; } catch (e) { pref = {}; }
+  if (pref.tipo === 'extra' || pref.tipo === 'judi') filtrosProc.tipo = pref.tipo;
+  if (ORDENS_CONTROLE.some((o) => o[0] === pref.ordem)) ordemProc = { campo: pref.ordem, asc: true };
+  if (Array.isArray(pref.fechados)) gruposFechados = new Set(pref.fechados.filter((x) => typeof x === 'string'));
+}
+function guardarPrefControle() {
+  guardarLocal('ge:controle', JSON.stringify({ tipo: filtrosProc.tipo || '', ordem: ordemProc.campo, fechados: Array.from(gruposFechados) }));
+}
+
+/* busca: palavras em qualquer ordem, número com ou sem pontuação, e pessoas e entidades do Índice */
+let motivosBusca = new Map();
+let cacheEnv = null;
+function envolvidosDoProc(p) {
+  const exp = expedienteDoProc(p);
+  if (!exp) return [];
+  return vinculosDe(exp.id).filter((r) => tipoDe(r.outro.id) !== 'expediente').map((r) => ({
+    nome: rotuloDe(r.outro), papel: (r.v && r.v.papel) || '',
+    hay: tipoDe(r.outro.id) === 'pessoa' ? hayPessoa(r.outro) : hayEntidade(r.outro),
+    doc: digits(r.outro.cpf || r.outro.cnpj || '')
+  }));
+}
+function mapaEnvolvidos() {
+  if (cacheEnv && cacheEnv.db === db && cacheEnv.t === contadorTouch) return cacheEnv.mapa;
+  const mapa = new Map();
+  if (db.vinculos.length) {
+    for (const p of db.procedimentos) { const l = envolvidosDoProc(p); if (l.length) mapa.set(p.id, l); }
+  }
+  cacheEnv = { db: db, t: contadorTouch, mapa: mapa };
+  return mapa;
+}
+function criarBusca(q) {
+  const termo = norm(q);
+  const motivos = new Map();
+  motivosBusca = motivos;
+  if (!termo) return null;
+  const tokens = termo.split(' ').filter(Boolean);
+  const qd = /^[\d.\-/\s]+$/.test(String(q).trim()) ? digits(q) : '';
+  const env = mapaEnvolvidos();
+  return (p) => {
+    if (qd.length >= 4 && (digits(p.numero).indexOf(qd) !== -1 || digits(numeroJudicial(p)).indexOf(qd) !== -1)) return true;
+    const hay = textoBuscaProc(p);
+    if (tokens.every((t) => hay.indexOf(t) !== -1)) return true;
+    for (const e of (env.get(p.id) || [])) {
+      if ((qd.length >= 4 && e.doc && e.doc.indexOf(qd) !== -1) || tokens.every((t) => e.hay.indexOf(t) !== -1)) {
+        motivos.set(p.id, 'envolve ' + e.nome + (e.papel ? ' (' + e.papel + ')' : ''));
+        return true;
+      }
     }
-    if (termo && textoBuscaProc(p).indexOf(termo) === -1) return false;
-    return true;
-  });
+    return false;
+  };
+}
+/* filtros; "ignorar" deixa de fora um deles, para as contagens de cada botão */
+function passaFiltros(p, ignorar, busca) {
+  const f = filtrosProc;
+  if (!f.arquivados && p.arquivado) return false;
+  if (ignorar !== 'tipo' && f.tipo && tipoProc(p) !== f.tipo) return false;
+  if (f.classe && classeAgrupada(p.classe) !== f.classe) return false;
+  if (f.assunto && !procTemAssunto(p, f.assunto)) return false;
+  if (f.tema && !(p.temas || []).some((t2) => norm(t2) === norm(f.tema))) return false;
+  if (ignorar !== 'situacao' && f.situacao && p.situacao !== f.situacao) return false;
+  if (f.semIndice && procIndexado(p)) return false;
+  if (ignorar !== 'prazo' && f.prazo) {
+    const b = bandaPrazo(p);
+    if (f.prazo === 'prox') { if (b !== 'sete' && b !== 'trinta') return false; }
+    else if (b !== f.prazo) return false;
+  }
+  if (busca && !busca(p)) return false;
+  return true;
+}
+function ordenarProcs(lista) {
+  const ms = (br) => { const d = paraData(br); return d ? d.getTime() : null; };
+  const porData = (a, b, asc) => {
+    if (a === null && b === null) return 0;
+    if (a === null) return 1;
+    if (b === null) return -1;
+    return asc ? a - b : b - a;
+  };
+  const ultimoTrabalho = (p) => (p.registro || []).reduce((m, r) => (r.data > m ? r.data : m), '');
   const ordSit = {};
   SITUACOES.forEach((s, i) => { ordSit[s[0]] = i; });
-  lista.sort((a, b) => {
-    let x, y;
-    if (ordemProc.campo === 'prazoEfetivo') {
-      const da = paraData(prazoEfetivo(a)), dbb = paraData(prazoEfetivo(b));
-      if (!da && !dbb) return (a.numero || '').localeCompare(b.numero || '');
-      if (!da) return 1;
-      if (!dbb) return -1;
-      x = da; y = dbb;
-    } else if (ordemProc.campo === 'feito') {
-      x = feitoHoje(a) ? 1 : 0; y = feitoHoje(b) ? 1 : 0;
-    } else if (ordemProc.campo === 'inicio') {
-      x = paraData(a.inicio) || 0; y = paraData(b.inicio) || 0;
-    } else if (ordemProc.campo === 'situacao') {
-      x = ordSit[a.situacao]; y = ordSit[b.situacao];
-    } else {
-      x = norm(a[ordemProc.campo] || ''); y = norm(b[ordemProc.campo] || '');
+  const porNumero = (a, b) => (a.numero || '').localeCompare(b.numero || '');
+  const porPrazo = (a, b) => porData(ms(prazoEfetivo(a)), ms(prazoEfetivo(b)), true);
+  const porEvento = (a, b, asc) => porData(ms(dataEvento(a)), ms(dataEvento(b)), asc);
+  const cmp = {
+    prazoEfetivo: (a, b) => porPrazo(a, b) || porEvento(a, b, false) || porNumero(a, b),
+    eventoRecente: (a, b) => porEvento(a, b, false) || porNumero(a, b),
+    eventoAntigo: (a, b) => porEvento(a, b, true) || porNumero(a, b),
+    situacao: (a, b) => ((ordSit[a.situacao] || 0) - (ordSit[b.situacao] || 0)) || porPrazo(a, b) || porNumero(a, b),
+    trabalho: (a, b) => {
+      const x = ultimoTrabalho(a), y = ultimoTrabalho(b);
+      if (x !== y) { if (!x) return 1; if (!y) return -1; return x < y ? 1 : -1; }
+      return porPrazo(a, b) || porNumero(a, b);
+    },
+    inicio: (a, b) => porData(ms(a.inicio), ms(b.inicio), false) || porNumero(a, b),
+    numero: porNumero
+  };
+  return lista.sort(cmp[ordemProc.campo] || cmp.prazoEfetivo);
+}
+function listarProc() {
+  const busca = criarBusca(filtrosProc.busca);
+  return ordenarProcs(db.procedimentos.filter((p) => passaFiltros(p, '', busca)));
+}
+function gruposDaLista(lista) {
+  if (ordemProc.campo === 'prazoEfetivo') {
+    const g = new Map(BANDAS.map((b) => [b[0], []]));
+    for (const p of lista) g.get(bandaPrazo(p)).push(p);
+    return BANDAS.filter((b) => g.get(b[0]).length).map((b) => ({ chave: 'b:' + b[0], titulo: b[1], classe: 'g-' + b[0], itens: g.get(b[0]) }));
+  }
+  if (ordemProc.campo === 'situacao') {
+    const g = new Map(SITUACOES.map((s) => [s[0], []]));
+    for (const p of lista) (g.get(p.situacao) || g.get('sem_triagem')).push(p);
+    return SITUACOES.filter((s) => g.get(s[0]).length).map((s) => ({ chave: 's:' + s[0], titulo: s[1], classe: 'g-sit', itens: g.get(s[0]) }));
+  }
+  return [{ chave: '', titulo: '', classe: '', itens: lista }];
+}
+
+/* realce das palavras buscadas, sem se perder nos acentos */
+function realcar(texto, termo) {
+  const s = String(texto || '');
+  const tokens = String(termo || '').split(' ').filter((t) => t.length >= 2);
+  if (!tokens.length || !s) return s;
+  const inteiro = norm(s);
+  if (!tokens.some((t) => inteiro.indexOf(t) !== -1)) return s;
+  let ns = '';
+  const mapa = [];
+  for (let i = 0; i < s.length; i++) {
+    const n = /\s/.test(s[i]) ? ' ' : norm(s[i]);
+    for (let k = 0; k < n.length; k++) { ns += n[k]; mapa.push(i); }
+  }
+  const faixas = [];
+  for (const t of tokens) {
+    let i = ns.indexOf(t);
+    while (i !== -1) { faixas.push([mapa[i], mapa[i + t.length - 1] + 1]); i = ns.indexOf(t, i + t.length); }
+  }
+  if (!faixas.length) return s;
+  faixas.sort((a, b) => a[0] - b[0]);
+  const juntas = [];
+  for (const f of faixas) {
+    const u = juntas[juntas.length - 1];
+    if (u && f[0] <= u[1]) u[1] = Math.max(u[1], f[1]); else juntas.push(f.slice());
+  }
+  const frag = document.createDocumentFragment();
+  let pos = 0;
+  for (const f of juntas) {
+    if (f[0] > pos) frag.append(s.slice(pos, f[0]));
+    frag.append(el('mark', { class: 'c-hit' }, s.slice(f[0], f[1])));
+    pos = f[1];
+  }
+  if (pos < s.length) frag.append(s.slice(pos));
+  return frag;
+}
+
+/* janelinha presa a um botão (menu de situação, filtros) */
+let popAtual = null;
+let popAnchor = null;
+function fecharPopover(devolverFoco) {
+  if (!popAtual) return;
+  popAtual.remove();
+  popAtual = null;
+  if (devolverFoco && popAnchor && document.contains(popAnchor)) popAnchor.focus();
+  popAnchor = null;
+}
+function abrirPopover(anchor, conteudo, opcoes) {
+  fecharPopover();
+  opcoes = opcoes || {};
+  const pop = el('div', { class: 'pop' + (opcoes.classe ? ' ' + opcoes.classe : ''), role: opcoes.menu ? 'menu' : 'dialog' }, conteudo);
+  document.body.append(pop);
+  const r = anchor.getBoundingClientRect();
+  const w = pop.offsetWidth || 240, h = pop.offsetHeight || 200;
+  const vw = window.innerWidth || 1024, vh = window.innerHeight || 768;
+  let left = opcoes.direita ? r.right - w : r.left;
+  left = Math.max(8, Math.min(left, vw - w - 8));
+  let top = r.bottom + 6;
+  if (top + h > vh - 8 && r.top - h - 6 > 8) top = r.top - h - 6;
+  pop.style.left = Math.round(left) + 'px';
+  pop.style.top = Math.round(top) + 'px';
+  pop.addEventListener('click', (e) => e.stopPropagation());
+  pop.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); fecharPopover(true); return; }
+    if (opcoes.menu && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+      const bs = Array.from(pop.querySelectorAll('button'));
+      const i = bs.indexOf(document.activeElement);
+      const j = e.key === 'ArrowDown' ? Math.min(bs.length - 1, i + 1) : Math.max(0, i - 1);
+      if (bs[j]) { e.preventDefault(); bs[j].focus(); }
     }
-    if (x < y) return ordemProc.asc ? -1 : 1;
-    if (x > y) return ordemProc.asc ? 1 : -1;
-    return (a.numero || '').localeCompare(b.numero || '');
   });
-  return lista;
+  popAtual = pop;
+  popAnchor = anchor;
+  const primeiro = pop.querySelector('.atual') || pop.querySelector('select, button, input');
+  if (primeiro) primeiro.focus();
+  return pop;
+}
+
+/* linha da lista */
+let ultimaListaIds = [];
+let redesenharListaControle = null;
+let atualizarResumoControle = null;
+function linhaDoProc(id) {
+  for (const r of document.querySelectorAll('.c-row')) if (r.dataset.id === id) return r;
+  return null;
+}
+function marcarLinhaAtual(id) {
+  for (const r of document.querySelectorAll('.c-row.atual')) r.classList.remove('atual');
+  if (!id) return;
+  const r = linhaDoProc(id);
+  if (r) { r.classList.add('atual'); if (typeof r.scrollIntoView === 'function') r.scrollIntoView({ block: 'nearest' }); }
+}
+function linhaProc(p, termo) {
+  const banda = bandaPrazo(p);
+  const pe = prazoEfetivo(p);
+  const d = diasAte(pe);
+  const row = el('div', {
+    class: 'c-row' + (p.arquivado ? ' arquivado' : '') + (p.id === gavetaId ? ' atual' : ''),
+    tabindex: '0', role: 'button', 'data-id': p.id,
+    'aria-label': 'Abrir ' + (p.numero || 'procedimento sem número') + ': ' + tituloVisivel(p)
+  });
+  const main = el('div', { class: 'c-main' });
+  main.append(el('div', { class: 'c-tit', title: p.titulo || '' }, realcar(tituloVisivel(p), termo)));
+  const l2 = el('div', { class: 'c-l2' });
+  l2.append(el('span', { class: 'c-num' }, realcar(p.numero || 's/ nº', termo)));
+  const cl = classeAgrupada(p.classe);
+  if (cl) l2.append(el('span', { class: 'c-cl' }, cl));
+  const pj = numeroJudicial(p);
+  if (pj) l2.append(el('span', { class: 'c-pj', title: 'Processo judicial' }, 'PJ ' + pj));
+  const motivo = motivosBusca.get(p.id);
+  if (motivo) l2.append(el('span', { class: 'c-motivo' }, motivo));
+  else if (p.proximaAcao) l2.append(el('span', { class: 'c-acao', title: 'Próxima ação: ' + p.proximaAcao }, '→ ', realcar(p.proximaAcao, termo)));
+  else {
+    const de = dataEvento(p);
+    if (de) l2.append(el('span', { class: 'c-ev', title: 'Último evento no SIM: ' + p.evento }, dataCurta(de) + ' · ' + rotuloEvento(p)));
+  }
+  const nT = tarefasDoProc(p.id).filter((t2) => !t2.concluida).length;
+  if (nT) l2.append(el('span', { class: 'c-badge', title: nT + ' tarefa(s) pendente(s)' }, '📌 ' + nT));
+  if (p.anexadoA) { const pr = procPrincipal(p); l2.append(el('span', { class: 'c-badge', title: 'Anexado a ' + ((pr && pr.numero) || '?') }, '📎 anexado')); }
+  const nAx = anexosDe(p.id).length;
+  if (nAx) l2.append(el('span', { class: 'c-badge', title: nAx + ' procedimento(s) anexado(s) a este' }, '📎 ' + nAx));
+  main.append(l2);
+
+  const vazia = p.situacao === 'sem_triagem';
+  const sit = el('button', { type: 'button', class: 'c-sit' + (vazia ? ' vazia' : ''), title: 'Mudar a situação', 'aria-haspopup': 'menu' },
+    el('span', { class: 'c-dot d-' + p.situacao }), el('span', { class: 'c-sit-tx' }, rotuloSituacao(p.situacao)));
+  sit.addEventListener('click', (e) => { e.stopPropagation(); menuSituacao(sit, p); });
+  sit.addEventListener('keydown', (e) => e.stopPropagation());
+
+  const prazoEl = el('div', { class: 'c-prazo ' + banda });
+  if (pe) {
+    const interno = !!(p.prazoInterno && pe === p.prazoInterno && p.prazoInterno !== p.prazo);
+    prazoEl.title = (interno ? 'Prazo interno ' : 'Prazo ') + pe + (banda === 'concl' ? '' : ' · ' + textoPrazo(d, true));
+    prazoEl.append(el('span', { class: 'c-rel' }, banda === 'concl' ? 'concluído' : textoPrazo(d, false)),
+      el('span', { class: 'c-data' }, (paraBR(pe) || pe) + (interno ? ' · interno' : '')));
+  }
+
+  const feito = feitoHoje(p);
+  const noFoco = estaNoFoco(p.id);
+  const bFeito = el('button', { type: 'button', class: 'c-ic' + (feito ? ' on' : ''), 'aria-pressed': String(feito), title: feito ? 'Feito hoje (clique para desmarcar)' : 'Marcar como feito hoje' }, '✓');
+  bFeito.addEventListener('click', (e) => { e.stopPropagation(); alternarFeitoLinha(p); });
+  const bFoco = el('button', { type: 'button', class: 'c-ic foco' + (noFoco ? ' on' : ''), 'aria-pressed': String(noFoco), title: noFoco ? 'No foco de hoje (clique para tirar)' : 'Pôr no foco de hoje' }, '◎');
+  bFoco.addEventListener('click', (e) => { e.stopPropagation(); alternarFocoLinha(p); });
+  for (const b of [bFeito, bFoco]) b.addEventListener('keydown', (e) => e.stopPropagation());
+
+  row.append(main, sit, prazoEl, el('div', { class: 'c-acoes' }, bFeito, bFoco));
+  row.addEventListener('click', () => abrirProc(p.id));
+  row.addEventListener('keydown', (e) => {
+    if (e.target !== row) return;
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrirProc(p.id); return; }
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      const linhas = Array.from(document.querySelectorAll('.c-row'));
+      const i = linhas.indexOf(row);
+      const alvo = linhas[e.key === 'ArrowDown' ? i + 1 : i - 1];
+      if (alvo) { e.preventDefault(); alvo.focus(); }
+      else if (e.key === 'ArrowUp') { const b = document.querySelector('#busca-proc'); if (b) { e.preventDefault(); b.focus(); } }
+    }
+  });
+  return row;
+}
+function atualizarLinha(id) {
+  const velha = linhaDoProc(id);
+  const p = acharProc(id);
+  if (!velha || !p) { if (redesenharListaControle) redesenharListaControle(); return; }
+  const nova = linhaProc(p, norm(filtrosProc.busca));
+  const tinhaFoco = velha.contains(document.activeElement);
+  velha.replaceWith(nova);
+  if (tinhaFoco) nova.focus({ preventScroll: true });
+  if (atualizarResumoControle) atualizarResumoControle();
+}
+function alternarFeitoLinha(p) {
+  if (feitoHoje(p)) desmarcarFeito(p); else marcarFeito(p, '');
+  atualizarLinha(p.id);
+}
+function alternarFocoLinha(p) {
+  if (estaNoFoco(p.id)) {
+    const foto = fotoBase();
+    db.focoDia = db.focoDia.filter((f) => !(f.procedimentoId === p.id && f.data === hojeStr()));
+    touch();
+    atualizarLinha(p.id);
+    oferecerDesfazer('Tirado do foco de hoje.', foto);
+  } else {
+    db.focoDia.push(normFoco({ procedimentoId: p.id }));
+    touch();
+    atualizarLinha(p.id);
+    recado('Posto no foco de hoje.', { rotulo: 'Ver o foco', fn: () => { fecharGaveta(); S.aba = 'foco'; render(); } });
+  }
+}
+function menuSituacao(anchor, p) {
+  const itens = SITUACOES.map((s) => el('button', {
+    type: 'button', class: 'pop-item' + (p.situacao === s[0] ? ' atual' : ''), role: 'menuitemradio', 'aria-checked': String(p.situacao === s[0]),
+    onclick: () => {
+      fecharPopover();
+      if (p.situacao === s[0]) { anchor.focus(); return; }
+      const foto = fotoBase();
+      p.situacao = s[0];
+      p.alteradoEm = new Date().toISOString();
+      touch();
+      if (redesenharListaControle) redesenharListaControle(p.id); else render();
+      oferecerDesfazer('Situação: ' + s[1] + '.', foto);
+    }
+  }, el('span', { class: 'c-dot d-' + s[0] }), s[1]));
+  abrirPopover(anchor, itens, { menu: true, classe: 'pop-menu' });
 }
 
 function telaControle() {
-  const c = el('div');
+  const c = el('div', { class: 'controle' });
   if (!db.procedimentos.length) {
+    redesenharListaControle = null; atualizarResumoControle = null; ultimaListaIds = [];
     c.append(el('div', { class: 'vazio' },
       el('h2', { class: 'serif' }, 'Nenhum procedimento no controle'),
       el('p', {}, 'Adicione manualmente ou cole um bloco {"procedimentos":[…]} gerado pelo Claude a partir do relatório.'),
@@ -2463,178 +3030,189 @@ function telaControle() {
     ));
     return c;
   }
-  const busca = el('input', { type: 'search', class: 'busca', style: 'margin:8px 0', placeholder: 'Buscar por número, título, assunto… (tecla /)', value: filtrosProc.busca, autocomplete: 'off', id: 'busca-proc' });
-  const selClasse = el('select');
-  const selTema = el('select');
-  const selAssunto = el('select');
-  const selSit = el('select');
-  const btArq = el('button', { class: 'filtro-chip' });
-  const btSemIdx = el('button', { class: 'filtro-chip', title: 'Procedimentos sem expediente no Índice de envolvidos' });
-  const btLimpar = el('button', { class: 'filtro-chip limpar' }, 'Limpar filtros');
-  const metricasBox = el('div');
-  const painel = el('div', { class: 'painel' });
-  const tabWrap = el('div', { class: 'tab-wrap' });
-  const contagem = el('div', { class: 'c-contagem' });
-  const vazio = el('p', { class: 'muted dica' }, 'Nada encontrado com esses filtros.');
 
-  const montarSelects = () => {
-    const classes = Array.from(new Set(db.procedimentos.map((p) => classeAgrupada(p.classe)).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'pt-BR'));
-    selClasse.innerHTML = '';
-    selClasse.append(el('option', { value: '' }, 'Classe: todas'));
-    classes.forEach((cl) => selClasse.append(el('option', { value: cl }, cl)));
-    selClasse.value = filtrosProc.classe;
-    selTema.innerHTML = '';
-    selTema.append(el('option', { value: '' }, 'Tema: todos'));
-    for (const tm of todosTemas()) selTema.append(el('option', { value: tm }, tm));
-    selTema.value = filtrosProc.tema;
-    selAssunto.innerHTML = '';
-    selAssunto.append(el('option', { value: '' }, 'Assunto: todos'));
-    for (const a of todosAssuntos()) selAssunto.append(el('option', { value: a }, a));
-    selAssunto.value = filtrosProc.assunto;
-    selSit.innerHTML = '';
-    selSit.append(el('option', { value: '' }, 'Situação: todas'));
-    SITUACOES.forEach((s) => selSit.append(el('option', { value: s[0] }, s[1])));
-    selSit.value = filtrosProc.situacao;
-    btArq.textContent = filtrosProc.arquivados ? '✓ Arquivados' : 'Arquivados';
-    btArq.classList.toggle('ativa', filtrosProc.arquivados);
-    const nSemIdx = db.procedimentos.filter((x) => !x.arquivado && !procIndexado(x)).length;
-    btSemIdx.textContent = (filtrosProc.semIndice ? '✓ ' : '') + 'Não indexados · ' + nSemIdx;
-    btSemIdx.classList.toggle('ativa', filtrosProc.semIndice);
-    selTema.classList.toggle('oculto', selTema.options.length <= 1);
-    selAssunto.classList.toggle('oculto', selAssunto.options.length <= 1);
-    const algum = filtrosProc.busca || filtrosProc.classe || filtrosProc.assunto || filtrosProc.tema || filtrosProc.situacao || filtrosProc.prazo || filtrosProc.arquivados || filtrosProc.semIndice;
-    btLimpar.classList.toggle('oculto', !algum);
-  };
-  const desenharPainel = () => {
-    const base = db.procedimentos.filter((p) => {
-      if (!filtrosProc.arquivados && p.arquivado) return false;
-      if (filtrosProc.classe && classeAgrupada(p.classe) !== filtrosProc.classe) return false;
-      if (filtrosProc.assunto && !procTemAssunto(p, filtrosProc.assunto)) return false;
-      if (filtrosProc.tema && !(p.temas || []).some((t2) => norm(t2) === norm(filtrosProc.tema))) return false;
-      if (filtrosProc.situacao && p.situacao !== filtrosProc.situacao) return false;
-      if (filtrosProc.semIndice && procIndexado(p)) return false;
-      const termo = norm(filtrosProc.busca);
-      if (termo && textoBuscaProc(p).indexOf(termo) === -1) return false;
-      return true;
-    });
-    const cont = { venc: 0, prox: 0, folg: 0, sem: 0 };
-    base.forEach((p) => {
-      if (p.situacao === 'concluido') return;
-      if (!prazoEfetivo(p)) { cont.sem++; return; }
-      const f = faixaPrazo(p);
-      if (f === 'venc') cont.venc++; else if (f === 'prox') cont.prox++; else cont.folg++;
-    });
-    painel.innerHTML = '';
-    const defs = [
-      ['', 'Todos', base.length, ''],
-      ['venc', 'Vencidos', cont.venc, 'venc'],
-      ['prox', 'Em 30d', cont.prox, 'prox'],
-      ['folg', 'Em dia', cont.folg, 'folg'],
-      ['sem', 'Sem prazo', cont.sem, '']
-    ];
-    for (const d of defs) {
-      const b = el('button', { class: (d[3] || '') + (filtrosProc.prazo === d[0] ? ' ativa' : '') },
-        el('span', { class: 'n' }, String(d[2])),
-        el('span', { class: 'r' }, d[1]));
-      b.addEventListener('click', () => { filtrosProc.prazo = filtrosProc.prazo === d[0] ? '' : d[0]; desenhar(); });
-      painel.append(b);
-    }
-  };
-  const ORDS = [['prazoEfetivo', 'Prazo'], ['numero', 'Número'], ['situacao', 'Situação'], ['inicio', 'Início']];
-  const desenharTabela = () => {
-    tabWrap.innerHTML = '';
-    const lista = listarProc();
-    if (!lista.length) { tabWrap.append(vazio); contagem.textContent = '0 de ' + db.procedimentos.filter((p) => filtrosProc.arquivados || !p.arquivado).length; return; }
-    const ordenar = el('div', { class: 'proc-ordenar' }, 'Ordenar:');
-    for (const o of ORDS) {
-      const b = el('button', { class: 'proc-ord-btn' + (ordemProc.campo === o[0] ? ' ativo' : '') }, o[1] + (ordemProc.campo === o[0] ? (ordemProc.asc ? ' ▲' : ' ▼') : ''));
-      b.addEventListener('click', () => {
-        if (ordemProc.campo === o[0]) ordemProc.asc = !ordemProc.asc;
-        else ordemProc = { campo: o[0], asc: true };
-        desenhar();
-      });
-      ordenar.append(b);
-    }
-    tabWrap.append(ordenar);
-    const listaEl = el('div', { class: 'proc-lista' });
-    for (const p of lista) {
-      const f = faixaPrazo(p);
-      const pe = prazoEfetivo(p);
-      const d = diasAte(pe);
-      const card = el('div', { class: 'proc-card' + (p.arquivado ? ' arquivado' : ''), role: 'button', tabindex: '0', 'aria-label': 'Abrir ' + (p.numero || 'procedimento sem número') });
-      card.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && e.target === card) { e.preventDefault(); abrirProc(p.id); } });
-      card.append(el('div', { class: 'proc-faixa ' + (f === 'concl' ? '' : f) }));
-      const chkF = el('input', { type: 'checkbox', class: 'check-caixa proc-check', title: feitoHoje(p) ? 'Desmarcar feito hoje' : 'Marcar como feito hoje' });
-      chkF.checked = feitoHoje(p);
-      chkF.addEventListener('click', (ev) => { ev.stopPropagation(); if (chkF.checked) marcarFeito(p, ''); else desmarcarFeito(p); desenhar(); });
-      card.append(chkF);
-      const info = el('div', { class: 'proc-info' });
-      const topo = el('div', { class: 'proc-topo' });
-      topo.append(el('span', { class: 'proc-num' }, p.numero || '(s/ nº)'));
-      topo.append(el('span', { class: 'proc-classe' }, classeAgrupada(p.classe) || ''));
-      info.append(topo);
-      if (p.titulo) info.append(el('div', { class: 'proc-titulo' }, p.titulo));
-      if (p.assunto) info.append(el('div', { class: 'proc-assunto', title: p.assunto }, assuntosIndividuais(p.assunto).join(' · ') || p.assunto));
-      const pills = el('div', { class: 'proc-pills' });
-      pills.append(el('span', { class: 'chip-sit s-' + p.situacao }, rotuloSituacao(p.situacao)));
-      if (pe) {
-        let cls = 'nulo', txt = pe;
-        if (p.situacao !== 'concluido') {
-          if (f === 'venc') { cls = 'venc'; txt += ' · ' + Math.abs(d) + 'd atraso'; }
-          else if (d === 0) { cls = 'prox'; txt += ' · hoje'; }
-          else if (f === 'prox') { cls = 'prox'; txt += ' · ' + d + 'd'; }
-          else { cls = 'folg'; txt += ' · ' + d + 'd'; }
-        } else { txt += ' · concluído'; }
-        pills.append(el('span', { class: 'proc-prazo ' + cls }, txt));
-      }
-      const nVinc = totalVinculadosProc(p.id);
-      if (nVinc) pills.append(el('span', { class: 'vinc-badge' }, '📌 ' + nVinc));
-      if (!procIndexado(p)) pills.append(el('span', { class: 'idx-badge', title: 'Sem expediente no Índice de envolvidos' }, 'não indexado'));
-      info.append(pills);
-      if (p.anexadoA) {
-        const princ = procPrincipal(p);
-        if (princ) pills.append(el('span', { class: 'chip', style: 'font-size:10.5px' }, '📎 anexado a ' + (princ.numero || '?')));
-      }
-      const anexos = anexosDe(p.id);
-      if (anexos.length) pills.append(el('span', { class: 'chip', style: 'font-size:10.5px' }, '📎 ' + anexos.length + ' anexo(s)'));
-      if ((p.temas || []).length) { for (const tm of p.temas) pills.append(el('span', { class: 't-cat' }, tm)); }
-      if (p.proximaAcao) info.append(el('div', { class: 'proc-acao' }, '→ ' + p.proximaAcao));
-      card.append(info);
-      card.addEventListener('click', () => abrirProc(p.id));
-      listaEl.append(card);
-    }
-    tabWrap.append(listaEl);
-    contagem.textContent = lista.length + ' de ' + db.procedimentos.filter((p) => filtrosProc.arquivados || !p.arquivado).length + ' procedimento(s)';
-  };
-  const desenharMetricas = () => { metricasBox.innerHTML = ''; metricasBox.append(gerarMetricas(desenharMetricas)); };
-  const desenhar = () => { montarSelects(); desenharPainel(); desenharTabela(); desenharMetricas(); };
-  busca.addEventListener('input', () => { filtrosProc.busca = busca.value; montarSelects(); desenharPainel(); desenharTabela(); });
-  selClasse.addEventListener('change', () => { filtrosProc.classe = selClasse.value; desenhar(); });
-  selTema.addEventListener('change', () => { filtrosProc.tema = selTema.value; desenhar(); });
-  selAssunto.addEventListener('change', () => { filtrosProc.assunto = selAssunto.value; desenhar(); });
-  selSit.addEventListener('change', () => { filtrosProc.situacao = selSit.value; desenhar(); });
-  btArq.addEventListener('click', () => { filtrosProc.arquivados = !filtrosProc.arquivados; desenhar(); });
-  btSemIdx.addEventListener('click', () => { filtrosProc.semIndice = !filtrosProc.semIndice; desenhar(); });
-  btLimpar.addEventListener('click', () => {
+  /* linha 1: tipo + novo */
+  const seg = el('div', { class: 'seg', role: 'tablist', 'aria-label': 'Tipo de procedimento' });
+  const TIPOS = [['', 'Todos'], ['extra', 'Extrajudiciais'], ['judi', 'Judiciais']];
+  const botoesTipo = TIPOS.map((t) => {
+    const b = el('button', { type: 'button', role: 'tab' }, t[1], el('span', { class: 'n' }));
+    b.addEventListener('click', () => { filtrosProc.tipo = t[0]; guardarPrefControle(); desenharTudo(); });
+    seg.append(b);
+    return b;
+  });
+  const linha1 = el('div', { class: 'c-topo' }, seg,
+    el('div', { class: 'c-topo-dir' },
+      el('button', { class: 'btn primary sm', onclick: novoProc }, '+ Novo'),
+      menuAcoes([['Importar JSON…', importarJsonProc], ['Exportar CSV (lista filtrada)', exportarCsvProc]], '⋯', 'Importar e exportar')));
+
+  /* linha 2: busca, situação, ordem, filtros */
+  const busca = el('input', { type: 'search', class: 'c-busca', id: 'busca-proc', placeholder: 'Buscar número, título, assunto ou pessoa…  ( / )', value: filtrosProc.busca, autocomplete: 'off', spellcheck: 'false', 'aria-label': 'Buscar procedimentos' });
+  const lupa = el('span', { class: 'c-lupa', 'aria-hidden': 'true' });
+  lupa.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+  const selSit = el('select', { class: 'c-sel', 'aria-label': 'Situação' });
+  const selOrd = el('select', { class: 'c-sel', 'aria-label': 'Ordenar' });
+  for (const o of ORDENS_CONTROLE) selOrd.append(el('option', { value: o[0] }, 'Ordenar: ' + o[1]));
+  selOrd.value = ordemProc.campo;
+  const btFiltros = el('button', { type: 'button', class: 'btn ghost sm c-btfiltros', 'aria-haspopup': 'dialog' }, 'Filtros', el('span', { class: 'c-nfiltros' }));
+  const linha2 = el('div', { class: 'c-ferr' }, el('div', { class: 'c-busca-wrap' }, lupa, busca), selSit, selOrd, btFiltros);
+
+  /* linha 3: faixas de prazo e resumo */
+  const faixas = el('div', { class: 'c-faixas' });
+  const resumo = el('div', { class: 'c-resumo' });
+  const ativos = el('div', { class: 'c-ativos' });
+  const listaWrap = el('div', { class: 'c-lista' });
+  const algumFiltroExtra = () => !!(filtrosProc.classe || filtrosProc.assunto || filtrosProc.tema || filtrosProc.arquivados || filtrosProc.semIndice);
+  const algumFiltro = () => !!(filtrosProc.busca || filtrosProc.situacao || filtrosProc.prazo || algumFiltroExtra());
+  const limparTudo = () => {
     Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false });
     busca.value = '';
-    desenhar();
+    fecharPopover();
+    desenharTudo();
+  };
+
+  const desenharSelSit = (contBusca) => {
+    const cont = {};
+    for (const p of db.procedimentos) if (passaFiltros(p, 'situacao', contBusca)) cont[p.situacao] = (cont[p.situacao] || 0) + 1;
+    selSit.innerHTML = '';
+    selSit.append(el('option', { value: '' }, 'Situação: todas'));
+    for (const s of SITUACOES) selSit.append(el('option', { value: s[0] }, s[1] + ' · ' + (cont[s[0]] || 0)));
+    selSit.value = filtrosProc.situacao;
+    selSit.classList.toggle('ativo', !!filtrosProc.situacao);
+  };
+  const desenharContagens = () => {
+    const b = criarBusca(filtrosProc.busca);
+    /* tipo */
+    const nt = { '': 0, extra: 0, judi: 0 };
+    for (const p of db.procedimentos) if (passaFiltros(p, 'tipo', b)) { nt['']++; nt[tipoProc(p)]++; }
+    botoesTipo.forEach((bt, i) => {
+      const on = (filtrosProc.tipo || '') === TIPOS[i][0];
+      bt.classList.toggle('on', on);
+      bt.setAttribute('aria-selected', String(on));
+      bt.querySelector('.n').textContent = String(nt[TIPOS[i][0]]);
+    });
+    /* faixas de prazo */
+    const nf = {};
+    for (const p of db.procedimentos) if (passaFiltros(p, 'prazo', b)) { const k = bandaPrazo(p); nf[k] = (nf[k] || 0) + 1; }
+    faixas.innerHTML = '';
+    const comItens = BANDAS.filter((x) => nf[x[0]]);
+    if (comItens.length > 1 || filtrosProc.prazo) {
+      for (const x of BANDAS) {
+        if (!nf[x[0]] && filtrosProc.prazo !== x[0]) continue;
+        const on = filtrosProc.prazo === x[0];
+        faixas.append(el('button', { type: 'button', class: 'c-faixa ' + x[0] + (on ? ' on' : ''), 'aria-pressed': String(on),
+          onclick: () => { filtrosProc.prazo = on ? '' : x[0]; desenharTudo(); } }, x[2], el('span', { class: 'n' }, String(nf[x[0]] || 0))));
+      }
+    }
+    desenharSelSit(b);
+    faixas.append(resumo);
+    /* filtros extras ativos */
+    const nExtra = [filtrosProc.classe, filtrosProc.assunto, filtrosProc.tema, filtrosProc.arquivados, filtrosProc.semIndice].filter(Boolean).length;
+    btFiltros.querySelector('.c-nfiltros').textContent = nExtra ? String(nExtra) : '';
+    btFiltros.classList.toggle('ativo', nExtra > 0);
+    ativos.innerHTML = '';
+    const chipAtivo = (txt, tirar) => el('span', { class: 'c-ativo' }, txt, el('button', { type: 'button', title: 'Tirar este filtro', 'aria-label': 'Tirar o filtro ' + txt, onclick: () => { tirar(); desenharTudo(); } }, '×'));
+    if (filtrosProc.classe) ativos.append(chipAtivo('Classe: ' + filtrosProc.classe, () => { filtrosProc.classe = ''; }));
+    if (filtrosProc.assunto) ativos.append(chipAtivo('Assunto: ' + filtrosProc.assunto, () => { filtrosProc.assunto = ''; }));
+    if (filtrosProc.tema) ativos.append(chipAtivo('Eixo: ' + filtrosProc.tema, () => { filtrosProc.tema = ''; }));
+    if (filtrosProc.arquivados) ativos.append(chipAtivo('Com arquivados', () => { filtrosProc.arquivados = false; }));
+    if (filtrosProc.semIndice) ativos.append(chipAtivo('Só não indexados', () => { filtrosProc.semIndice = false; }));
+    if (filtrosProc.situacao || filtrosProc.prazo || algumFiltroExtra()) ativos.append(el('button', { type: 'button', class: 'c-limpar', onclick: limparTudo }, 'Limpar filtros'));
+    ativos.classList.toggle('oculto', !ativos.childNodes.length);
+  };
+  const desenharResumo = () => {
+    const total = db.procedimentos.filter((p) => filtrosProc.arquivados || !p.arquivado).length;
+    const n = ultimaListaIds.length;
+    const nHoje = db.procedimentos.filter((p) => feitoHoje(p)).length;
+    resumo.innerHTML = '';
+    resumo.append(n === total ? total + ' procedimento(s)' : n + ' de ' + total, ' · ',
+      el('button', { type: 'button', class: 'c-link', title: 'Abrir a aba Feitos hoje', onclick: () => { S.aba = 'feitos'; render(); } }, nHoje + ' feito(s) hoje'));
+  };
+  const desenharLista = (manterId) => {
+    const termo = norm(filtrosProc.busca);
+    const lista = listarProc();
+    ultimaListaIds = lista.map((p) => p.id);
+    const focoAntes = document.activeElement && document.activeElement.closest ? document.activeElement.closest('.c-row') : null;
+    const idFoco = manterId || (focoAntes && focoAntes.dataset.id);
+    listaWrap.innerHTML = '';
+    if (!lista.length) {
+      const vazio = el('div', { class: 'c-vazio' }, el('p', {}, 'Nada encontrado com esses filtros.'));
+      if (filtrosProc.tipo) {
+        const salvo = filtrosProc.tipo;
+        filtrosProc.tipo = '';
+        const nTodos = listarProc().length;
+        filtrosProc.tipo = salvo;
+        criarBusca(filtrosProc.busca);
+        if (nTodos) vazio.append(el('button', { class: 'btn ghost sm', onclick: () => { filtrosProc.tipo = ''; guardarPrefControle(); desenharTudo(); } }, 'Ver ' + nTodos + ' em Todos'));
+      }
+      if (algumFiltro()) vazio.append(el('button', { class: 'btn ghost sm', onclick: limparTudo }, 'Limpar filtros'));
+      listaWrap.append(vazio);
+    } else {
+      for (const g of gruposDaLista(lista)) {
+        if (g.titulo) {
+          const fechado = gruposFechados.has(g.chave) && !termo;
+          const cab = el('button', { type: 'button', class: 'c-grupo ' + g.classe, 'aria-expanded': String(!fechado) },
+            el('span', { class: 'seta-dobra' }, fechado ? '▸' : '▾'), g.titulo, el('span', { class: 'c-grupo-n' }, String(g.itens.length)), el('span', { class: 'srule' }));
+          cab.addEventListener('click', () => {
+            if (gruposFechados.has(g.chave)) gruposFechados.delete(g.chave); else gruposFechados.add(g.chave);
+            guardarPrefControle();
+            desenharLista();
+          });
+          listaWrap.append(cab);
+          if (fechado) continue;
+        }
+        const painel = el('div', { class: 'c-painel', role: 'list' });
+        for (const p of g.itens) painel.append(linhaProc(p, termo));
+        listaWrap.append(painel);
+      }
+    }
+    desenharResumo();
+    if (idFoco) { const r = linhaDoProc(idFoco); if (r) r.focus({ preventScroll: true }); }
+  };
+  const desenharTudo = () => { desenharContagens(); desenharLista(); };
+  redesenharListaControle = (manterId) => { desenharContagens(); desenharLista(manterId); };
+  atualizarResumoControle = desenharResumo;
+
+  busca.addEventListener('input', () => { filtrosProc.busca = busca.value; desenharTudo(); });
+  busca.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') { const r = document.querySelector('.c-row'); if (r) { e.preventDefault(); r.focus(); } }
+    if (e.key === 'Enter' && ultimaListaIds.length) { e.preventDefault(); abrirProc(ultimaListaIds[0]); }
   });
-  const barraBusca = el('div', { class: 'c-barra' },
-    busca,
-    el('button', { class: 'btn ghost sm', onclick: importarJsonProc }, 'Importar JSON'),
-    el('button', { class: 'btn ghost sm', onclick: exportarCsvProc }, 'Exportar CSV'),
-    el('button', { class: 'btn primary sm', onclick: novoProc }, '+ Novo')
-  );
-  const barraFiltros = el('div', { class: 'c-filtros' },
-    selClasse, selAssunto, selTema, selSit, btArq, btSemIdx, btLimpar
-  );
-  const topo = el('div', { style: 'display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px' });
-    topo.append(painel);
-    topo.append(contagem);
-    c.append(metricasBox, barraBusca, barraFiltros, topo, tabWrap);
-  desenhar();
+  selSit.addEventListener('change', () => { filtrosProc.situacao = selSit.value; desenharTudo(); });
+  selOrd.addEventListener('change', () => { ordemProc = { campo: selOrd.value, asc: true }; guardarPrefControle(); desenharLista(); });
+  btFiltros.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (popAtual && popAnchor === btFiltros) { fecharPopover(); return; }
+    abrirPopover(btFiltros, painelFiltros(desenharTudo), { classe: 'pop-filtros', direita: true });
+  });
+
+  c.append(linha1, linha2, faixas, ativos, listaWrap);
+  desenharTudo();
   return c;
+}
+function painelFiltros(aoMudar) {
+  const sel = (rotulo, opcoes, valor, aoEscolher) => {
+    const s = el('select');
+    s.append(el('option', { value: '' }, 'Todos'));
+    for (const o of opcoes) s.append(el('option', { value: o }, o));
+    s.value = valor || '';
+    s.addEventListener('change', () => { aoEscolher(s.value); aoMudar(); });
+    return campo(rotulo, s);
+  };
+  const classes = Array.from(new Set(db.procedimentos.map((p) => classeAgrupada(p.classe)).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  const temas = todosTemas();
+  const marca = (rotulo, chave, dica) => {
+    const cb = el('input', { type: 'checkbox' });
+    cb.checked = !!filtrosProc[chave];
+    cb.addEventListener('change', () => { filtrosProc[chave] = cb.checked; aoMudar(); });
+    return el('label', { class: 'c-marca' }, cb, el('span', {}, rotulo, dica ? el('span', { class: 'muted' }, ' · ' + dica) : null));
+  };
+  const nSemIdx = db.procedimentos.filter((x) => !x.arquivado && !procIndexado(x)).length;
+  return el('div', { class: 'pf-corpo' },
+    sel('Classe', classes, filtrosProc.classe, (v) => { filtrosProc.classe = v; }),
+    sel('Assunto', todosAssuntos(), filtrosProc.assunto, (v) => { filtrosProc.assunto = v; }),
+    temas.length ? sel('Eixo temático', temas, filtrosProc.tema, (v) => { filtrosProc.tema = v; }) : null,
+    marca('Mostrar os arquivados', 'arquivados'),
+    marca('Só os que não estão no Índice', 'semIndice', String(nSemIdx)));
 }
 
 /* gaveta do procedimento */
@@ -2642,12 +3220,7 @@ let gavetaCampos = null;   // nome do campo -> função que lê o valor na tela
 let gavetaInicial = null;  // leitura feita ao abrir: só grava o que o usuário mudou
 let gavetaEls = {};
 const envolvidosAbertos = new Set();
-function seletorCampo(opcoes, valor) {
-  const s = el('select');
-  opcoes.forEach((o) => s.append(el('option', { value: o[0] }, o[1])));
-  s.value = valor;
-  return s;
-}
+const historicosAbertos = new Set();
 /* número do expediente reduzido a dígitos, ignorando sufixos como "(Principal: …)" */
 function chaveNumero(n) { return digits(String(n || '').split('(')[0]); }
 function expedienteDoProc(p) {
@@ -2733,21 +3306,139 @@ function siglaClasse(c) {
   const mapa = { 'Notícia de Fato': 'NF', 'Proc. Preparatório': 'PP', 'Inquérito Civil': 'IC', 'PA Acompanhamento': 'PA', 'Gestão Adm.': 'PA', 'ACP': 'ACP', 'PIC-MP': 'PIC', 'Improbidade Adm.': 'Ação judicial', 'Ação Popular': 'Ação judicial', 'Cumpr. de Sentença': 'Ação judicial', 'Juiz. Esp. Faz. Púb.': 'Ação judicial' };
   return mapa[g] || '';
 }
+const SUGESTOES_ACAO = ['Analisar documentos', 'Analisar resposta', 'Requisitar informações', 'Reiterar ofício', 'Aguardar resposta', 'Minutar despacho', 'Minutar promoção de arquivamento', 'Minutar prorrogação', 'Despachar com a Promotora'];
+function preencherSugestoesAcao() {
+  const dl = $('#dl-acoes');
+  if (!dl) return;
+  const cont = new Map();
+  for (const x of db.procedimentos) {
+    const v = String(x.proximaAcao || '').trim();
+    if (!v) continue;
+    const k = norm(v);
+    const e = cont.get(k) || { v: v, n: 0 };
+    e.n++;
+    cont.set(k, e);
+  }
+  const usadas = Array.from(cont.values()).sort((a, b) => b.n - a.n).slice(0, 40).map((e) => e.v);
+  dl.innerHTML = '';
+  for (const s of usadas.concat(SUGESTOES_ACAO.filter((s2) => !cont.has(norm(s2))))) dl.append(el('option', { value: s }));
+}
+function isoDaquiA(dias) {
+  const d = hojeData();
+  d.setDate(d.getDate() + dias);
+  const p2 = (n) => String(n).padStart(2, '0');
+  return d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate());
+}
+function botaoCopiar(valor, aviso) {
+  return el('button', { type: 'button', class: 'g-copiar', title: 'Copiar ' + valor, onclick: () => {
+    const ok = () => recado(aviso);
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(valor).then(ok, () => window.prompt('Copie o número:', valor)); return; }
+    } catch (e) { /* sem área de transferência */ }
+    window.prompt('Copie o número:', valor);
+  } }, 'copiar');
+}
+/* situação em botões: um clique */
+function seletorSituacao(valor) {
+  let atual = valor || 'sem_triagem';
+  const box = el('div', { class: 'g-sits', role: 'radiogroup', 'aria-label': 'Situação' });
+  const botoes = SITUACOES.map((s) => {
+    const b = el('button', { type: 'button', role: 'radio', 'data-v': s[0] }, el('span', { class: 'c-dot d-' + s[0] }), s[1]);
+    b.addEventListener('click', () => { atual = s[0]; desenhar(); });
+    box.append(b);
+    return b;
+  });
+  const desenhar = () => {
+    for (const b of botoes) {
+      const on = b.dataset.v === atual;
+      b.className = 'g-sit' + (on ? ' on s-' + b.dataset.v : '');
+      b.setAttribute('aria-checked', String(on));
+      b.tabIndex = on ? 0 : -1;
+    }
+  };
+  box.addEventListener('keydown', (e) => {
+    if (!/^Arrow(Left|Right|Up|Down)$/.test(e.key) || e.altKey) return;
+    e.preventDefault();
+    const i = SITUACOES.findIndex((s) => s[0] === atual);
+    const j = (i + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : SITUACOES.length - 1)) % SITUACOES.length;
+    atual = SITUACOES[j][0];
+    desenhar();
+    botoes[j].focus();
+  });
+  desenhar();
+  return { el: box, ler: () => atual };
+}
+function atualizarNavGaveta() {
+  const i = S.aba === 'controle' ? ultimaListaIds.indexOf(gavetaId) : -1;
+  const nav = $('#g-nav');
+  if (!nav) return;
+  nav.classList.toggle('sem-lista', i === -1);
+  $('#g-pos').textContent = i === -1 ? '' : (i + 1) + ' de ' + ultimaListaIds.length;
+  $('#g-ant').disabled = i <= 0;
+  $('#g-prox').disabled = i === -1 || i >= ultimaListaIds.length - 1;
+}
+/* anterior/próximo da lista do Controle, sem fechar a gaveta (bom para triar um por um) */
+function navegarGaveta(delta) {
+  if (!gavetaId || S.aba !== 'controle') return;
+  const ids = ultimaListaIds.slice();
+  const i = ids.indexOf(gavetaId);
+  if (i === -1) return;
+  const alvo = ids[i + delta];
+  if (!alvo) { recado(delta > 0 ? 'Este é o último da lista.' : 'Este é o primeiro da lista.'); return; }
+  const mudou = aplicarGaveta();
+  if (mudou && redesenharListaControle) redesenharListaControle();
+  abrirProc(alvo);
+}
+function secaoG(titulo, ...kids) {
+  return el('section', { class: 'g-sec' }, titulo ? el('h3', {}, titulo) : null, ...kids);
+}
 function abrirProc(id) {
   const mesmo = gavetaId === id;
   if (gavetaId && gavetaCampos) aplicarGaveta();
   const p = acharProc(id);
   if (!p) return;
+  fecharPopover();
   const corpo = $('#g-corpo');
   const rolagem = mesmo ? corpo.scrollTop : 0;
   gavetaId = id;
+  marcarLinhaAtual(id);
+
+  /* cabeçalho: classe, título, números */
   $('#g-classe').textContent = p.classe || 'Sem classe';
-  $('#g-numero').textContent = p.numero || '(sem número)';
+  const tit = $('#g-titulo');
+  tit.textContent = tituloVisivel(p);
+  tit.title = p.titulo || '';
+  const ids = $('#g-ids');
+  ids.innerHTML = '';
+  ids.append(el('span', { class: 'g-numero mono', id: 'g-numero' }, p.numero || '(sem número)'));
+  if (p.numero) ids.append(botaoCopiar(p.numero, 'Número copiado.'));
+  const pj = numeroJudicial(p);
+  if (pj) ids.append(el('span', { class: 'g-pj mono' }, 'PJ ' + pj), botaoCopiar(pj, 'Número do processo judicial copiado.'));
   $('#g-aviso').textContent = (p.arquivado ? 'Arquivado · ' : '') + (p.alteradoEm ? 'Alterado em ' + fmtDataHora(p.alteradoEm) : '');
   $('#g-arquivar').textContent = p.arquivado ? 'Desarquivar' : 'Arquivar';
+  atualizarNavGaveta();
   corpo.innerHTML = '';
 
-  /* ações do dia, no topo */
+  /* fatos: prazo, último evento, início */
+  const fatos = el('dl', { class: 'g-fatos' });
+  const fato = (rotulo, ...valor) => fatos.append(el('dt', {}, rotulo), el('dd', {}, ...valor));
+  const relPrazo = (v) => {
+    if (p.situacao === 'concluido') return null;
+    const d = diasAte(v);
+    if (d === null) return null;
+    const cls = d < 0 ? 'venc' : d <= 7 ? 'sete' : d <= 30 ? 'trinta' : 'folg';
+    return el('span', { class: 'g-rel ' + cls }, ' · ' + textoPrazo(d, true));
+  };
+  if (p.prazo) fato('Prazo', paraBR(p.prazo) || p.prazo, relPrazo(p.prazo));
+  if (p.prazoInterno) fato('Prazo interno', paraBR(p.prazoInterno) || p.prazoInterno, relPrazo(p.prazoInterno));
+  if (p.evento) {
+    const de = dataEvento(p);
+    fato('Último evento', de ? el('span', { class: 'mono' }, de) : null, de ? ' · ' : null, el('span', { class: 'g-ev-tx' }, textoEvento(p) || p.evento));
+  }
+  if (p.inicio) fato('Início', paraBR(p.inicio) || p.inicio);
+  const secFatos = fatos.childNodes.length ? secaoG(null, fatos) : null;
+
+  /* ações do dia */
   const noFoco = focoDeHoje().some((f) => f.procedimentoId === p.id);
   const feito = feitoHoje(p);
   const acoes = el('div', { class: 'g-acoes' },
@@ -2761,16 +3452,24 @@ function abrirProc(id) {
   );
 
   /* meu controle */
-  const cSituacao = seletorCampo(SITUACOES, p.situacao);
+  preencherSugestoesAcao();
+  const cSit = seletorSituacao(p.situacao);
+  const cProximaAcao = texto(p.proximaAcao, { placeholder: 'Escolha na lista ou escreva (ex.: requisitar informações ao SEMAE)', list: 'dl-acoes', autocomplete: 'off' });
   const cPrazoInterno = el('input', { type: 'date', value: paraISO(p.prazoInterno) });
-  const cProximaAcao = texto(p.proximaAcao, { placeholder: 'ex.: requisitar informações ao SEMAE' });
+  const atalho = (rot, fn) => el('button', { type: 'button', class: 'mini-chip', onclick: fn }, rot);
+  const prazoInt = el('div', { class: 'g-prazo-int' }, cPrazoInterno,
+    el('div', { class: 'g-atalhos' },
+      atalho('+7 dias', () => { cPrazoInterno.value = isoDaquiA(7); }),
+      atalho('+15 dias', () => { cPrazoInterno.value = isoDaquiA(15); }),
+      atalho('+30 dias', () => { cPrazoInterno.value = isoDaquiA(30); }),
+      atalho('Limpar', () => { cPrazoInterno.value = ''; })));
   const cAnotacoes = areaTexto(p.anotacoes, 4);
-  const b1 = el('div', { class: 'bloco-g' }, el('h3', {}, 'Meu controle'),
-    el('div', { class: 'grid2' }, campo('Situação', cSituacao), campo('Prazo interno', cPrazoInterno)),
+  const secControle = secaoG('Meu controle', campo('Situação', cSit.el),
     campo('Próxima ação', cProximaAcao),
+    campo('Prazo interno', prazoInt, 'Só seu: entra no lugar do prazo do SIM quando vence antes dele.'),
     campo('Anotações', cAnotacoes, 'A mesma anotação aparece no cartão do Foco do dia.'));
 
-  /* dados do procedimento */
+  /* dados do SIM, recolhidos */
   const cTitulo = texto(p.titulo);
   const cAssunto = el('select');
   cAssunto.append(el('option', { value: '' }, '(selecione)'));
@@ -2786,29 +3485,32 @@ function abrirProc(id) {
   cClasse.value = p.classe || '';
   const cInicio = el('input', { type: 'date', value: paraISO(p.inicio) });
   const cPrazo = el('input', { type: 'date', value: paraISO(p.prazo) });
-  const b2 = el('div', { class: 'bloco-g' }, el('h3', {}, 'Dados do procedimento'),
-    campo('Título', cTitulo),
-    campo('Assunto', cAssunto),
-    campo('Eixos temáticos', edTemas.el),
-    el('div', { class: 'grid2' }, campo('Número', cNumero), campo('Classe', cClasse)),
-    el('div', { class: 'grid2' }, campo('Data de início', cInicio), campo('Prazo de conclusão', cPrazo)));
+  const det = el('details', { class: 'g-det' },
+    el('summary', {}, 'Dados do SIM', el('span', { class: 'g-det-dica' }, 'título, assunto, eixos, número, classe e datas')),
+    el('div', { class: 'g-det-corpo' },
+      campo('Título', cTitulo),
+      campo('Assunto', cAssunto),
+      campo('Eixos temáticos', edTemas.el),
+      el('div', { class: 'grid2' }, campo('Número', cNumero), campo('Classe', cClasse)),
+      el('div', { class: 'grid2' }, campo('Data de início', cInicio), campo('Prazo de conclusão', cPrazo))));
+  if (p.origem === 'manual' && !p.numero) det.open = true;
 
   const lerData = (inp) => () => (inp.value ? paraBR(inp.value) : '');
   const lerTxt = (inp) => () => inp.value.trim();
   gavetaCampos = {
-    situacao: lerTxt(cSituacao), prazoInterno: lerData(cPrazoInterno), proximaAcao: lerTxt(cProximaAcao), anotacoes: lerTxt(cAnotacoes),
+    situacao: cSit.ler, prazoInterno: lerData(cPrazoInterno), proximaAcao: lerTxt(cProximaAcao), anotacoes: lerTxt(cAnotacoes),
     titulo: lerTxt(cTitulo), assunto: lerTxt(cAssunto), temas: edTemas.ler, numero: lerTxt(cNumero), classe: lerTxt(cClasse),
     inicio: lerData(cInicio), prazo: lerData(cPrazo)
   };
   gavetaInicial = lerGaveta();
-  gavetaEls = { numero: cNumero };
+  gavetaEls = { numero: cNumero, detalhes: det };
 
   /* tarefas e lembretes vinculados */
   const tVinc = tarefasDoProc(p.id);
   const lVinc = lembretesDoProc(p.id);
-  let b5 = null;
+  let secVinc = null;
   if (tVinc.length || lVinc.length) {
-    b5 = el('div', { class: 'bloco-g' }, el('h3', {}, 'Tarefas e lembretes vinculados'));
+    secVinc = secaoG('Tarefas e lembretes');
     for (const tv of tVinc.slice().sort((a, b) => (a.concluida ? 1 : 0) - (b.concluida ? 1 : 0))) {
       const fTv = faixaTarefa(tv);
       const lin = el('div', { class: 'g-vinc' });
@@ -2821,45 +3523,68 @@ function abrirProc(id) {
         const cls = fTv === 'venc' ? 'late' : (fTv === 'hoje' || fTv === 'prox') ? 'soon' : 'ok';
         lin.append(el('span', { class: 'due ' + cls }, fTv === 'venc' ? Math.abs(d) + 'd atraso' : fTv === 'hoje' ? 'hoje' : paraBR(tv.dataLimite)));
       }
-      b5.append(lin);
+      secVinc.append(lin);
     }
     for (const lv of lVinc) {
       const dL = diasLembrete(lv);
       const lin = el('div', { class: 'g-vinc' + (lv.ativo ? '' : ' dispensado') });
       lin.append(el('span', { class: 'lem-flag' }, lv.ativo ? '🔔' : '✅'), el('span', { class: 'g-vinc-tx', role: 'button', tabindex: '0', onclick: () => formLembrete(lv) }, lv.texto));
       if (lv.data) lin.append(el('span', { class: 'due' + (lv.ativo && dL !== null && dL < 0 ? ' late' : lv.ativo && dL === 0 ? ' soon' : '') }, dL === 0 ? 'hoje' : paraBR(lv.data)));
-      b5.append(lin);
+      secVinc.append(lin);
     }
+  }
+
+  /* histórico: dias trabalhados e o último evento do SIM, juntos */
+  const hist = [];
+  for (const r of (p.registro || [])) if (r && r.data) hist.push({ data: r.data, tipo: 'trab', texto: r.nota || '' });
+  const deIso = paraISO(dataEvento(p));
+  if (deIso) hist.push({ data: deIso, tipo: 'sim', texto: textoEvento(p) });
+  hist.sort((a, b) => b.data.localeCompare(a.data) || (a.tipo === 'trab' ? -1 : 1));
+  const nTrab = (p.registro || []).length;
+  const secHist = secaoG(null, el('h3', {}, 'Histórico', nTrab ? el('span', { class: 'g-h3-dica' }, 'trabalhado em ' + nTrab + ' dia(s)') : null));
+  if (!hist.length) secHist.append(el('div', { class: 'muted g-dica' }, 'Nada ainda. "Marcar feito" registra o dia em que você trabalhou aqui.'));
+  else {
+    const todos = historicosAbertos.has(p.id);
+    const box = el('div', { class: 'g-hist' });
+    for (const h of (todos ? hist : hist.slice(0, 8))) {
+      box.append(el('div', { class: 'g-hist-it' },
+        el('span', { class: 'g-hist-q' }, fmtData(h.data)),
+        el('span', {}, el('span', { class: 'g-hist-tag ' + h.tipo }, h.tipo === 'trab' ? 'Trabalhei' : 'SIM'), h.texto ? ' ' + recorte(h.texto, 220) : '')));
+    }
+    secHist.append(box);
+    if (hist.length > 8) secHist.append(el('button', { class: 'btn ghost sm', onclick: () => { if (todos) historicosAbertos.delete(p.id); else historicosAbertos.add(p.id); abrirProc(p.id); } }, todos ? 'Mostrar menos' : 'Ver todos os ' + hist.length));
   }
 
   /* envolvidos, vindos do Índice */
   const exp = expedienteDoProc(p);
-  const bEnv = el('div', { class: 'bloco-g' }, el('h3', {}, 'Envolvidos no Índice'));
+  const secEnv = secaoG('Envolvidos no Índice');
   if (exp) {
     const rel = vinculosDe(exp.id).filter((r) => tipoDe(r.outro.id) !== 'expediente')
       .sort((a, b) => rotuloDe(a.outro).localeCompare(rotuloDe(b.outro), 'pt-BR'));
-    if (!rel.length) bEnv.append(el('div', { class: 'muted g-dica' }, 'Expediente indexado, ainda sem pessoas ou entidades vinculadas.'));
+    if (!rel.length) secEnv.append(el('div', { class: 'muted g-dica' }, 'Expediente indexado, ainda sem pessoas ou entidades vinculadas.'));
     const todos = envolvidosAbertos.has(p.id);
+    const lista = el('div', { class: 'g-env' });
     for (const r of (todos ? rel : rel.slice(0, 8))) {
-      bEnv.append(el('div', { class: 'env-linha', role: 'button', tabindex: '0', title: 'Abrir ficha no Índice',
+      lista.append(el('div', { class: 'env-linha', role: 'button', tabindex: '0', title: 'Abrir ficha no Índice',
         onclick: () => { fecharGaveta(); abrirFicha(r.outro.id); } },
         el('span', { class: 'env-nome' }, rotuloDe(r.outro)),
         r.v.papel ? chip(r.v.papel, 'papel') : el('span', { class: 'muted env-tipo' }, tipoDe(r.outro.id) === 'pessoa' ? 'pessoa' : 'entidade')));
     }
+    if (rel.length) secEnv.append(lista);
     const rodape = el('div', { class: 'g-env-pe' });
     if (rel.length > 8) rodape.append(el('button', { class: 'btn ghost sm', onclick: () => { if (todos) envolvidosAbertos.delete(p.id); else envolvidosAbertos.add(p.id); abrirProc(p.id); } }, todos ? 'Mostrar menos' : 'Ver todos os ' + rel.length));
     rodape.append(el('button', { class: 'btn ghost sm', onclick: () => { fecharGaveta(); abrirFicha(exp.id); } }, 'Abrir expediente no Índice'));
-    bEnv.append(rodape);
+    secEnv.append(rodape);
   } else {
-    bEnv.append(el('div', { class: 'muted g-dica' }, 'Ainda não está no Índice de envolvidos.'));
-    bEnv.append(el('button', { class: 'btn ghost sm', onclick: () => {
+    secEnv.append(el('div', { class: 'muted g-dica' }, 'Ainda não está no Índice de envolvidos.'));
+    secEnv.append(el('div', { class: 'g-env-pe' }, el('button', { class: 'btn ghost sm', onclick: () => {
       fecharGaveta(); S.aba = 'indice'; IX.view = 'expedientes'; render();
       formExpedienteIx(null, { numero: String(p.numero || '').split('(')[0].trim(), tipo: siglaClasse(p.classe), status: 'Em andamento', data: paraISO(p.inicio), temas: p.temas || [], resumo: p.titulo || '' });
-    } }, 'Cadastrar no Índice'));
+    } }, 'Cadastrar no Índice')));
   }
 
   /* anexações */
-  const bAnexos = el('div', { class: 'bloco-g' }, el('h3', {}, 'Anexações'));
+  const secAnexos = secaoG('Anexações');
   if (p.anexadoA) {
     const princ = procPrincipal(p);
     const lnk = el('div', { class: 'g-vinc' });
@@ -2867,37 +3592,22 @@ function abrirProc(id) {
     if (princ) lnk.append(el('strong', { class: 'g-link', role: 'button', tabindex: '0', onclick: () => abrirProc(princ.id) }, princ.numero || '?'));
     else lnk.append('(procedimento removido)');
     lnk.append(el('button', { class: 'btn-mini', title: 'Desanexar', onclick: () => { p.anexadoA = ''; p.alteradoEm = new Date().toISOString(); touch(); render(); abrirProc(p.id); recado('Desanexado.'); } }, '×'));
-    bAnexos.append(lnk);
+    secAnexos.append(lnk);
   }
-  for (const ax of anexosDe(p.id)) {
+  const anexos = anexosDe(p.id);
+  for (const ax of anexos) {
     const lnk = el('div', { class: 'g-vinc' });
     lnk.append(el('span', { class: 'g-vinc-tx g-link', role: 'button', tabindex: '0', onclick: () => abrirProc(ax.id) }, '📎 ', el('strong', {}, ax.numero || '?'), ' ', el('span', { class: 'muted' }, ax.titulo ? recorte(ax.titulo, 60) : '')));
     lnk.append(el('button', { class: 'btn-mini', title: 'Desanexar', onclick: () => { ax.anexadoA = ''; ax.alteradoEm = new Date().toISOString(); touch(); render(); abrirProc(p.id); recado(ax.numero + ' desanexado.'); } }, '×'));
-    bAnexos.append(lnk);
+    secAnexos.append(lnk);
   }
-  if (!p.anexadoA) bAnexos.append(el('button', { class: 'btn ghost sm', onclick: () => formAnexar(p.id) }, '📎 Anexar outros a este'));
-  if (!p.anexadoA && !anexosDe(p.id).length) bAnexos.prepend(el('div', { class: 'muted g-dica' }, 'Nenhum procedimento anexado.'));
+  if (!p.anexadoA && !anexos.length) secAnexos.append(el('div', { class: 'muted g-dica' }, 'Nenhum procedimento anexado.'));
+  if (!p.anexadoA) secAnexos.append(el('div', { class: 'g-env-pe' }, el('button', { class: 'btn ghost sm', onclick: () => formAnexar(p.id) }, '📎 Anexar outros a este')));
 
-  /* último evento e histórico */
-  const b3 = el('div', { class: 'bloco-g' }, el('h3', {}, 'Último evento no relatório'),
-    el('div', { class: 'evento-txt' }, p.evento || 'sem registro'));
-  const b4 = el('div', { class: 'bloco-g' }, el('h3', {}, 'Dias em que trabalhei neste procedimento'));
-  const regs = (p.registro || []).slice().sort((a, b) => b.data.localeCompare(a.data));
-  if (regs.length) {
-    const ul = el('div', { class: 'g-regs' });
-    for (const r of regs.slice(0, 30)) {
-      const d = r.data.split('-');
-      ul.append(el('div', { class: 'g-reg' }, el('span', { class: 'hist-data' }, d.length === 3 ? d[2] + '/' + d[1] + '/' + d[0] : r.data), r.nota ? el('span', { class: 'muted' }, recorte(r.nota, 140)) : null));
-    }
-    if (regs.length > 30) ul.append(el('div', { class: 'muted g-dica' }, '… e mais ' + (regs.length - 30)));
-    b4.append(ul);
-  } else {
-    b4.append(el('div', { class: 'muted g-dica' }, 'Nenhum registro ainda. Use "Marcar feito hoje" no topo.'));
-  }
-
-  corpo.append(acoes, b1);
-  if (b5) corpo.append(b5);
-  corpo.append(bEnv, bAnexos, b2, b3, b4);
+  if (secFatos) corpo.append(secFatos);
+  corpo.append(secaoG(null, acoes), secControle);
+  if (secVinc) corpo.append(secVinc);
+  corpo.append(secHist, secEnv, secAnexos, det);
   corpo.scrollTop = rolagem;
   const gav = $('#gaveta');
   gav.dataset.faixa = faixaPrazo(p) || '';
@@ -2912,6 +3622,7 @@ function criarTarefaDoProc(procId) {
 }
 function fecharGaveta(aplicar) {
   const mudou = aplicar === false ? false : aplicarGaveta();
+  const idFechado = gavetaId;
   gavetaId = null;
   gavetaCampos = null;
   gavetaInicial = null;
@@ -2923,7 +3634,12 @@ function fecharGaveta(aplicar) {
   g.setAttribute('aria-hidden', 'true');
   $('#fundo').classList.remove('aberta');
   if (mudou && estavaAberta) render();
-  if (estavaAberta) setTimeout(() => verificarArquivo(false), 400);
+  if (estavaAberta) {
+    marcarLinhaAtual(null);
+    const linha = idFechado && linhaDoProc(idFechado);
+    if (linha && !document.querySelector('dialog[open]')) linha.focus({ preventScroll: true });
+    setTimeout(() => verificarArquivo(false), 400);
+  }
 }
 function salvarProc() {
   const mudou = aplicarGaveta();
@@ -3261,9 +3977,12 @@ function ligarGaveta() {
   $('#g-salvar').addEventListener('click', salvarProc);
   $('#g-excluir').addEventListener('click', excluirProc);
   $('#g-arquivar').addEventListener('click', arquivarProc);
+  $('#g-ant').addEventListener('click', () => navegarGaveta(-1));
+  $('#g-prox').addEventListener('click', () => navegarGaveta(1));
   $('#fundo').addEventListener('click', () => fecharGaveta());
   document.addEventListener('click', () => {
     document.querySelectorAll('.menu-pop.aberto').forEach((m) => m.classList.remove('aberto'));
+    fecharPopover();
   });
   document.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && !e.altKey && (e.key === 's' || e.key === 'S')) {
@@ -3274,6 +3993,12 @@ function ligarGaveta() {
     if ((e.ctrlKey || e.metaKey) && !e.shiftKey && (e.key === 'z' || e.key === 'Z') && desfazerAtual && !dialogoAberto && !/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) {
       const b = document.querySelector('#recado.visivel .recado-acao');
       if (b) { e.preventDefault(); b.click(); }
+      return;
+    }
+    if (e.key === 'Escape' && popAtual) { fecharPopover(true); return; }
+    if (e.altKey && !e.ctrlKey && !e.metaKey && (e.key === 'ArrowDown' || e.key === 'ArrowUp') && gavetaId && !dialogoAberto && e.target.tagName !== 'SELECT') {
+      e.preventDefault();
+      navegarGaveta(e.key === 'ArrowDown' ? 1 : -1);
       return;
     }
     if (e.key === 'Escape' && gavetaId && !dialogoAberto) fecharGaveta();
@@ -3595,7 +4320,7 @@ function telaTemasIx() {
     if (procs.length) {
       const rotTema = IX.tema;
       c.append(el('button', { class: 'btn ghost sm', style: 'margin-top:8px', onclick: () => {
-        Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', arquivados: false, semIndice: false });
+        Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', arquivados: false, semIndice: false, tipo: '' });
         filtrosProc.tema = (todosTemas().find((x) => norm(x) === norm(rotTema))) || rotTema;
         S.aba = 'controle'; render();
       } }, 'Ver no Controle com este filtro'));
@@ -4834,8 +5559,11 @@ function montarBotaoSalvar() {
   btn.classList.add('visivel');
 }
 /* ---------- início ---------- */
+lerPrefControle();
 ligarGaveta();
 render();
+window.addEventListener('resize', () => fecharPopover());
+window.addEventListener('scroll', () => fecharPopover(), { passive: true });
 guardaIdb('get').then((h) => { if (h && !db) { ultimaBaseHandle = h; render(); } });
 window.addEventListener('focus', () => setTimeout(() => verificarArquivo(false), 150));
 document.addEventListener('visibilitychange', () => { if (!document.hidden) setTimeout(() => verificarArquivo(false), 150); });
