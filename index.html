@@ -1024,12 +1024,12 @@ mark.c-hit{background:var(--aviso-bg);color:inherit;border-radius:3px;padding:0 
 .c-ok{width:15px;height:15px;border-radius:50%;flex:none;display:inline-grid;place-items:center;font-size:9.5px;font-weight:800;line-height:1;color:var(--card)}
 .ok-promotora{background:var(--t-promotora)}
 .ok-arquivamento{background:var(--t-modelo)}
+.c-row.feito-espera{opacity:.6;transition:opacity .12s,background .1s}
+.c-row.feito-espera:hover,.c-row.feito-espera:focus-within,.c-row.feito-espera.atual{opacity:1}
 .c-row.feito-espera .c-tit{text-decoration:line-through;text-decoration-thickness:1.5px;text-decoration-color:var(--muted);color:var(--muted)}
-.c-row.feito-espera .c-l2{opacity:.75}
 .c-row.feito-espera .c-sit-tx{color:var(--muted)}
-.c-prazo.espera .c-rel{color:var(--muted);font-weight:500}
-.c-faixa.espera .n{color:var(--t-pratica)}
-.c-grupo.g-espera,.c-grupo.g-espera .c-grupo-n{color:var(--t-pratica)}
+.c-row.feito-espera .c-prazo .c-rel{color:var(--muted);font-weight:500}
+.c-grupo-feitos{font-family:Inter,system-ui,sans-serif;text-transform:none;letter-spacing:0;font-size:11.5px;color:var(--muted);font-weight:500}
 </style>
 </head>
 <body>
@@ -2659,7 +2659,7 @@ function dialogAdicionarFoco() {
     const jaNoFoco = new Set(focoDeHoje().map((f) => f.procedimentoId));
     let itens = db.procedimentos.filter((p) => !p.arquivado && !jaNoFoco.has(p.id));
     if (q) itens = itens.filter((p) => textoBuscaProc(p).indexOf(q) !== -1);
-    else itens = itens.filter((p) => faixaPrazo(p) === 'venc' || faixaPrazo(p) === 'prox')
+    else itens = itens.filter((p) => (faixaPrazo(p) === 'venc' || faixaPrazo(p) === 'prox') && !feitoAguardando(p))
       .sort((a, b) => (paraData(prazoEfetivo(a)) || 0) - (paraData(prazoEfetivo(b)) || 0));
     if (!q) listaF.append(el('div', { class: 'sel-grupo' }, itens.length ? 'Sugestões: prazos vencidos e próximos' : 'Digite para buscar.'));
     if (q && !itens.length) { listaF.append(el('div', { class: 'muted', style: 'font-size:12px;padding:4px' }, 'Nenhum encontrado.')); return; }
@@ -2691,9 +2691,24 @@ const SITUACOES = [
   ['arquivamento', 'Arquivamento minutado'],
   ['concluido', 'Concluído']
 ];
-/* já feitas por mim: esperam a Promotora olhar ou o arquivamento sair; aparecem riscadas e não contam como atraso */
+/* já feitas por mim: esperam a Promotora olhar ou o arquivamento sair.
+   Ficam no lugar de sempre, esmaecidas e riscadas, e voltam para "Sem triagem" quando o SIM registra movimento depois da marcação */
 const SITUACOES_FEITAS = new Set(['promotora', 'arquivamento']);
 function feitoAguardando(p) { return !!p && SITUACOES_FEITAS.has(p.situacao); }
+function diaDoIso(iso) { const d = new Date(iso); return isNaN(d) ? null : new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+function dataDoEvento(ev) { const m = String(ev || '').match(/^\s*(\d{2}\/\d{2}\/\d{4})/); return m ? paraData(m[1]) : null; }
+/* o relatório novo traz movimento depois que o caso foi marcado como feito? */
+function movimentoDepoisDoFeito(p, eventoNovo) {
+  if (!feitoAguardando(p) || !eventoNovo || String(eventoNovo).trim() === String(p.evento || '').trim()) return false;
+  const dNovo = dataDoEvento(eventoNovo);
+  if (!dNovo) return false;
+  /* sem a data da marcação (marcados antes desta versão), compara com o último evento conhecido */
+  const marca = p.situacaoEm ? diaDoIso(p.situacaoEm) : dataDoEvento(p.evento);
+  if (marca && !(dNovo > marca)) return false;
+  /* arquivamento minutado que agora aparece arquivando: continua como está, sai do relatório sozinho */
+  if (p.situacao === 'arquivamento' && /arquiv|csmp|homolog/i.test(String(eventoNovo))) return false;
+  return true;
+}
 const CAMPOS_FONTE = ['classe', 'numero', 'titulo', 'assunto', 'inicio', 'prazo', 'evento', 'temas'];
 const CAMPOS_CONTROLE = ['situacao', 'prioridade', 'proximaAcao', 'prazoInterno', 'anotacoes', 'arquivado'];
 function rotuloSituacao(v) { const s = SITUACOES.find((x) => x[0] === v); return s ? s[1] : v; }
@@ -2819,7 +2834,7 @@ function prazoEfetivo(p) {
   return p.prazo || '';
 }
 function faixaPrazo(p) {
-  if (p.situacao === 'concluido' || feitoAguardando(p)) return 'concl';
+  if (p.situacao === 'concluido') return 'concl';
   const d = diasAte(prazoEfetivo(p));
   if (d === null) return '';
   if (d < 0) return 'venc';
@@ -2876,7 +2891,6 @@ function dataCurta(br) {
 }
 function bandaPrazo(p) {
   if (p.situacao === 'concluido') return 'concl';
-  if (feitoAguardando(p)) return 'espera';
   const d = diasAte(prazoEfetivo(p));
   if (d === null) return 'sem';
   if (d < 0) return 'venc';
@@ -2890,7 +2904,6 @@ const BANDAS = [
   ['trinta', 'Vencem em 8 a 30 dias', '8 a 30 dias'],
   ['folg', 'Mais de 30 dias', 'Mais de 30 dias'],
   ['sem', 'Sem prazo', 'Sem prazo'],
-  ['espera', 'Feitos, aguardando a Promotora ou o arquivamento', 'Feitos, aguardando'],
   ['concl', 'Concluídos', 'Concluídos']
 ];
 function textoPrazo(d, longo) {
@@ -2999,7 +3012,7 @@ function passaFiltros(p, ignorar, busca) {
   if (f.classe && classeAgrupada(p.classe) !== f.classe) return false;
   if (f.assunto && !procTemAssunto(p, f.assunto)) return false;
   if (f.tema && !(p.temas || []).some((t2) => norm(t2) === norm(f.tema))) return false;
-  if (ignorar !== 'situacao' && f.situacao && p.situacao !== f.situacao) return false;
+  if (ignorar !== 'situacao' && f.situacao && (f.situacao === 'feitos' ? !feitoAguardando(p) : p.situacao !== f.situacao)) return false;
   if (ignorar !== 'indice') {
     const modo = f.indice || (f.semIndice ? 'nao' : '');
     if (modo && (modo === 'sim') !== !!infoIndice(p).exp) return false;
@@ -3191,7 +3204,7 @@ function linhaProc(p, termo) {
   const prazoEl = el('div', { class: 'c-prazo ' + banda });
   if (pe) {
     const interno = !!(p.prazoInterno && pe === p.prazoInterno && p.prazoInterno !== p.prazo);
-    prazoEl.title = (interno ? 'Prazo interno ' : 'Prazo ') + pe + (banda === 'concl' ? '' : ' · ' + textoPrazo(d, true)) + (banda === 'espera' ? ' (feito, não conta como atraso)' : '');
+    prazoEl.title = (interno ? 'Prazo interno ' : 'Prazo ') + pe + (banda === 'concl' ? '' : ' · ' + textoPrazo(d, true)) + (feitoAguardando(p) ? ' · já feito, aguardando' : '');
     prazoEl.append(el('span', { class: 'c-rel' }, banda === 'concl' ? 'concluído' : textoPrazo(d, false)),
       el('span', { class: 'c-data' }, (interno ? 'int. ' : '') + (paraBR(pe) || pe)));
   }
@@ -3255,7 +3268,8 @@ function menuSituacao(anchor, p) {
       if (p.situacao === s[0]) { anchor.focus(); return; }
       const foto = fotoBase();
       p.situacao = s[0];
-      p.alteradoEm = new Date().toISOString();
+      p.situacaoEm = new Date().toISOString();
+      p.alteradoEm = p.situacaoEm;
       touch();
       if (redesenharListaControle) redesenharListaControle(p.id); else render();
       oferecerDesfazer('Situação: ' + s[1] + '.', foto);
@@ -3325,6 +3339,7 @@ function telaControle() {
     for (const p of db.procedimentos) if (passaFiltros(p, 'situacao', contBusca)) cont[p.situacao] = (cont[p.situacao] || 0) + 1;
     selSit.innerHTML = '';
     selSit.append(el('option', { value: '' }, 'Situação: todas'));
+    selSit.append(el('option', { value: 'feitos' }, 'Feitos, aguardando · ' + ((cont.promotora || 0) + (cont.arquivamento || 0))));
     for (const s of SITUACOES) selSit.append(el('option', { value: s[0] }, s[1] + ' · ' + (cont[s[0]] || 0)));
     selSit.value = filtrosProc.situacao;
     selSit.classList.toggle('ativo', !!filtrosProc.situacao);
@@ -3409,7 +3424,9 @@ function telaControle() {
         if (g.titulo) {
           const fechado = gruposFechados.has(g.chave) && !termo;
           const cab = el('button', { type: 'button', class: 'c-grupo ' + g.classe, 'aria-expanded': String(!fechado) },
-            el('span', { class: 'seta-dobra' }, fechado ? '▸' : '▾'), g.titulo, el('span', { class: 'c-grupo-n' }, String(g.itens.length)), el('span', { class: 'srule' }));
+            el('span', { class: 'seta-dobra' }, fechado ? '▸' : '▾'), g.titulo, el('span', { class: 'c-grupo-n' }, String(g.itens.length)),
+            (() => { const nf = g.itens.filter(feitoAguardando).length; return nf ? el('span', { class: 'c-grupo-feitos', title: nf + ' já feito(s), aguardando a Promotora ou o arquivamento' }, '· ' + nf + (nf === 1 ? ' já feito' : ' já feitos')) : null; })(),
+            el('span', { class: 'srule' }));
           cab.addEventListener('click', () => {
             if (gruposFechados.has(g.chave)) gruposFechados.delete(g.chave); else gruposFechados.add(g.chave);
             guardarPrefControle();
@@ -3553,7 +3570,7 @@ function aplicarGaveta() {
   const atual = lerGaveta();
   let mudou = false;
   for (const k of Object.keys(atual)) {
-    if (JSON.stringify(atual[k]) !== JSON.stringify(gavetaInicial[k])) { p[k] = atual[k]; mudou = true; }
+    if (JSON.stringify(atual[k]) !== JSON.stringify(gavetaInicial[k])) { p[k] = atual[k]; mudou = true; if (k === 'situacao') p.situacaoEm = new Date().toISOString(); }
   }
   if (mudou) { p.alteradoEm = new Date().toISOString(); gavetaInicial = atual; touch(); }
   return mudou;
@@ -4001,7 +4018,7 @@ function mesclarProc(lista, substituir, arquivarAusentes) {
     recado('Controle substituído: ' + lista.length + ' procedimentos. Vínculos com o mesmo número foram mantidos.');
     return;
   }
-  let novos = 0, atualizados = 0, arquivados = 0, desarquivados = 0, semNumero = 0;
+  let novos = 0, atualizados = 0, arquivados = 0, desarquivados = 0, semNumero = 0, voltaram = 0;
   const porChave = new Map();
   for (const p of db.procedimentos) { const k = chaveNumero(p.numero); if (k.length >= 4 && !porChave.has(k)) porChave.set(k, p); }
   const chavesRelatorio = new Set();
@@ -4011,7 +4028,9 @@ function mesclarProc(lista, substituir, arquivarAusentes) {
     chavesRelatorio.add(k);
     const existente = porChave.get(k);
     if (existente) {
+      const volta = movimentoDepoisDoFeito(existente, item.evento);
       for (const cpo of CAMPOS_FONTE) { if (item[cpo] && (!Array.isArray(item[cpo]) || item[cpo].length)) existente[cpo] = item[cpo]; }
+      if (volta) { existente.situacao = 'sem_triagem'; existente.situacaoEm = agora; voltaram++; }
       for (const cpo of CAMPOS_CONTROLE) { if (item[cpo] !== undefined && item[cpo] !== '' && item[cpo] !== false) existente[cpo] = item[cpo]; }
       if (existente.arquivado) { existente.arquivado = false; desarquivados++; }
       existente.alteradoEm = agora;
@@ -4033,6 +4052,7 @@ function mesclarProc(lista, substituir, arquivarAusentes) {
   touch();
   render();
   let msg = novos + ' incluído(s), ' + atualizados + ' atualizado(s).';
+  if (voltaram) msg += ' ' + voltaram + (voltaram === 1 ? ' voltou' : ' voltaram') + ' para "Sem triagem": estava(m) como feito(s) e o SIM registrou movimento depois.';
   if (desarquivados) msg += ' ' + desarquivados + ' desarquivado(s).';
   if (arquivados) msg += ' ' + arquivados + ' arquivado(s) por não constarem no relatório.';
   if (semNumero) msg += ' ' + semNumero + ' item(ns) sem número ignorado(s).';
@@ -4045,14 +4065,14 @@ function mesclarProc(lista, substituir, arquivarAusentes) {
 function previaMesclagem(lista, arquivarAusentes) {
   const porChave = new Map();
   for (const p of db.procedimentos) { const k = chaveNumero(p.numero); if (k.length >= 4 && !porChave.has(k)) porChave.set(k, p); }
-  const novos = new Map(), atualizados = new Set(), desarquivados = new Set(), chaves = new Set();
+  const novos = new Map(), atualizados = new Set(), desarquivados = new Set(), chaves = new Set(), voltam = new Set();
   let semNumero = 0;
   for (const item of lista) {
     const k = chaveNumero(item.numero);
     if (k.length < 4) { semNumero++; continue; }
     chaves.add(k);
     const ex = porChave.get(k);
-    if (ex) { atualizados.add(ex); if (ex.arquivado) desarquivados.add(ex); }
+    if (ex) { atualizados.add(ex); if (ex.arquivado) desarquivados.add(ex); if (movimentoDepoisDoFeito(ex, item.evento)) voltam.add(ex); }
     else if (!novos.has(k)) novos.set(k, item);
   }
   const arquivar = [];
@@ -4063,7 +4083,7 @@ function previaMesclagem(lista, arquivarAusentes) {
       if (k.length >= 4 && !chaves.has(k)) arquivar.push(p);
     }
   }
-  return { novos: Array.from(novos.values()), atualizados: Array.from(atualizados), desarquivados: Array.from(desarquivados), arquivar: arquivar, semNumero: semNumero };
+  return { novos: Array.from(novos.values()), atualizados: Array.from(atualizados), desarquivados: Array.from(desarquivados), arquivar: arquivar, semNumero: semNumero, voltam: Array.from(voltam) };
 }
 function confirmarMesclagem(lista, arquivarAusentes) {
   const pv = previaMesclagem(lista, arquivarAusentes);
@@ -4078,6 +4098,7 @@ function confirmarMesclagem(lista, arquivarAusentes) {
   if (pv.novos.length) corpo.push(bloco('Serão incluídos', pv.novos));
   if (pv.atualizados.length) corpo.push(el('div', { class: 'conf-bloco' }, el('div', { class: 'sec-h' }, 'Serão atualizados', el('span', { class: 'cont' }, String(pv.atualizados.length))),
     el('div', { class: 'muted g-dica' }, 'Recebem os dados do relatório (título, prazo, último evento…). Situação, próxima ação e anotações ficam como estão.')));
+  if (pv.voltam.length) corpo.push(bloco('Voltam para "Sem triagem": estavam como feitos e o SIM registrou movimento depois', pv.voltam));
   if (pv.desarquivados.length) corpo.push(bloco('Voltam da lista de arquivados', pv.desarquivados));
   if (pv.arquivar.length) corpo.push(bloco('Serão arquivados por não constarem no relatório', pv.arquivar, ' alerta'));
   if (pv.semNumero) corpo.push(el('div', { class: 'aviso' }, pv.semNumero + ' item(ns) sem número serão ignorados.'));
