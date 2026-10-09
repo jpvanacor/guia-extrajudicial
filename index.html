@@ -940,6 +940,82 @@ mark.c-hit{background:var(--aviso-bg);color:inherit;border-radius:3px;padding:0 
   .ix-cab{padding:14px}
   .ix-cab .ficha-acoes{width:100%}
 }
+
+/* v47: tarefas e lembretes redesenhados */
+.tq{margin:2px 0 12px}
+.tq-linha{display:flex;gap:8px;align-items:center}
+.tq-campo{flex:1 1 auto}
+.tq-inp{padding-right:44px}
+.tq-campo .c-lupa{color:var(--accent)}
+.tq-cal{position:absolute;right:5px;top:50%;transform:translateY(-50%);opacity:1}
+.tq-cal svg{width:16px;height:16px}
+.tq-prev{display:none;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 2px 0;font-size:12.5px}
+.tq-prev.on{display:flex}
+.tq-chip{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);color:var(--ink);border-radius:8px;padding:0 2px 0 9px;line-height:24px;max-width:100%}
+.tq-chip-rot{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.tq-chip-v{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.tq-x{appearance:none;border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:15px;line-height:1;padding:3px 6px;border-radius:6px}
+.tq-x:hover{background:var(--card);color:var(--accent)}
+.tq-escolha{display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap}
+.tq-cand{appearance:none;font-size:11.5px;font-family:"JetBrains Mono",Consolas,monospace;border:1px dashed var(--accent);background:transparent;color:var(--accent);border-radius:7px;padding:2px 8px;cursor:pointer}
+.tq-cand:hover{background:var(--accent-soft)}
+.tq-titulo{color:var(--ink);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tk-ferr{margin:0 0 4px}
+.tk-ferr .c-busca-wrap{flex:1 1 220px}
+.tk-ferr .c-sel:disabled{opacity:.5;cursor:default}
+.tk-feitas{font-size:12.5px;color:var(--t-pratica);font-weight:600;white-space:nowrap}
+.tk-grupo-l{display:flex;align-items:center;gap:8px}
+.tk-grupo-l .c-grupo{flex:1;min-width:0}
+.tk-grupo-sub{font-family:Inter,system-ui,sans-serif;text-transform:none;letter-spacing:0;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:0 1 auto}
+.tk-grupo-ir{appearance:none;font:inherit;font-size:11.5px;font-weight:600;color:var(--muted);background:transparent;border:1px solid var(--line-forte);border-radius:7px;padding:2px 8px;cursor:pointer;white-space:nowrap;margin-top:10px;flex:none}
+.tk-grupo-ir:hover{color:var(--accent);border-color:var(--accent)}
+.c-grupo.apagado,.c-grupo.apagado .c-grupo-n{color:var(--muted)}
+.tk-painel{background:var(--card);border:1px solid var(--line);border-radius:var(--raio);overflow:hidden}
+.tk-row{display:flex;gap:12px;align-items:flex-start;padding:10px 10px 10px 14px;cursor:pointer;position:relative;transition:background .1s}
+.tk-row + .tk-row{border-top:1px solid var(--line)}
+.tk-row:hover{background:var(--paper)}
+.tk-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.tk-row .ck{margin-top:1px}
+.tk-main{flex:1;min-width:0}
+.tk-l1{font-size:14px;font-weight:500;line-height:1.4;color:var(--ink);overflow-wrap:anywhere}
+.tk-row.feita .tk-tx{color:var(--muted);text-decoration:line-through}
+.tk-l2{display:flex;gap:4px 10px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5;min-width:0}
+.tk-due{font-weight:600;color:var(--muted);white-space:nowrap}
+.tk-due.late{color:var(--t-regra)}
+.tk-due.soon{color:var(--t-atencao)}
+.tk-due.prox{color:var(--ink)}
+.tk-due.feita{color:var(--t-pratica);font-weight:500}
+.tk-proc,.tk-reu{appearance:none;font:inherit;font-size:11.5px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:7px;padding:0 7px;line-height:20px;cursor:pointer;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.tk-proc .mono{font-size:11px}
+.tk-reu{color:var(--t-promotora);border-color:var(--t-promotora-bg);background:var(--t-promotora-bg)}
+.tk-proc:hover,.tk-reu:hover{border-color:var(--accent);color:var(--accent)}
+.tk-exp{font-size:11px;border:1px dashed var(--line-forte);border-radius:7px;padding:0 7px;line-height:20px}
+.tk-cat{font-family:"JetBrains Mono",Consolas,monospace;font-size:10.5px;color:var(--muted);background:var(--chip);border-radius:5px;padding:0 7px;line-height:18px}
+.tk-rec{font-size:11.5px;color:var(--t-ferramenta);white-space:nowrap}
+.tk-det-bt{appearance:none;border:0;background:transparent;font:inherit;font-size:12px;color:var(--muted);cursor:pointer;padding:0 2px;border-radius:5px}
+.tk-det-bt:hover{color:var(--accent)}
+.tk-det{margin-top:6px;font-size:13px;line-height:1.55;color:var(--ink);white-space:pre-wrap;background:var(--paper);border-left:3px solid var(--line-forte);border-radius:0 8px 8px 0;padding:6px 10px;cursor:auto}
+.tk-acoes{display:flex;gap:2px;flex:none;opacity:0;transition:opacity .1s;margin-top:-3px}
+.tk-acoes .c-ic{opacity:1}
+.tk-acoes .c-ic svg{width:15px;height:15px}
+.tk-row:hover .tk-acoes,.tk-row:focus-within .tk-acoes{opacity:1}
+.tk-acoes .tk-excluir:hover{color:var(--t-regra);background:var(--t-regra-bg)}
+.pop-sub{margin-left:auto;padding-left:18px;color:var(--muted);font-size:12px}
+.pop-linha{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:8px 10px 4px;font-size:13px;color:var(--ink);border-top:1px solid var(--line);margin-top:4px}
+.pop-data{font:inherit;font-size:12.5px;padding:4px 6px;border:1px solid var(--line-forte);border-radius:7px;background:var(--card);color:var(--ink)}
+.tk-row > .tk-mais{display:none;flex:none;margin-top:-3px}
+@media (hover:none){.tk-acoes{opacity:1}}
+@media (max-width:720px){
+  .tk-ferr .seg{flex:1 1 100%}
+  .tk-ferr .seg button{flex:1 1 0;justify-content:center}
+  .tk-ferr .c-busca-wrap{flex-basis:100%}
+  .tk-ferr .c-sel{flex:1 1 0}
+  .tk-row{gap:10px;padding:10px 8px 10px 12px}
+  .tk-grupo-sub{display:none}
+  .tk-acoes{display:none}
+  .tk-row > .tk-mais{display:inline-grid;opacity:1}
+  .tq-linha .btn{padding-left:10px;padding-right:10px}
+}
 </style>
 </head>
 <body>
@@ -1060,7 +1136,8 @@ let ultimaBaseHandle = null;
 const filtrosProc = { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, tipo: '', indice: '' };
 let ordemProc = { campo: 'prazoEfetivo', asc: true };
 let gavetaId = null;
-const ST = { subaba: 'tarefas', filtroTarefa: 'pendentes', busca: '' };
+const ST = { subaba: 'tarefas', filtroTarefa: 'pendentes', busca: '', agrupar: 'prazo' };
+const recemConcluidas = new Set();
 const IX = { view: 'busca', q: '', fichaId: null, tema: null, filtro: { pessoas: '', entidades: '', expedientes: '' }, ordem: {} };
 const pilhaIx = [];
 
@@ -2109,7 +2186,7 @@ function montarAbas() {
       class: 'aba' + (S.aba === par[0] ? ' ativa' : '') + (db ? '' : ' desligada'),
       onclick: () => {
         if (!db) return;
-        if (S.aba !== par[0]) for (let i = pilhaIx.length - 1; i >= 0; i--) if ('controle' in pilhaIx[i]) pilhaIx.splice(i, 1);
+        if (S.aba !== par[0]) { for (let i = pilhaIx.length - 1; i >= 0; i--) if ('controle' in pilhaIx[i]) pilhaIx.splice(i, 1); recemConcluidas.clear(); }
         S.aba = par[0]; fecharGaveta(); render();
       }
     });
@@ -2469,44 +2546,8 @@ function telaFoco() {
   const todasTarefasVisiveis = Array.from(new Map([...tarefasUrgentes, ...tarefasFoco].map((t2) => [t2.id, t2])).values());
   if (todasTarefasVisiveis.length || lemHoje.length) {
     c.append(el('div', { class: 'seclab', style: 'margin-top:20px' }, 'Tarefas e lembretes do dia', el('span', { class: 'sn' }, String(todasTarefasVisiveis.length + lemHoje.length)), el('span', { class: 'srule' })));
-    const tlist = el('div', { class: 'tlist' });
-    for (const t2 of todasTarefasVisiveis) {
-      const f2 = faixaTarefa(t2);
-      const row = el('div', { class: 'trow' });
-      const ck = el('button', { class: 'ck' + (t2.concluida ? ' on' : '') });
-      ck.addEventListener('click', (e) => { e.stopPropagation(); t2.concluida = !t2.concluida; t2.concluidaEm = t2.concluida ? new Date().toISOString() : ''; ck.classList.add('pop'); touch(); setTimeout(() => render(), 350); });
-      row.append(ck);
-      row.append(el('span', { class: 'tt' }, t2.texto));
-      const meta = el('div', { class: 'tmeta' });
-      if (t2.dataLimite) {
-        const d = diasAte(t2.dataLimite);
-        let cls = 'ok', txt = paraBR(t2.dataLimite);
-        if (f2 === 'venc') { cls = 'late'; txt = Math.abs(d) + 'd atraso'; }
-        else if (f2 === 'hoje') { cls = 'soon'; txt = 'hoje'; }
-        else if (f2 === 'prox') { cls = 'soon'; txt = d + 'd'; }
-        meta.append(el('span', { class: 'due ' + cls }, txt));
-      }
-      if (t2.categoria) meta.append(el('span', { class: 't-cat' }, t2.categoria));
-      const cpT = chipsProc(t2.procedimentoIds); if (cpT) meta.append(cpT);
-      row.append(meta);
-      row.addEventListener('click', () => formTarefa(t2));
-      tlist.append(row);
-    }
-    for (const l of lemHoje) {
-      const d = diasLembrete(l);
-      const row = el('div', { class: 'trow' });
-      row.append(el('span', { class: 'lem-flag' }, d < 0 ? '🔴' : '🟡'));
-      row.append(el('span', { class: 'tt' }, l.texto));
-      const meta = el('div', { class: 'tmeta' });
-      meta.append(el('span', { class: 'due ' + (d < 0 ? 'late' : 'soon') }, d < 0 ? Math.abs(d) + 'd atrás' : 'hoje'));
-      if (l.recorrencia) meta.append(el('span', { class: 't-cat' }, '↻ ' + rotuloRecorrencia(l.recorrencia)));
-      const cpL = chipsProc(l.procedimentoIds); if (cpL) meta.append(cpL);
-      meta.append(el('button', { class: 'btn-mini', title: passoRecorrencia(l.recorrencia) && l.data ? 'Dispensar esta vez (volta na próxima data)' : 'Dispensar', onclick: (e) => { e.stopPropagation(); dispensarLembrete(l); } }, '✓'));
-      row.append(meta);
-      row.addEventListener('click', () => formLembrete(l));
-      tlist.append(row);
-    }
-    c.append(tlist);
+    const porPrazo = (a, b) => { const da = paraData(a.dataLimite), dbb = paraData(b.dataLimite); if (da && dbb) return da - dbb; return da ? -1 : dbb ? 1 : 0; };
+    c.append(painelTk(todasTarefasVisiveis.sort(porPrazo).map((t2) => linhaTarefa(t2)).concat(lemHoje.map((l) => linhaLembrete(l)))));
   }
   const diasAnt = Array.from(new Set(db.focoDia.filter((f) => f.data !== hojeStr()).map((f) => f.data))).sort().reverse().slice(0, 5);
   if (diasAnt.length) {
@@ -4215,6 +4256,10 @@ function ligarGaveta() {
       const alvo = document.querySelector('#main input[type=search]');
       if (alvo) { e.preventDefault(); alvo.focus(); }
     }
+    if ((e.key === 'n' || e.key === 'N') && !e.ctrlKey && !e.metaKey && !e.altKey && S.aba === 'tarefas' && !dialogoAberto && !gavetaId && !popAtual && !/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) {
+      const q = document.getElementById('tq-inp');
+      if (q) { e.preventDefault(); q.focus(); }
+    }
   });
 }
 
@@ -5682,7 +5727,7 @@ function conteudoReunioes() {
 }
 function cardReuniao(reg, termo) {
   const aberta = SR.aberta === reg.id || !!termo;
-  const card = el('div', { class: 'r-card' });
+  const card = el('div', { class: 'r-card', 'data-id': reg.id });
   const nPend = reg.tarefaIds.filter((id) => { const t2 = db.tarefas.find((x) => x.id === id); return t2 && !t2.concluida; }).length;
   const head = el('div', { class: 'r-head' },
     el('span', { style: 'color:var(--muted);font-size:12px' }, aberta ? '▾' : '▸'),
@@ -5749,14 +5794,494 @@ function cardReuniao(reg, termo) {
   return card;
 }
 
+/* ---------- tarefas (v47): entender o que foi digitado na linha rápida ---------- */
+const NOMES_DIAS = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+function somarDias(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+function ultimoDiaMes(a, m) { return new Date(a, m + 1, 0).getDate(); }
+function dataEmBR(d) { const p = (n) => String(n).padStart(2, '0'); return p(d.getDate()) + '/' + p(d.getMonth() + 1) + '/' + d.getFullYear(); }
+function proximoDiaSemana(dow, incluirHoje) { const h = hojeData(); let k = (dow - h.getDay() + 7) % 7; if (k === 0 && !incluirHoje) k = 7; return somarDias(h, k); }
+function proximoDiaDoMes(n, incluirHoje) {
+  const h = hojeData();
+  const em = (a, m) => new Date(a, m, Math.min(n, ultimoDiaMes(a, m)));
+  let d = em(h.getFullYear(), h.getMonth());
+  if (d < h || (!incluirHoje && +d === +h)) { const m = new Date(h.getFullYear(), h.getMonth() + 1, 1); d = em(m.getFullYear(), m.getMonth()); }
+  return d;
+}
+function somarDiasUteis(d, n) { let x = d; let k = 0; while (k < n) { x = somarDias(x, 1); if (x.getDay() !== 0 && x.getDay() !== 6) k++; } return x; }
+function somarMeses(d, n) { const m = new Date(d.getFullYear(), d.getMonth() + n, 1); return new Date(m.getFullYear(), m.getMonth(), Math.min(d.getDate(), ultimoDiaMes(m.getFullYear(), m.getMonth()))); }
+/* dia e mês sem ano: este ano, a não ser que já tenha passado há mais de 60 dias */
+function dataSemAno(dia, mes) {
+  const h = hojeData();
+  if (mes < 1 || mes > 12 || dia < 1 || dia > ultimoDiaMes(h.getFullYear(), mes - 1)) return null;
+  let d = new Date(h.getFullYear(), mes - 1, dia);
+  if ((h - d) / 86400000 > 60) d = new Date(h.getFullYear() + 1, mes - 1, Math.min(dia, ultimoDiaMes(h.getFullYear() + 1, mes - 1)));
+  return d;
+}
+function indiceDia(nome) { const n = norm(nome).replace(/-feiras?$/, '').replace(/s$/, ''); return ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'].indexOf(n); }
+function indiceMes(nome) { return ['janeiro', 'fevereiro', 'marco', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'].indexOf(norm(nome)); }
+/* rótulo curto de uma data em relação a hoje: hoje, amanhã, sexta, 10/10, 23/10, 23/10/2027 */
+function rotuloData(br) {
+  const d = paraData(br);
+  if (!d) return '';
+  const n = diasAte(br);
+  const p = (x) => String(x).padStart(2, '0');
+  const curta = p(d.getDate()) + '/' + p(d.getMonth() + 1) + (d.getFullYear() !== hojeData().getFullYear() ? '/' + d.getFullYear() : '');
+  if (n === 0) return 'hoje';
+  if (n === 1) return 'amanhã';
+  if (n === -1) return 'ontem';
+  if ((n > 1 && n < 7) || (n < -1 && n > -7)) return NOMES_DIAS[d.getDay()] + ', ' + curta;
+  return curta;
+}
+/* "sex, 09/10": usado nos menus de data */
+function rotuloDiaCurto(br) {
+  const d = paraData(br);
+  if (!d) return '';
+  const p = (x) => String(x).padStart(2, '0');
+  return NOMES_DIAS[d.getDay()].slice(0, 3) + ', ' + p(d.getDate()) + '/' + p(d.getMonth() + 1) + (d.getFullYear() !== hojeData().getFullYear() ? '/' + d.getFullYear() : '');
+}
+const B0 = '(?<![\\p{L}\\d])';
+const B1 = '(?![\\p{L}\\d])';
+const ATE = '(?:(?:até|ate|para|pra)\\s+)?';
+const DESDE = '(?:(?:até|ate|para|pra|em|a\\s+partir\\s+d[eo]|desde)\\s+)?';
+const DIA_RE = '(segunda|ter[çc]a|quarta|quinta|sexta|s[áa]bado|domingo)';
+const MES_RE = '(janeiro|fevereiro|mar[çc]o|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)';
+const REGRAS_DATA = [
+  [ATE + 'depois\\s+de\\s+amanh[ãa]', () => somarDias(hojeData(), 2)],
+  [ATE + 'amanh[ãa]', () => somarDias(hojeData(), 1)],
+  [ATE + 'hoje', () => hojeData()],
+  ['(?:em|daqui\\s+a|dentro\\s+de)\\s+(\\d{1,3})\\s+dias?\\s+[úu]teis', (m) => somarDiasUteis(hojeData(), +m[1])],
+  ['(?:em|daqui\\s+a|dentro\\s+de)\\s+(\\d{1,3})\\s+dias?', (m) => somarDias(hojeData(), +m[1])],
+  ['(?:em|daqui\\s+a|dentro\\s+de)\\s+(\\d{1,2})\\s+semanas?', (m) => somarDias(hojeData(), 7 * m[1])],
+  ['(?:em|daqui\\s+a|dentro\\s+de)\\s+(\\d{1,2})\\s+m[eê]s(?:es)?', (m) => somarMeses(hojeData(), +m[1])],
+  ['(?:(?:até|ate|para|pra|n[ao])\\s+)?(?:semana\\s+que\\s+vem|pr[óo]xima\\s+semana)', () => proximoDiaSemana(1, false)],
+  ['(?:(?:até|ate|para|pra|n[ao])\\s+)?(?:o\\s+)?fim\\s+do\\s+m[eê]s', () => { const h = hojeData(); return new Date(h.getFullYear(), h.getMonth(), ultimoDiaMes(h.getFullYear(), h.getMonth())); }],
+  ['(?:até|ate|para|pra|n[ao]|nesta|nessa|neste|nesse|pr[óo]xim[ao]|a\\s+partir\\s+d[eao]|desde)\\s+' + DIA_RE + '(?:-feira)?', (m) => proximoDiaSemana(indiceDia(m[1]), false)],
+  [DIA_RE + '-feira', (m) => proximoDiaSemana(indiceDia(m[1]), false)],
+  [DIA_RE + '(?=\\s*[.!]?\\s*$)', (m) => proximoDiaSemana(indiceDia(m[1]), false)],
+  [DESDE + '(?:(?:o|no)\\s+)?(?:dia\\s+)?(\\d{1,2})\\s+de\\s+' + MES_RE + '(?:\\s+de\\s+(\\d{4}))?', (m) => {
+    const mes = indiceMes(m[2]);
+    if (m[3]) { const a = +m[3]; return +m[1] <= ultimoDiaMes(a, mes) ? new Date(a, mes, +m[1]) : null; }
+    return dataSemAno(+m[1], mes + 1);
+  }],
+  [DESDE + '(?:(?:o|no)\\s+)?(?:dia\\s+)?(?<![\\d./])(\\d{1,2})\\/(\\d{1,2})(?:\\/(\\d{4}|\\d{2}))?(?![\\d/])', (m) => {
+    const dia = +m[1], mes = +m[2];
+    if (m[3]) { const a = m[3].length === 2 ? 2000 + +m[3] : +m[3]; return mes >= 1 && mes <= 12 && dia >= 1 && dia <= ultimoDiaMes(a, mes - 1) ? new Date(a, mes - 1, dia) : null; }
+    return dataSemAno(dia, mes);
+  }],
+  [DESDE + '(?:(?:o|no|do)\\s+)?dia\\s+(\\d{1,2})(?![\\d/]|\\s+de\\s)', (m) => (+m[1] >= 1 && +m[1] <= 31 ? proximoDiaDoMes(+m[1], true) : null)]
+].map((r) => [new RegExp(B0 + r[0] + B1, 'iu'), r[1]]);
+/* recorrência (só nos lembretes): devolve [valor, data inicial] */
+const REGRAS_REC = [
+  ['tod[ao]s?\\s+(?:o\\s+)?dia\\s+(\\d{1,2})(?:\\s+de\\s+cada\\s+m[eê]s)?', (m) => (+m[1] >= 1 && +m[1] <= 31 ? ['mensal', proximoDiaDoMes(+m[1], true)] : null)],
+  ['tod[ao]s?\\s+(?:as\\s+|os\\s+)?' + DIA_RE + 's?(?:-feiras?)?', (m) => ['semanal', proximoDiaSemana(indiceDia(m[1]), true)]],
+  ['(?:tod[oa]s?\\s+(?:os\\s+)?dias|todo\\s+dia|diariamente)', () => ['diaria', hojeData()]],
+  ['(?:toda\\s+semana|semanalmente)', () => ['semanal', hojeData()]],
+  ['(?:a\\s+cada\\s+15\\s+dias|quinzenalmente)', () => ['quinzenal', hojeData()]],
+  ['a\\s+cada\\s+(\\d{1,3})\\s+dias', (m) => ['a cada ' + (+m[1]) + ' dias', hojeData()]],
+  ['(?:todo\\s+m[eê]s|mensalmente)', () => ['mensal', hojeData()]],
+  ['(?:todo\\s+ano|anualmente)', () => ['anual', hojeData()]]
+].map((r) => [new RegExp(B0 + r[0] + B1, 'iu'), r[1]]);
+const RE_NUM_SIM = new RegExp(B0 + '(?:(?:n[oa]|d[oa]|ao|à|em)\\s+)?(?:(?:NF|PP|IC|PA|PIC|ICP|ACP|expediente|procedimento|proc\\.)\\s+)?(?<![\\d./])((?:\\d{1,5}\\.)?(?:\\d{1,3}\\.)?\\d{1,3}\\/\\d{4})(?![\\d/])', 'iu');
+const RE_NUM_CNJ = new RegExp(B0 + '(?:(?:n[oa]|d[oa]|ao|à|em)\\s+)?(?:(?:PJ|processo)\\s+)?(?<![\\d.])(\\d{7}-\\d{2}\\.\\d{4}\\.\\d\\.\\d{2}\\.\\d{4})(?![\\d])', 'iu');
+const RE_CAT = /(?<![\p{L}\d&])#([\p{L}\d][\p{L}\d_-]{0,30})/u;
+function procsDoNumero(trecho, cnj) {
+  const dg = digits(trecho);
+  const todos = db.procedimentos.filter((p) => {
+    if (cnj) return digits(numeroJudicial(p)) === dg || chaveNumero(p.numero) === dg;
+    const k = chaveNumero(p.numero);
+    return dg.length >= 7 && (k === dg || k.endsWith(dg));
+  });
+  const ativos = todos.filter((p) => !p.arquivado);
+  return ativos.length ? ativos : todos;
+}
+function rotuloProcCurto(p) { const s = siglaClasse(p.classe); return (s && s !== 'Ação judicial' ? s + ' ' : '') + (p.numero || '(s/ nº)'); }
+/* devolve o texto limpo e o que foi reconhecido; ignorar: Set com 'data', 'rec', 'proc', 'cat' que o usuário recusou */
+function entenderLinha(texto, modo, ignorar, escolhaProc) {
+  ignorar = ignorar || new Set();
+  const orig = String(texto || '');
+  const r = { texto: orig.trim(), data: '', rec: '', procIds: [], candidatos: [], categoria: '', partes: [] };
+  const cortes = [];
+  /* o que já foi reconhecido vira espaço, para a próxima regra não pegar o mesmo trecho */
+  const mascara = () => { let s = orig; for (const c of cortes) s = s.slice(0, c[0]) + ' '.repeat(c[1] - c[0]) + s.slice(c[1]); return s; };
+  const achar = (regras) => {
+    const alvo = mascara();
+    let melhor = null;
+    for (const [re, calc] of regras) {
+      const m = re.exec(alvo);
+      if (!m) continue;
+      const v = calc(m);
+      if (!v) continue;
+      if (!melhor || m.index < melhor.m.index || (m.index === melhor.m.index && m[0].length > melhor.m[0].length)) melhor = { m: m, v: v };
+    }
+    return melhor;
+  };
+  const marcar = (m, tipo) => { cortes.push([m.index, m.index + m[0].length]); r.partes.push({ tipo: tipo, trecho: m[0].trim() }); };
+  if (modo === 'lembrete' && !ignorar.has('rec')) {
+    const a = achar(REGRAS_REC);
+    if (a) { r.rec = a.v[0]; r.data = dataEmBR(a.v[1]); marcar(a.m, 'rec'); }
+  }
+  if (modo !== 'lembrete' && !ignorar.has('cat')) {
+    const m = RE_CAT.exec(mascara());
+    if (m) { r.categoria = m[1]; marcar(m, 'cat'); }
+  }
+  if (!ignorar.has('proc')) {
+    /* todos os números que apontam para um procedimento só; o primeiro ambíguo pede escolha */
+    for (const par of [[RE_NUM_CNJ, true], [RE_NUM_SIM, false]]) {
+      for (const m of Array.from(mascara().matchAll(new RegExp(par[0].source, par[0].flags + 'g')))) {
+        const cands = procsDoNumero(m[1], par[1]);
+        if (!cands.length) continue;
+        const escolhido = escolhaProc ? cands.find((p) => p.id === escolhaProc) : null;
+        if (cands.length === 1 || escolhido) {
+          const id = (escolhido || cands[0]).id;
+          if (r.procIds.indexOf(id) === -1) r.procIds.push(id);
+          marcar(m, 'proc');
+        } else if (!r.candidatos.length) r.candidatos = cands.slice(0, 4);
+      }
+    }
+  }
+  if (!ignorar.has('data')) {
+    const a = achar(REGRAS_DATA);
+    if (a) { r.data = dataEmBR(a.v); marcar(a.m, 'data'); }
+  }
+  if (cortes.length) {
+    const limpo = cortado(orig, cortes);
+    if (limpo) r.texto = limpo.charAt(0).toUpperCase() + limpo.slice(1);
+  }
+  return r;
+}
+function cortado(texto, cortes) {
+  let s = texto;
+  for (const c of cortes.slice().sort((x, y) => y[0] - x[0])) s = s.slice(0, c[0]) + ' ' + s.slice(c[1]);
+  s = s.replace(/\s+([,.;:!?])/g, '$1').replace(/\s{2,}/g, ' ').trim();
+  /* conectivos que ficaram soltos no fim ("ver as intimações de") e pontuação nas pontas */
+  let antes;
+  do { antes = s; s = s.replace(/^[\s,;:–-]+|[\s,;:–-]+$/g, '').replace(/\s+(?:de|do|da|dos|das|no|na|em|para|pra|até|ate|a|o|e)$/iu, '').trim(); } while (s !== antes);
+  return s;
+}
+
+/* ---------- tarefas (v47): linhas, adiar, agrupar ---------- */
+const ICONES_TK = {
+  adiar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2h5"/></svg>',
+  editar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>',
+  calendario: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>',
+  mais: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>'
+};
+const detalhesAbertos = new Set();
+const AGRUPAR_TK = [['prazo', 'Agrupar: prazo'], ['proc', 'Agrupar: procedimento'], ['reuniao', 'Agrupar: reunião']];
+function lerPrefTarefas() {
+  let pref = {};
+  try { pref = JSON.parse(lerLocal('ge:tarefas') || '{}') || {}; } catch (e) { pref = {}; }
+  if (AGRUPAR_TK.some((a) => a[0] === pref.agrupar)) ST.agrupar = pref.agrupar;
+}
+function guardarPrefTarefas() { guardarLocal('ge:tarefas', JSON.stringify({ agrupar: ST.agrupar })); }
+/* dia (no fuso daqui) em que algo ISO aconteceu */
+function diaLocal(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d)) return '';
+  const p = (n) => String(n).padStart(2, '0');
+  return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+}
+function concluidasHoje() { const hj = hojeStr(); return db.tarefas.filter((t2) => t2.concluida && diaLocal(t2.concluidaEm) === hj).length; }
+/* prazo em palavras: "3 dias atrasada", "vence amanhã", "vence sexta, 10/10" */
+function rotuloVence(t2) {
+  if (t2.concluida) {
+    const dl = diaLocal(t2.concluidaEm);
+    return { txt: 'concluída' + (dl ? ' ' + (dl === hojeStr() ? 'hoje' : rotuloData(dl)) : ''), cls: 'feita' };
+  }
+  const d = diasAte(t2.dataLimite);
+  if (d === null) return null;
+  if (d < 0) return { txt: (d === -1 ? '1 dia' : Math.abs(d) + ' dias') + ' atrasada', cls: 'late' };
+  if (d === 0) return { txt: 'vence hoje', cls: 'soon' };
+  if (d === 1) return { txt: 'vence amanhã', cls: 'soon' };
+  return { txt: 'vence ' + rotuloData(t2.dataLimite), cls: d <= 7 ? 'prox' : '' };
+}
+function faixaPorData(t2) {
+  const d = diasAte(t2.dataLimite);
+  if (d === null) return '';
+  if (d < 0) return 'venc';
+  if (d === 0) return 'hoje';
+  if (d <= 7) return 'prox';
+  return 'folg';
+}
+function botaoIcone(tipo, titulo, acao, texto) {
+  const b = el('button', { type: 'button', class: 'c-ic tk-ic tk-' + tipo, title: titulo, 'aria-label': titulo });
+  if (texto) b.textContent = texto; else b.innerHTML = ICONES_TK[tipo] || '';
+  b.addEventListener('click', (e) => { e.stopPropagation(); acao(b); });
+  b.addEventListener('keydown', (e) => e.stopPropagation());
+  return b;
+}
+function chipProcTarefa(p) {
+  const b = el('button', { type: 'button', class: 'tk-proc', title: 'Abrir no Controle: ' + (classeAgrupada(p.classe) || 'procedimento') + (p.titulo ? ' · ' + recorte(tituloVisivel(p), 90) : '') }, el('span', { class: 'mono' }, rotuloProcCurto(p)));
+  b.addEventListener('click', (e) => { e.stopPropagation(); abrirProc(p.id); });
+  b.addEventListener('keydown', (e) => e.stopPropagation());
+  return b;
+}
+function dataCurtaBR(br) { const d = paraData(br); if (!d) return br || '?'; const p = (n) => String(n).padStart(2, '0'); return p(d.getDate()) + '/' + p(d.getMonth() + 1) + (d.getFullYear() !== hojeData().getFullYear() ? '/' + String(d.getFullYear()).slice(2) : ''); }
+function abrirReuniao(r) {
+  S.aba = 'reunioes'; SR.q = ''; SR.aberta = r.id;
+  render();
+  const card = Array.from(document.querySelectorAll('.r-card')).find((x) => x.dataset.id === r.id);
+  if (card && card.scrollIntoView) card.scrollIntoView({ block: 'start' });
+}
+function chipReuniao(r) {
+  const b = el('button', { type: 'button', class: 'tk-reu', title: 'Abrir a reunião de ' + r.data + (r.titulo ? ' · ' + r.titulo : '') }, 'reunião ' + dataCurtaBR(r.data));
+  b.addEventListener('click', (e) => { e.stopPropagation(); abrirReuniao(r); });
+  b.addEventListener('keydown', (e) => e.stopPropagation());
+  return b;
+}
+function focarLinhaTk(id) {
+  const r = Array.from(document.querySelectorAll('#main .tk-row')).find((x) => x.dataset.id === id);
+  if (r) { try { r.focus({ preventScroll: true }); } catch (e) { r.focus(); } }
+}
+/* ↑ ↓ entre as linhas, Espaço conclui, Enter abre */
+function teclaLinhaTk(e, row, alternar, editar) {
+  if (e.target !== row) return;
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    const linhas = Array.from(document.querySelectorAll('#main .tk-row'));
+    const alvo = linhas[linhas.indexOf(row) + (e.key === 'ArrowDown' ? 1 : -1)];
+    if (alvo) { e.preventDefault(); alvo.focus(); }
+    else if (e.key === 'ArrowUp') { const b = document.querySelector('#main #busca-tarefas'); if (b) { e.preventDefault(); b.focus(); } }
+  } else if (e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); alternar(); }
+  else if (e.key === 'Enter') { e.preventDefault(); editar(); }
+}
+function alternarTarefa(t2, ck) {
+  const foto = fotoBase();
+  t2.concluida = !t2.concluida;
+  t2.concluidaEm = t2.concluida ? new Date().toISOString() : '';
+  if (t2.concluida) recemConcluidas.add(t2.id); else recemConcluidas.delete(t2.id);
+  if (ck) ck.classList.add('pop');
+  touch();
+  const id = t2.id, feita = t2.concluida;
+  setTimeout(() => {
+    render();
+    focarLinhaTk(id);
+    if (feita) oferecerDesfazer('Tarefa concluída · ' + concluidasHoje() + ' hoje.', foto);
+  }, ck ? 280 : 0);
+}
+function excluirTarefa(t2) {
+  const foto = fotoBase();
+  db.tarefas = db.tarefas.filter((x) => x.id !== t2.id);
+  touch(); render();
+  oferecerDesfazer('Tarefa excluída.', foto);
+}
+function adiarTarefa(t2, nova) {
+  const foto = fotoBase();
+  t2.dataLimite = nova;
+  touch(); render();
+  focarLinhaTk(t2.id);
+  oferecerDesfazer(nova ? 'Novo prazo: ' + rotuloData(nova) + '.' : 'Prazo retirado.', foto);
+}
+/* opções de data em um menu: amanhã, próxima segunda, +1 semana, escolher */
+function menuDatas(anchor, atualBR, aoEscolher, opcoes) {
+  opcoes = opcoes || {};
+  const h = hojeData();
+  const atual = paraData(atualBR);
+  const base = atual && atual > h ? atual : h;
+  const lista = [];
+  if (opcoes.comHoje) lista.push(['Hoje', h]);
+  lista.push(['Amanhã', somarDias(h, 1)], ['Próxima segunda', proximoDiaSemana(1, false)], [atual && atual > h ? '+1 semana no prazo' : 'Daqui a 1 semana', somarDias(base, 7)]);
+  const itens = lista.map((par) => el('button', { type: 'button', class: 'pop-item', role: 'menuitem', onclick: () => { fecharPopover(); aoEscolher(dataEmBR(par[1])); } },
+    el('span', {}, par[0]), el('span', { class: 'pop-sub' }, rotuloDiaCurto(dataEmBR(par[1])))));
+  const inpData = el('input', { type: 'date', class: 'pop-data', value: paraISO(atualBR) || '', 'aria-label': 'Escolher data' });
+  inpData.addEventListener('change', () => { if (inpData.value) { fecharPopover(); aoEscolher(paraBR(inpData.value)); } });
+  inpData.addEventListener('keydown', (e) => { if (e.key === 'Enter' && inpData.value) { e.preventDefault(); fecharPopover(); aoEscolher(paraBR(inpData.value)); } });
+  const conteudo = itens.concat([el('label', { class: 'pop-linha' }, el('span', {}, 'Outra data'), inpData)]);
+  if (opcoes.semPrazo && atualBR) conteudo.push(el('button', { type: 'button', class: 'pop-item', role: 'menuitem', onclick: () => { fecharPopover(); aoEscolher(''); } }, el('span', {}, opcoes.semPrazo)));
+  abrirPopover(anchor, conteudo, { menu: true, classe: 'pop-menu', direita: !!opcoes.direita });
+}
+function mudarDataLembrete(l, nova) {
+  const foto = fotoBase();
+  l.data = nova;
+  touch(); render(); focarLinhaTk(l.id);
+  oferecerDesfazer(nova ? 'Nova data: ' + rotuloData(nova) + '.' : 'Data retirada.', foto);
+}
+function excluirLembrete(l) {
+  const foto = fotoBase();
+  db.lembretes = db.lembretes.filter((x) => x.id !== l.id);
+  touch(); render();
+  oferecerDesfazer('Lembrete excluído.', foto);
+}
+/* no celular as ações ficam num menu ⋯ */
+function menuLinhaTk(anchor, tipo, x) {
+  const item = (rot, acao) => el('button', { type: 'button', class: 'pop-item', role: 'menuitem', onclick: () => { fecharPopover(); acao(); } }, rot);
+  const itens = [];
+  if (tipo === 'tarefa') {
+    if (!x.concluida) itens.push(item(x.dataLimite ? 'Adiar…' : 'Pôr prazo…', () => menuDatas(anchor, x.dataLimite, (nova) => adiarTarefa(x, nova), { comHoje: !x.dataLimite, semPrazo: 'Tirar o prazo', direita: true })));
+    itens.push(item('Editar', () => formTarefa(x)), item('Excluir', () => excluirTarefa(x)));
+  } else {
+    if (x.ativo) itens.push(item(x.data ? 'Mudar a data…' : 'Pôr data…', () => menuDatas(anchor, x.data, (nova) => mudarDataLembrete(x, nova), { comHoje: true, semPrazo: 'Tirar a data', direita: true })));
+    itens.push(item('Editar', () => formLembrete(x)), item('Excluir', () => excluirLembrete(x)));
+  }
+  abrirPopover(anchor, itens, { menu: true, classe: 'pop-menu', direita: true });
+}
+function linhaTarefa(t2, opcoes) {
+  opcoes = opcoes || {};
+  const feita = !!t2.concluida;
+  const termo = opcoes.termo || '';
+  const row = el('div', { class: 'tk-row' + (feita ? ' feita' : ''), tabindex: '0', 'data-id': t2.id, role: 'listitem', 'aria-label': t2.texto });
+  const ck = el('button', { type: 'button', class: 'ck' + (feita ? ' on' : ''), title: feita ? 'Reabrir tarefa' : 'Concluir tarefa', 'aria-label': feita ? 'Reabrir tarefa' : 'Concluir tarefa', 'aria-pressed': String(feita) });
+  ck.addEventListener('click', (e) => { e.stopPropagation(); alternarTarefa(t2, ck); });
+  ck.addEventListener('keydown', (e) => e.stopPropagation());
+  const main = el('div', { class: 'tk-main' });
+  main.append(el('div', { class: 'tk-l1' }, el('span', { class: 'tk-tx' }, realcar(t2.texto || '(sem texto)', termo))));
+  const l2 = el('div', { class: 'tk-l2' });
+  const v = rotuloVence(t2);
+  if (v) l2.append(el('span', { class: 'tk-due ' + v.cls }, v.txt));
+  const procs = (t2.procedimentoIds || []).map(acharProc).filter(Boolean);
+  if (!opcoes.semProc) for (const p of procs) l2.append(chipProcTarefa(p));
+  if (!procs.length && t2.expedienteRef) l2.append(el('span', { class: 'tk-exp mono', title: 'Expediente citado na reunião (não está no Controle)' }, realcar(t2.expedienteRef, termo)));
+  const reu = t2.reuniaoId ? acharReuniao(t2.reuniaoId) : null;
+  if (reu && !opcoes.semReuniao) l2.append(chipReuniao(reu));
+  if (t2.categoria && !(reu && norm(t2.categoria) === 'reuniao')) l2.append(el('span', { class: 'tk-cat' }, realcar(t2.categoria, termo)));
+  let det = null;
+  if (t2.detalhe) {
+    const aberto = detalhesAbertos.has(t2.id) || (!!termo && norm(t2.detalhe).indexOf(termo) !== -1);
+    const bt = el('button', { type: 'button', class: 'tk-det-bt', 'aria-expanded': String(aberto) }, aberto ? '▾ detalhe' : '▸ detalhe');
+    bt.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (aberto) detalhesAbertos.delete(t2.id); else detalhesAbertos.add(t2.id);
+      const novo = linhaTarefa(t2, opcoes);
+      row.replaceWith(novo);
+      const b2 = novo.querySelector('.tk-det-bt'); if (b2) b2.focus();
+    });
+    bt.addEventListener('keydown', (e) => e.stopPropagation());
+    l2.append(bt);
+    if (aberto) det = el('div', { class: 'tk-det' }, realcar(t2.detalhe, termo));
+  }
+  if (l2.childNodes.length) main.append(l2);
+  if (det) main.append(det);
+  const acoes = el('div', { class: 'tk-acoes' });
+  if (!feita) acoes.append(botaoIcone('adiar', t2.dataLimite ? 'Adiar' : 'Pôr prazo', (b) => menuDatas(b, t2.dataLimite, (nova) => adiarTarefa(t2, nova), { comHoje: !t2.dataLimite, semPrazo: 'Tirar o prazo', direita: true })));
+  acoes.append(botaoIcone('editar', 'Editar', () => formTarefa(t2)), botaoIcone('excluir', 'Excluir', () => excluirTarefa(t2), '×'));
+  row.append(ck, main, acoes, botaoIcone('mais', 'Mais ações', (b) => menuLinhaTk(b, 'tarefa', t2), '⋯'));
+  row.addEventListener('click', () => formTarefa(t2));
+  row.addEventListener('keydown', (e) => teclaLinhaTk(e, row, () => alternarTarefa(t2, null), () => formTarefa(t2)));
+  return row;
+}
+/* lembrete: o círculo da esquerda dispensa (ou reativa) */
+function linhaLembrete(l, opcoes) {
+  opcoes = opcoes || {};
+  const d = diasLembrete(l);
+  const passo = passoRecorrencia(l.recorrencia);
+  const row = el('div', { class: 'tk-row lb' + (l.ativo ? '' : ' feita'), tabindex: '0', 'data-id': l.id, role: 'listitem', 'aria-label': l.texto });
+  const tituloCk = !l.ativo ? 'Reativar lembrete' : passo && l.data ? 'Dispensar esta vez (volta em ' + proximaOcorrencia(l.data, passo) + ')' : 'Dispensar lembrete';
+  const ck = el('button', { type: 'button', class: 'ck' + (l.ativo ? '' : ' on'), title: tituloCk, 'aria-label': tituloCk });
+  const agir = () => {
+    const foto = fotoBase();
+    if (l.ativo) {
+      dispensarLembrete(l);
+      oferecerDesfazer(passo && l.ativo ? 'Volta ' + (diasAte(l.data) === 1 ? 'amanhã' : 'em ' + rotuloData(l.data)) + '.' : 'Lembrete dispensado.', foto);
+    } else { l.ativo = true; touch(); render(); oferecerDesfazer('Lembrete reativado.', foto); }
+    focarLinhaTk(l.id);
+  };
+  ck.addEventListener('click', (e) => { e.stopPropagation(); agir(); });
+  ck.addEventListener('keydown', (e) => e.stopPropagation());
+  const main = el('div', { class: 'tk-main' }, el('div', { class: 'tk-l1' }, el('span', { class: 'tk-tx' }, l.texto || '(sem texto)')));
+  const l2 = el('div', { class: 'tk-l2' });
+  if (l.data) {
+    let txt = rotuloData(l.data), cls = '';
+    if (l.ativo && d !== null) {
+      if (d < 0) { txt = 'há ' + (d === -1 ? '1 dia' : Math.abs(d) + ' dias') + ' (' + dataCurtaBR(l.data) + ')'; cls = 'late'; }
+      else if (d === 0) { txt = 'hoje'; cls = 'soon'; }
+      else if (d === 1) cls = 'soon';
+      else if (d <= 7) cls = 'prox';
+    }
+    l2.append(el('span', { class: 'tk-due ' + cls }, txt));
+  }
+  if (l.recorrencia) l2.append(el('span', { class: 'tk-rec', title: passo ? 'Ao dispensar, volta na próxima data' : 'Repetição não reconhecida: edite e escolha na lista' }, '↻ ' + rotuloRecorrencia(l.recorrencia).toLowerCase()));
+  for (const p of (l.procedimentoIds || []).map(acharProc).filter(Boolean)) l2.append(chipProcTarefa(p));
+  const reu = l.reuniaoId ? acharReuniao(l.reuniaoId) : null;
+  if (reu && !opcoes.semReuniao) l2.append(chipReuniao(reu));
+  if (l2.childNodes.length) main.append(l2);
+  const acoes = el('div', { class: 'tk-acoes' });
+  if (l.ativo) acoes.append(botaoIcone('adiar', l.data ? 'Mudar a data' : 'Pôr data', (b) => menuDatas(b, l.data, (nova) => mudarDataLembrete(l, nova), { comHoje: true, semPrazo: 'Tirar a data', direita: true })));
+  acoes.append(botaoIcone('editar', 'Editar', () => formLembrete(l)), botaoIcone('excluir', 'Excluir', () => excluirLembrete(l), '×'));
+  row.append(ck, main, acoes, botaoIcone('mais', 'Mais ações', (b) => menuLinhaTk(b, 'lembrete', l), '⋯'));
+  row.addEventListener('click', () => formLembrete(l));
+  row.addEventListener('keydown', (e) => teclaLinhaTk(e, row, agir, () => formLembrete(l)));
+  return row;
+}
+function painelTk(linhas) { const p = el('div', { class: 'tk-painel', role: 'list' }); for (const x of linhas) p.append(x); return p; }
+
+/* linha rápida: uma frase vira tarefa (ou lembrete) com prazo, procedimento e categoria */
+function barraRapida(modo) {
+  const ehL = modo === 'lembrete';
+  const ignorar = new Set();
+  let escolha = '';
+  const estreita = typeof window.matchMedia === 'function' && window.matchMedia('(max-width: 720px)').matches;
+  const inp = el('input', { type: 'text', class: 'c-busca tq-inp', id: 'tq-inp', autocomplete: 'off', spellcheck: 'true', 'aria-label': ehL ? 'Novo lembrete' : 'Nova tarefa', title: 'Atalho: tecla N',
+    placeholder: ehL ? (estreita ? 'Novo lembrete… ex.: toda segunda' : 'Novo lembrete… ex.: Relatório para a Promotora toda segunda') : (estreita ? 'Nova tarefa… ex.: ligar amanhã' : 'Nova tarefa… ex.: Reiterar ofício 1.829/2026 sexta #minutar') });
+  const mais = el('span', { class: 'c-lupa', 'aria-hidden': 'true' });
+  mais.innerHTML = ICONES_TK.mais;
+  const btData = botaoIcone('calendario', ehL ? 'Escolher a data' : 'Escolher o prazo', (b) => menuDatas(b, atual ? atual.data : '', (nova) => {
+    /* troca a data reconhecida (se houver) pela escolhida, no próprio texto */
+    let s = inp.value;
+    const r = entenderLinha(s, modo, new Set(['rec', 'proc', 'cat']), '');
+    const parte = r.partes.find((x) => x.tipo === 'data');
+    if (parte) s = s.replace(parte.trecho, '').replace(/\s{2,}/g, ' ').trim();
+    inp.value = (s ? s + ' ' : '') + (nova ? 'até ' + dataCurtaBR(nova) : '');
+    ignorar.delete('data');
+    desenhar(); inp.focus();
+  }, { comHoje: true }));
+  btData.classList.add('tq-cal');
+  const prev = el('div', { class: 'tq-prev', 'aria-live': 'polite' });
+  let atual = null;
+  const ler = () => { atual = entenderLinha(inp.value, modo, ignorar, escolha); return atual; };
+  const chip = (tipo, rot, val) => {
+    const x = el('button', { type: 'button', class: 'tq-x', title: 'Não era isso: deixar no texto', 'aria-label': 'Ignorar ' + rot.toLowerCase() }, '×');
+    x.addEventListener('click', () => { ignorar.add(tipo); desenhar(); inp.focus(); });
+    return el('span', { class: 'tq-chip ' + tipo }, el('span', { class: 'tq-chip-rot' }, rot), el('span', { class: 'tq-chip-v' }, val), x);
+  };
+  function desenhar() {
+    prev.innerHTML = '';
+    if (!inp.value.trim()) { ignorar.clear(); escolha = ''; atual = null; prev.classList.remove('on'); return; }
+    const r = ler();
+    if (r.rec) prev.append(chip('rec', 'Repete', rotuloRecorrencia(r.rec).toLowerCase()));
+    if (r.data) prev.append(chip('data', ehL ? 'Data' : 'Prazo', rotuloData(r.data)));
+    for (const id of r.procIds) { const p = acharProc(id); if (p) prev.append(chip('proc', 'Procedimento', rotuloProcCurto(p))); }
+    if (r.candidatos.length) {
+      const box = el('span', { class: 'tq-escolha' }, el('span', { class: 'muted' }, 'Qual procedimento?'));
+      for (const p of r.candidatos) box.append(el('button', { type: 'button', class: 'tq-cand', title: (classeAgrupada(p.classe) || '') + (p.titulo ? ' · ' + recorte(tituloVisivel(p), 80) : ''), onclick: () => { escolha = p.id; desenhar(); inp.focus(); } }, rotuloProcCurto(p)));
+      prev.append(box);
+    }
+    if (r.categoria) prev.append(chip('cat', 'Categoria', r.categoria));
+    if (r.partes.length && r.texto !== inp.value.trim()) prev.append(el('span', { class: 'tq-titulo' }, el('span', { class: 'muted' }, ehL ? 'Lembrete: ' : 'Tarefa: '), r.texto));
+    prev.classList.toggle('on', prev.childNodes.length > 0);
+  }
+  const salvar = () => {
+    if (!inp.value.trim()) return;
+    const r = ler();
+    if (ehL) db.lembretes.push(normLembrete({ texto: r.texto, data: r.data, recorrencia: r.rec, procedimentoIds: r.procIds }));
+    else db.tarefas.push(normTarefa({ texto: r.texto, dataLimite: r.data, categoria: r.categoria, procedimentoIds: r.procIds, ordem: proximaOrdem(db.tarefas) }));
+    touch();
+    render();
+    const novo = document.getElementById('tq-inp');
+    if (novo) novo.focus();
+    recado((ehL ? 'Lembrete criado' : 'Tarefa criada') + (r.data ? ' · ' + (ehL ? rotuloData(r.data) : 'vence ' + rotuloData(r.data)) : '') + (r.rec ? ' · ↻ ' + rotuloRecorrencia(r.rec).toLowerCase() : '') + '.');
+  };
+  inp.addEventListener('input', desenhar);
+  inp.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); salvar(); }
+    else if (e.key === 'Escape' && inp.value) { e.preventDefault(); e.stopPropagation(); inp.value = ''; desenhar(); }
+  });
+  const detalhada = el('button', { type: 'button', class: 'btn ghost sm', title: 'Abrir o formulário completo com o que já foi digitado', onclick: () => {
+    const r = inp.value.trim() ? ler() : null;
+    if (ehL) formLembrete(null, r ? { texto: r.texto, data: r.data, recorrencia: r.rec, procedimentoIds: r.procIds } : null);
+    else if (r) formTarefa(normTarefa({ texto: r.texto, dataLimite: r.data, categoria: r.categoria, procedimentoIds: r.procIds }), true);
+    else formTarefa();
+  } }, ehL ? 'Detalhado…' : 'Detalhada…');
+  return el('div', { class: 'tq' }, el('div', { class: 'tq-linha' }, el('div', { class: 'c-busca-wrap tq-campo' }, mais, inp, btData), detalhada), prev);
+}
+
 function telaTarefas() {
-  const c = el('div');
+  const c = el('div', { class: 'tarefas' });
   const sub = el('div', { class: 'subnav' });
   const abas = [['tarefas', 'Tarefas', db.tarefas.filter((t2) => !t2.concluida).length], ['lembretes', 'Lembretes', db.lembretes.filter((l) => l.ativo).length]];
   for (const par of abas) {
     sub.append(el('button', {
       class: 'subaba' + (ST.subaba === par[0] ? ' ativa' : ''),
-      onclick: () => { ST.subaba = par[0]; render(); }
+      onclick: () => { if (ST.subaba !== par[0]) recemConcluidas.clear(); ST.subaba = par[0]; render(); }
     }, par[1], par[2] ? el('span', { class: 'cont' }, String(par[2])) : null));
   }
   c.append(sub);
@@ -5768,120 +6293,121 @@ function telaTarefas() {
 /* --- tarefas --- */
 function telaTarefasLista() {
   const c = el('div');
-  const inp = el('input', { type: 'text', class: 't-inp', placeholder: 'Adicionar tarefa e Enter…', autocomplete: 'off' });
-  const dueInp = el('input', { type: 'date', class: 't-inp' });
-  inp.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && inp.value.trim()) {
-      db.tarefas.push(normTarefa({ texto: inp.value.trim(), dataLimite: dueInp.value ? paraBR(dueInp.value) : '', ordem: proximaOrdem(db.tarefas) }));
-      touch(); inp.value = ''; dueInp.value = ''; render();
-    }
-  });
-  c.append(el('div', { class: 't-qadd' }, inp, dueInp,
-    el('button', { class: 'btn ghost sm', onclick: () => { if (inp.value.trim()) { db.tarefas.push(normTarefa({ texto: inp.value.trim(), dataLimite: dueInp.value ? paraBR(dueInp.value) : '', ordem: proximaOrdem(db.tarefas) })); touch(); inp.value = ''; dueInp.value = ''; render(); } } }, 'Adicionar'),
-    el('button', { class: 'btn primary sm', onclick: () => formTarefa() }, '+ Detalhada')
-  ));
-  const filtros = el('div', { class: 't-filtros' });
-  const buscaT = el('input', { type: 'search', class: 't-inp', placeholder: 'Filtrar tarefas…', autocomplete: 'off', value: ST.busca, style: 'max-width:220px;padding:5px 10px;font-size:13px' });
-  const defs = [['pendentes', 'Pendentes'], ['hoje', 'Hoje'], ['todas', 'Todas'], ['concluidas', 'Concluídas']];
-  for (const d of defs) {
-    filtros.append(el('button', {
-      class: 'filtro-chip' + (ST.filtroTarefa === d[0] ? ' ativa' : ''),
-      onclick: () => { ST.filtroTarefa = d[0]; render(); }
-    }, d[1]));
+  c.append(barraRapida('tarefa'));
+  const pend = (t2) => !t2.concluida;
+  const paraHoje = (t2) => !t2.concluida && (faixaTarefa(t2) === 'venc' || faixaTarefa(t2) === 'hoje');
+  if (ST.filtroTarefa === 'todas') ST.filtroTarefa = 'pendentes';
+  const seg = el('div', { class: 'seg', role: 'tablist', 'aria-label': 'Mostrar' });
+  for (const par of [['pendentes', 'Pendentes', db.tarefas.filter(pend).length], ['hoje', 'Para hoje', db.tarefas.filter(paraHoje).length], ['concluidas', 'Concluídas', db.tarefas.filter((t2) => t2.concluida).length]]) {
+    seg.append(el('button', { type: 'button', role: 'tab', class: ST.filtroTarefa === par[0] ? 'on' : '', 'aria-selected': String(ST.filtroTarefa === par[0]),
+      onclick: () => { ST.filtroTarefa = par[0]; recemConcluidas.clear(); render(); } }, par[1], el('span', { class: 'n' }, String(par[2]))));
   }
-  filtros.append(el('div', { style: 'flex:1' }));
-  filtros.append(buscaT);
-  c.append(filtros);
-  const listaBox = el('div');
+  const busca = el('input', { type: 'search', class: 'c-busca', id: 'busca-tarefas', placeholder: 'Buscar nas tarefas…', value: ST.busca, autocomplete: 'off', spellcheck: 'false', 'aria-label': 'Buscar nas tarefas', title: 'Atalho: tecla /' });
+  const lupa = el('span', { class: 'c-lupa', 'aria-hidden': 'true' });
+  lupa.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+  const selAgr = el('select', { class: 'c-sel', 'aria-label': 'Agrupar por' });
+  for (const a of AGRUPAR_TK) selAgr.append(el('option', { value: a[0] }, a[1]));
+  selAgr.value = ST.agrupar || 'prazo';
+  if (ST.filtroTarefa === 'concluidas') selAgr.disabled = true;
+  const nHoje = concluidasHoje();
+  c.append(el('div', { class: 'c-ferr tk-ferr' }, seg, el('div', { class: 'c-busca-wrap' }, lupa, busca), selAgr,
+    nHoje ? el('span', { class: 'tk-feitas', title: 'Tarefas concluídas hoje' }, '✓ ' + nHoje + (nHoje === 1 ? ' concluída hoje' : ' concluídas hoje')) : null));
+  const listaBox = el('div', { class: 'tk-lista' });
   c.append(listaBox);
   const desenharLista = () => {
     listaBox.innerHTML = '';
-    const termoT = norm(ST.busca);
+    const termo = norm(ST.busca);
     let lista = db.tarefas.slice();
-    if (termoT) lista = lista.filter((t2) => norm([t2.texto, t2.detalhe, t2.categoria, t2.expedienteRef, (t2.procedimentoIds || []).map(procLabel).join(' ')].join(' ')).indexOf(termoT) !== -1);
-    if (ST.filtroTarefa === 'pendentes') lista = lista.filter((t2) => !t2.concluida);
-    else if (ST.filtroTarefa === 'hoje') lista = lista.filter((t2) => !t2.concluida && (faixaTarefa(t2) === 'hoje' || faixaTarefa(t2) === 'venc'));
-    else if (ST.filtroTarefa === 'concluidas') lista = lista.filter((t2) => t2.concluida);
-    if (ST.filtroTarefa !== 'concluidas') {
-      lista.sort((a, b) => {
-        if (a.concluida !== b.concluida) return a.concluida ? 1 : -1;
-        const da = paraData(a.dataLimite), dbb = paraData(b.dataLimite);
-        if (!da && !dbb) return (a.ordem || 0) - (b.ordem || 0);
-        if (!da) return 1; if (!dbb) return -1;
-        return da - dbb;
+    if (termo) {
+      lista = lista.filter((t2) => {
+        const r = t2.reuniaoId ? acharReuniao(t2.reuniaoId) : null;
+        return norm([t2.texto, t2.detalhe, t2.categoria, t2.expedienteRef, (t2.procedimentoIds || []).map((id) => { const p = acharProc(id); return p ? procLabel(id) + ' ' + (p.titulo || '') : ''; }).join(' '), r ? r.data + ' ' + r.titulo : ''].join(' ')).indexOf(termo) !== -1;
       });
-    } else {
-      lista.sort((a, b) => (b.concluidaEm || '').localeCompare(a.concluidaEm || ''));
     }
+    if (ST.filtroTarefa === 'concluidas') lista = lista.filter((t2) => t2.concluida);
+    else if (ST.filtroTarefa === 'hoje') lista = lista.filter((t2) => paraHoje(t2) || recemConcluidas.has(t2.id));
+    else lista = lista.filter((t2) => pend(t2) || recemConcluidas.has(t2.id));
     if (!lista.length) {
-      listaBox.append(el('div', { class: 'vazio-tarefas' }, termoT ? 'Nenhuma tarefa com "' + ST.busca + '" neste filtro.' : ST.filtroTarefa === 'concluidas' ? 'Nenhuma tarefa concluída.' : ST.filtroTarefa === 'hoje' ? 'Nada vencido nem para hoje.' : 'Nenhuma tarefa pendente.'));
+      listaBox.append(el('div', { class: 'c-vazio' }, el('p', {}, termo ? 'Nenhuma tarefa com "' + ST.busca + '" aqui.' : ST.filtroTarefa === 'concluidas' ? 'Nenhuma tarefa concluída.' : ST.filtroTarefa === 'hoje' ? 'Nada atrasado nem para hoje.' : 'Nenhuma tarefa pendente.')));
       return;
     }
-    const grupos = {};
-    const gruposReuniao = {};
-    for (const t2 of lista) {
-      let g;
-      if (t2.concluida) g = 'Concluídas';
-      else if (t2.reuniaoId && !t2.dataLimite) {
-        const r = acharReuniao(t2.reuniaoId);
-        g = 'Da reunião de ' + (r ? r.data : '?');
-        if (!gruposReuniao[g]) gruposReuniao[g] = r ? r.data : '';
+    const porPrazo = (a, b) => {
+      const da = paraData(a.dataLimite), dbb = paraData(b.dataLimite);
+      if (da && dbb && +da !== +dbb) return da - dbb;
+      if (da && !dbb) return -1;
+      if (!da && dbb) return 1;
+      return (a.ordem || 0) - (b.ordem || 0);
+    };
+    const grupos = [];
+    const grupo = (chave, titulo, itens, extra) => grupos.push(Object.assign({ chave: chave, titulo: titulo, itens: itens }, extra || {}));
+    if (ST.filtroTarefa === 'concluidas') {
+      const porDia = new Map();
+      for (const t2 of lista.slice().sort((a, b) => (b.concluidaEm || '').localeCompare(a.concluidaEm || ''))) {
+        const dl = diaLocal(t2.concluidaEm) || '?';
+        if (!porDia.has(dl)) porDia.set(dl, []);
+        porDia.get(dl).push(t2);
       }
-      else { const f = faixaTarefa(t2); g = f === 'venc' ? 'Atrasadas' : f === 'hoje' ? 'Hoje' : f === 'prox' ? 'Próximos 7 dias' : f === 'folg' ? 'Futuras' : 'Sem prazo'; }
-      if (!grupos[g]) grupos[g] = [];
-      grupos[g].push(t2);
+      for (const [dl, itens] of porDia) grupo('tk:c:' + dl, dl === hojeStr() ? 'Hoje' : dl === '?' ? 'Sem data' : (rotuloData(dl) === 'ontem' ? 'Ontem' : rotuloData(dl)), itens);
+    } else if (ST.agrupar === 'proc') {
+      const porProc = new Map();
+      const sem = [];
+      for (const t2 of lista) {
+        const ps = (t2.procedimentoIds || []).filter((id) => acharProc(id));
+        if (!ps.length) { sem.push(t2); continue; }
+        for (const id of ps) { if (!porProc.has(id)) porProc.set(id, []); porProc.get(id).push(t2); }
+      }
+      const prazoMin = (itens) => Math.min(...itens.map((t2) => { const d = paraData(t2.dataLimite); return d ? +d : Infinity; }));
+      const ids = Array.from(porProc.keys()).sort((a, b) => prazoMin(porProc.get(a)) - prazoMin(porProc.get(b)) || (acharProc(a).numero || '').localeCompare(acharProc(b).numero || ''));
+      for (const id of ids) grupo('tk:p:' + id, rotuloProcCurto(acharProc(id)), porProc.get(id).sort(porPrazo), { proc: acharProc(id) });
+      if (sem.length) grupo('tk:p:-', 'Sem procedimento', sem.sort(porPrazo));
+    } else if (ST.agrupar === 'reuniao') {
+      const porReu = new Map();
+      const sem = [];
+      for (const t2 of lista) { const r = t2.reuniaoId ? acharReuniao(t2.reuniaoId) : null; if (!r) { sem.push(t2); continue; } if (!porReu.has(r.id)) porReu.set(r.id, []); porReu.get(r.id).push(t2); }
+      const ids = Array.from(porReu.keys()).sort((a, b) => (paraData(acharReuniao(b).data) || 0) - (paraData(acharReuniao(a).data) || 0));
+      for (const id of ids) { const r = acharReuniao(id); grupo('tk:r:' + id, 'Reunião de ' + r.data + (r.titulo ? ' · ' + r.titulo : ''), porReu.get(id).sort(porPrazo), { reuniao: r }); }
+      if (sem.length) grupo('tk:r:-', 'Fora de reunião', sem.sort(porPrazo));
+    } else {
+      const b = { venc: [], hoje: [], prox: [], folg: [], sem: [] };
+      const reus = new Map();
+      for (const t2 of lista) {
+        if (t2.reuniaoId && !t2.dataLimite) {
+          const r = acharReuniao(t2.reuniaoId);
+          const k = r ? r.id : '?';
+          if (!reus.has(k)) reus.set(k, { r: r, itens: [] });
+          reus.get(k).itens.push(t2);
+          continue;
+        }
+        const f = faixaPorData(t2);
+        (b[f] || b.sem).push(t2);
+      }
+      grupo('tk:atrasadas', 'Atrasadas', b.venc.sort(porPrazo), { classe: 'g-venc' });
+      grupo('tk:hoje', 'Hoje', b.hoje.sort(porPrazo), { classe: 'g-sete' });
+      const rs = Array.from(reus.values()).sort((x, y) => (paraData(y.r && y.r.data) || 0) - (paraData(x.r && x.r.data) || 0));
+      for (const x of rs) grupo('tk:reu:' + (x.r ? x.r.id : '?'), 'Da reunião de ' + (x.r ? x.r.data : '?'), x.itens.sort(porPrazo), { reuniao: x.r, semReuniao: true });
+      grupo('tk:prox', 'Próximos 7 dias', b.prox.sort(porPrazo));
+      grupo('tk:folg', 'Futuras', b.folg.sort(porPrazo));
+      grupo('tk:sem', 'Sem prazo', b.sem.sort(porPrazo));
     }
-    const nomesReuniao = Object.keys(gruposReuniao).sort((a, b) => (paraData(gruposReuniao[b]) || 0) - (paraData(gruposReuniao[a]) || 0));
-    const ordem = ['Atrasadas', 'Hoje'].concat(nomesReuniao, ['Próximos 7 dias', 'Futuras', 'Sem prazo', 'Concluídas']);
-    for (const nome of ordem) {
-      const itens = grupos[nome];
-      if (!itens || !itens.length) continue;
-      listaBox.append(el('div', { class: 'seclab' + (nome === 'Atrasadas' ? ' danger' : '') },
-        nome, el('span', { class: 'sn' }, String(itens.length)), el('span', { class: 'srule' })));
-      const tlist = el('div', { class: 'tlist' });
-      for (const t2 of itens) tlist.append(linhaTarefa(t2));
-      listaBox.append(tlist);
+    for (const g of grupos) {
+      if (!g.itens.length) continue;
+      const fechado = dobradas.has(g.chave);
+      const cab = el('button', { type: 'button', class: 'c-grupo tk-grupo' + (g.classe ? ' ' + g.classe : ''), 'aria-expanded': String(!fechado) },
+        el('span', { class: 'seta-dobra' }, fechado ? '▸' : '▾'), g.titulo, el('span', { class: 'c-grupo-n' }, String(g.itens.length)),
+        g.proc ? el('span', { class: 'tk-grupo-sub' }, recorte(tituloVisivel(g.proc), 70)) : null, el('span', { class: 'srule' }));
+      cab.addEventListener('click', () => { if (dobradas.has(g.chave)) dobradas.delete(g.chave); else dobradas.add(g.chave); desenharLista(); });
+      const linhaCab = el('div', { class: 'tk-grupo-l' }, cab);
+      if (g.proc) linhaCab.append(el('button', { type: 'button', class: 'tk-grupo-ir', title: 'Abrir no Controle', onclick: () => abrirProc(g.proc.id) }, 'Controle ↗'));
+      if (g.reuniao) linhaCab.append(el('button', { type: 'button', class: 'tk-grupo-ir', title: 'Abrir a reunião', onclick: () => abrirReuniao(g.reuniao) }, 'Reunião ↗'));
+      listaBox.append(linhaCab);
+      if (!fechado) listaBox.append(painelTk(g.itens.map((t2) => linhaTarefa(t2, { termo: termo, semReuniao: g.semReuniao || !!g.reuniao, semProc: !!g.proc && (t2.procedimentoIds || []).length === 1 }))));
     }
   };
-  buscaT.addEventListener('input', () => { ST.busca = buscaT.value; desenharLista(); });
+  busca.addEventListener('input', () => { ST.busca = busca.value; desenharLista(); });
+  busca.addEventListener('keydown', (e) => { if (e.key === 'ArrowDown') { const r = listaBox.querySelector('.tk-row'); if (r) { e.preventDefault(); r.focus(); } } });
+  selAgr.addEventListener('change', () => { ST.agrupar = selAgr.value; guardarPrefTarefas(); desenharLista(); });
   desenharLista();
   return c;
-}
-function linhaTarefa(t2) {
-  const f = faixaTarefa(t2);
-  const row = el('div', { class: 'trow' + (t2.concluida ? ' done' : '') });
-  const ck = el('button', { class: 'ck' + (t2.concluida ? ' on' : '') });
-  ck.addEventListener('click', (e) => {
-    e.stopPropagation();
-    t2.concluida = !t2.concluida;
-    t2.concluidaEm = t2.concluida ? new Date().toISOString() : '';
-    ck.classList.add('pop');
-    touch();
-    setTimeout(() => render(), 350);
-  });
-  row.append(ck);
-  row.append(el('span', { class: 'tt' }, t2.texto));
-  const meta = el('div', { class: 'tmeta' });
-  if (t2.dataLimite && !t2.concluida) {
-    const d = diasAte(t2.dataLimite);
-    let cls = 'ok', txt = paraBR(t2.dataLimite);
-    if (f === 'venc') { cls = 'late'; txt = Math.abs(d) + 'd atraso'; }
-    else if (f === 'hoje') { cls = 'soon'; txt = 'hoje'; }
-    else if (f === 'prox') { cls = 'soon'; txt = d + 'd'; }
-    else { txt = d + 'd'; }
-    meta.append(el('span', { class: 'due ' + cls }, txt));
-  }
-  if (t2.categoria) meta.append(el('span', { class: 't-cat' }, t2.categoria));
-  const cpT = chipsProc(t2.procedimentoIds); if (cpT) meta.append(cpT);
-  else if (t2.expedienteRef) meta.append(el('span', { class: 'chip', title: 'Expediente citado na reunião (não está no Controle)' }, t2.expedienteRef));
-  if (t2.detalhe) meta.append(el('span', { class: 'chip', title: t2.detalhe }, '≡ detalhe'));
-  meta.append(el('div', { class: 't-acoes' },
-    el('button', { class: 'btn-mini', title: 'Editar', onclick: (e) => { e.stopPropagation(); formTarefa(t2); } }, '✎'),
-    el('button', { class: 'btn-mini', title: 'Excluir', onclick: (e) => { e.stopPropagation(); const foto = fotoBase(); db.tarefas = db.tarefas.filter((x) => x.id !== t2.id); touch(); render(); oferecerDesfazer('Tarefa excluída.', foto); } }, '×')
-  ));
-  row.append(meta);
-  row.addEventListener('click', () => formTarefa(t2));
-  return row;
 }
 function formTarefa(t2, preNova) {
   const txt = areaTexto(t2 && t2.texto, 3);
@@ -5901,6 +6427,8 @@ function formTarefa(t2, preNova) {
     campo('Procedimento vinculado', procBox, 'Opcional. Vincula a tarefa a um processo do controle.')
   ];
   if (t2 && t2.expedienteRef && !(t2.procedimentoIds || []).length) campos.push(el('div', { class: 'muted', style: 'font-size:12.5px' }, 'Expediente citado na reunião: ' + t2.expedienteRef + ' (não está no Controle).'));
+  const reu = t2 && t2.reuniaoId ? acharReuniao(t2.reuniaoId) : null;
+  if (reu) campos.push(el('div', { class: 'muted', style: 'font-size:12.5px' }, 'Veio da reunião de ' + reu.data + (reu.titulo ? ' · ' + reu.titulo : '') + '.'));
   abrirDialogo(t2 && !preNova ? 'Editar tarefa' : 'Nova tarefa', campos, () => {
     const tx = txt.value.trim();
     if (!tx) { alert('Informe a tarefa.'); return false; }
@@ -5929,25 +6457,14 @@ function formTarefa(t2, preNova) {
 /* --- lembretes --- */
 function telaLembretes() {
   const c = el('div');
-  const inp = el('input', { type: 'text', class: 't-inp', placeholder: 'Lembrete rápido e Enter…', autocomplete: 'off' });
-  const dueInp = el('input', { type: 'date', class: 't-inp' });
-  inp.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && inp.value.trim()) {
-      db.lembretes.push(normLembrete({ texto: inp.value.trim(), data: dueInp.value ? paraBR(dueInp.value) : '' }));
-      touch(); inp.value = ''; dueInp.value = ''; render();
-    }
-  });
-  c.append(el('div', { class: 't-qadd' }, inp, dueInp,
-    el('button', { class: 'btn ghost sm', onclick: () => { if (inp.value.trim()) { db.lembretes.push(normLembrete({ texto: inp.value.trim(), data: dueInp.value ? paraBR(dueInp.value) : '' })); touch(); inp.value = ''; dueInp.value = ''; render(); } } }, 'Adicionar'),
-    el('button', { class: 'btn primary sm', onclick: () => formLembrete() }, '+ Detalhado')
-  ));
+  c.append(barraRapida('lembrete'));
   const todos = db.lembretes.slice().sort((a, b) => {
     const da = paraData(a.data), dbb = paraData(b.data);
     if (!da && !dbb) return 0; if (!da) return 1; if (!dbb) return -1;
     return da - dbb;
   });
   if (!todos.length) {
-    c.append(el('div', { class: 'vazio-tarefas' }, 'Nenhum lembrete. Use o campo acima para criar.'));
+    c.append(el('div', { class: 'c-vazio' }, el('p', {}, 'Nenhum lembrete. Escreva acima, por exemplo "Conferir o Diário Oficial todo dia".')));
     return c;
   }
   const grupos = { passados: [], hoje: [], proximos: [], futuros: [], semData: [], dispensados: [] };
@@ -5961,63 +6478,40 @@ function telaLembretes() {
     else grupos.futuros.push(l);
   }
   const defs = [
-    ['passados', '🔴 Passados', grupos.passados, true],
-    ['hoje', '🟡 Hoje', grupos.hoje, false],
-    ['proximos', '🟠 Próximos 7 dias', grupos.proximos, false],
-    ['futuros', '🔵 Futuros', grupos.futuros, false],
-    ['semData', '⚪ Sem data', grupos.semData, false],
-    ['dispensados', '✅ Dispensados', grupos.dispensados, false]
+    ['lb:passados', 'Passados', grupos.passados, 'g-venc'],
+    ['lb:hoje', 'Hoje', grupos.hoje, 'g-sete'],
+    ['lb:proximos', 'Próximos 7 dias', grupos.proximos, ''],
+    ['lb:futuros', 'Futuros', grupos.futuros, ''],
+    ['lb:semData', 'Sem data', grupos.semData, ''],
+    ['lb:dispensados', 'Dispensados', grupos.dispensados, 'apagado']
   ];
-  for (const par of defs) {
-    if (!par[2].length) continue;
-    c.append(el('div', { class: 'seclab' + (par[3] ? ' danger' : '') },
-      par[1], el('span', { class: 'sn' }, String(par[2].length)), el('span', { class: 'srule' })));
-    const tlist = el('div', { class: 'tlist' });
-    for (const l of par[2]) tlist.append(linhaLembrete(l));
-    c.append(tlist);
+  for (const g of defs) {
+    if (!g[2].length) continue;
+    /* dispensados começam fechados */
+    const fechado = g[0] === 'lb:dispensados' ? !dobradas.has('lb:dispensados:aberto') : dobradas.has(g[0]);
+    const cab = el('button', { type: 'button', class: 'c-grupo tk-grupo' + (g[3] ? ' ' + g[3] : ''), 'aria-expanded': String(!fechado) },
+      el('span', { class: 'seta-dobra' }, fechado ? '▸' : '▾'), g[1], el('span', { class: 'c-grupo-n' }, String(g[2].length)), el('span', { class: 'srule' }));
+    cab.addEventListener('click', () => {
+      const k = g[0] === 'lb:dispensados' ? 'lb:dispensados:aberto' : g[0];
+      if (dobradas.has(k)) dobradas.delete(k); else dobradas.add(k);
+      render();
+    });
+    c.append(el('div', { class: 'tk-grupo-l' }, cab));
+    if (!fechado) c.append(painelTk(g[2].map((l) => linhaLembrete(l))));
   }
   return c;
 }
-function linhaLembrete(l) {
-  const d = diasLembrete(l);
-  let flag = '🔔';
-  if (!l.ativo) flag = '✅';
-  else if (d !== null && d < 0) flag = '🔴';
-  else if (d !== null && d === 0) flag = '🟡';
-  const row = el('div', { class: 'trow' + (!l.ativo ? ' lem-ack' : '') });
-  row.append(el('span', { class: 'lem-flag' }, flag));
-  row.append(el('span', { class: 'tt' }, l.texto));
-  const meta = el('div', { class: 'tmeta' });
-  if (l.data) {
-    let cls = '', txt = paraBR(l.data);
-    if (l.ativo && d !== null) {
-      if (d < 0) { cls = 'late'; txt = Math.abs(d) + 'd atrás'; }
-      else if (d === 0) { cls = 'soon'; txt = 'hoje'; }
-      else { txt = 'em ' + d + 'd'; }
-    }
-    meta.append(el('span', { class: 'due ' + cls }, txt));
-  }
-  if (l.recorrencia) meta.append(el('span', { class: 't-cat', title: passoRecorrencia(l.recorrencia) ? 'Ao dispensar, volta na próxima data' : 'Recorrência não reconhecida: edite e escolha na lista' }, '↻ ' + rotuloRecorrencia(l.recorrencia)));
-  const cpL = chipsProc(l.procedimentoIds); if (cpL) meta.append(cpL);
-  meta.append(el('div', { class: 't-acoes' },
-    el('button', { class: 'btn-mini', title: 'Editar', onclick: (e) => { e.stopPropagation(); formLembrete(l); } }, '✎'),
-    l.ativo ? el('button', { class: 'btn-mini', title: passoRecorrencia(l.recorrencia) && l.data ? 'Dispensar esta vez (volta na próxima data)' : 'Dispensar', onclick: (e) => { e.stopPropagation(); dispensarLembrete(l); } }, '✓') : el('button', { class: 'btn-mini', title: 'Reativar', onclick: (e) => { e.stopPropagation(); l.ativo = true; touch(); render(); } }, '↩'),
-    el('button', { class: 'btn-mini', title: 'Excluir', onclick: (e) => { e.stopPropagation(); const foto = fotoBase(); db.lembretes = db.lembretes.filter((x) => x.id !== l.id); touch(); render(); oferecerDesfazer('Lembrete excluído.', foto); } }, '×')
-  ));
-  row.append(meta);
-  row.addEventListener('click', () => formLembrete(l));
-  return row;
-}
-function formLembrete(l) {
-  const txt = areaTexto(l && l.texto, 3);
+function formLembrete(l, pre) {
+  const v0 = l || pre || null;
+  const txt = areaTexto(v0 && v0.texto, 3);
   txt.placeholder = 'ex.: Cobrar resposta da Prefeitura sobre ofício 123';
-  const dataL = el('input', { type: 'date', value: l && l.data ? paraISO(l.data) : '' });
+  const dataL = el('input', { type: 'date', value: v0 && v0.data ? paraISO(v0.data) : '' });
   const rec = el('select');
   for (const r of RECORRENCIAS) rec.append(el('option', { value: r[0] }, r[1]));
-  if (l && l.recorrencia && !RECORRENCIAS.some((r) => r[0] === l.recorrencia)) rec.append(el('option', { value: l.recorrencia }, l.recorrencia + ' (texto antigo)'));
-  rec.value = (l && l.recorrencia) || '';
+  if (v0 && v0.recorrencia && !RECORRENCIAS.some((r) => r[0] === v0.recorrencia)) rec.append(el('option', { value: v0.recorrencia }, v0.recorrencia + (l ? ' (texto antigo)' : '')));
+  rec.value = (v0 && v0.recorrencia) || '';
   const procBoxL = el('div');
-  const selProcL = seletorProc(procBoxL, l && l.procedimentoIds);
+  const selProcL = seletorProc(procBoxL, v0 && v0.procedimentoIds);
   abrirDialogo(l ? 'Editar lembrete' : 'Novo lembrete', [
     campo('Lembrete *', txt),
     el('div', { class: 'grid2' }, campo('Data', dataL), campo('Repetir', rec)),
@@ -6135,6 +6629,7 @@ function montarBotaoSalvar() {
 /* ---------- início ---------- */
 lerPrefControle();
 lerPrefIndice();
+lerPrefTarefas();
 ligarGaveta();
 render();
 window.addEventListener('resize', () => fecharPopover());
