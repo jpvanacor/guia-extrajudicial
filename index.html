@@ -4097,8 +4097,12 @@ function confirmarMesclagem(lista, arquivarAusentes) {
   const corpo = [el('p', { class: 'muted', style: 'margin:0 0 6px' }, 'O bloco tem ' + lista.length + ' procedimento(s).')];
   if (pv.novos.length) corpo.push(bloco('Serão incluídos', pv.novos));
   if (pv.atualizados.length) corpo.push(el('div', { class: 'conf-bloco' }, el('div', { class: 'sec-h' }, 'Serão atualizados', el('span', { class: 'cont' }, String(pv.atualizados.length))),
-    el('div', { class: 'muted g-dica' }, 'Recebem os dados do relatório (título, prazo, último evento…). Situação, próxima ação e anotações ficam como estão.')));
-  if (pv.voltam.length) corpo.push(bloco('Voltam para "Sem triagem": estavam como feitos e o SIM registrou movimento depois', pv.voltam));
+    el('div', { class: 'muted g-dica' }, 'Recebem os dados do relatório (título, prazo, último evento…). ' + (pv.voltam.length ? 'Próxima ação e anotações ficam como estão; a situação também, menos nos que voltam para "Sem triagem" (abaixo).' : 'Situação, próxima ação e anotações ficam como estão.'))));
+  if (pv.voltam.length) {
+    const bv = bloco('Voltam para "Sem triagem"', pv.voltam);
+    bv.firstChild.after(el('div', { class: 'muted g-dica' }, 'Estavam como feitos, e o SIM registrou movimento depois da marcação.'));
+    corpo.push(bv);
+  }
   if (pv.desarquivados.length) corpo.push(bloco('Voltam da lista de arquivados', pv.desarquivados));
   if (pv.arquivar.length) corpo.push(bloco('Serão arquivados por não constarem no relatório', pv.arquivar, ' alerta'));
   if (pv.semNumero) corpo.push(el('div', { class: 'aviso' }, pv.semNumero + ' item(ns) sem número serão ignorados.'));
@@ -4173,7 +4177,7 @@ function colarProcedimentos() {
   const labelArq = el('label', { style: 'display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-top:6px;cursor:pointer' },
     chkArq, 'Relatório completo: arquivar procedimentos que não aparecem neste bloco e desarquivar os que reaparecem');
   abrirDialogo('Colar do Claude · procedimentos', [
-    campo('Bloco de procedimentos', ta, 'O casamento é feito pelo número do expediente: quem já existe é atualizado (suas anotações de controle são preservadas), quem não existe é incluído. Nada muda antes da tela de conferência.'),
+    campo('Bloco de procedimentos', ta, 'O casamento é feito pelo número do expediente: quem já existe é atualizado (suas anotações de controle são preservadas; os já feitos que o SIM movimentou depois voltam para "Sem triagem"), quem não existe é incluído. Nada muda antes da tela de conferência.'),
     labelArq
   ], () => {
     let d;
