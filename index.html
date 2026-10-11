@@ -1030,6 +1030,19 @@ mark.c-hit{background:var(--aviso-bg);color:inherit;border-radius:3px;padding:0 
 .c-row.feito-espera .c-sit-tx{color:var(--muted)}
 .c-row.feito-espera .c-prazo .c-rel{color:var(--muted);font-weight:500}
 .c-grupo-feitos{font-family:Inter,system-ui,sans-serif;text-transform:none;letter-spacing:0;font-size:11.5px;color:var(--muted);font-weight:500}
+
+/* v50: tempo parado (sem movimento no SIM) */
+.c-prazo.parado .c-rel{color:var(--ink)}
+.c-prazo.parado.alem .c-rel{color:var(--t-regra)}
+.c-prazo.parado.concl .c-rel{color:var(--muted);font-weight:500}
+.c-parado{color:var(--t-regra);font-weight:600}
+.c-pz.venc{color:var(--t-regra);font-weight:600}
+.c-pz.sete{color:var(--t-atencao);font-weight:600}
+.c-grupo-alem{font-family:Inter,system-ui,sans-serif;text-transform:none;letter-spacing:0;font-size:11.5px;color:var(--t-regra);font-weight:600}
+.c-alem-tx{color:var(--t-regra);font-weight:600}
+.c-link.c-alem-tx{text-decoration-color:currentColor}
+.g-rel.parado{color:var(--ink)}
+@media (max-width:720px){.c-resumo{white-space:normal}.c-grupo{flex-wrap:wrap;row-gap:2px}.c-grupo-alem,.c-grupo-feitos{white-space:nowrap}}
 </style>
 </head>
 <body>
@@ -2914,6 +2927,84 @@ function textoPrazo(d, longo) {
   if (d === 1) return longo ? 'vence amanhã' : 'amanhã';
   return (longo ? 'vence em ' : 'em ') + d + ' dias';
 }
+/* tempo sem movimentação: a mesma conta e os mesmos limites da skill relatorio-expedientes-mp (gerar_relatorios.py).
+   Parado = dias desde a data do último evento do relatório do SIM. Limite: IC 90 dias, PP 60, processos judiciais 60,
+   fora os do Juizado da Fazenda. NF, PA, Doc. Protocolado e as demais classes ficam só nas faixas, sem limite. */
+const JUDICIAIS_RELATORIO = ['Ação', 'Cumprimento', 'Liquidação', 'Homologação', 'Tutela', 'Recurso', 'Carta Precatória Cível'];
+const FAIXAS_PARADO = [
+  ['p90', 'Parados há 90 dias ou mais'],
+  ['p60', 'Parados entre 60 e 89 dias'],
+  ['p30', 'Parados entre 30 e 59 dias'],
+  ['p0', 'Movimentados nos últimos 30 dias'],
+  ['psem', 'Sem data do último movimento'],
+  ['pconcl', 'Concluídos']
+];
+function diasParado(p) {
+  const d = paraData(dataEvento(p));
+  if (!d) return null;
+  return Math.max(0, Math.round((hojeData() - d) / 86400000));
+}
+function limiteParado(p) {
+  const c = String((p && p.classe) || '');
+  if (c.indexOf('Inquérito Civil') !== -1) return 90;
+  if (c.indexOf('Preparatório') !== -1) return 60;
+  if (JUDICIAIS_RELATORIO.some((j) => c.startsWith(j)) && c.indexOf('Juizado') === -1) return 60;
+  return null;
+}
+function nomeLimite(p) {
+  const c = String((p && p.classe) || '');
+  return c.indexOf('Inquérito Civil') !== -1 ? 'IC' : c.indexOf('Preparatório') !== -1 ? 'PP' : 'processo judicial';
+}
+/* o relatório também deixa de fora quem tem arquivamento como último evento */
+function eventoDeArquivamento(p) { return /Arquivamento/.test(String((p && p.evento) || '')); }
+function paradoAlemDoLimite(p) {
+  if (!p || p.arquivado || p.situacao === 'concluido' || feitoAguardando(p) || eventoDeArquivamento(p)) return false;
+  const lim = limiteParado(p), d = diasParado(p);
+  return lim !== null && d !== null && d >= lim;
+}
+function faixaParado(p) {
+  if (p.situacao === 'concluido') return 'pconcl';
+  const d = diasParado(p);
+  if (d === null) return 'psem';
+  return d >= 90 ? 'p90' : d >= 60 ? 'p60' : d >= 30 ? 'p30' : 'p0';
+}
+function textoParado(d) { return d === 0 ? 'hoje' : d === 1 ? 'há 1 dia' : 'há ' + d + ' dias'; }
+function explicaParado(p) {
+  const d = diasParado(p);
+  if (d === null) return 'O relatório do SIM não trouxe a data do último movimento';
+  const lim = limiteParado(p);
+  return 'Último movimento no SIM em ' + paraBR(dataEvento(p)) + ', ' + textoParado(d) +
+    (eventoDeArquivamento(p) ? '. O último evento é de arquivamento' : lim ? '. Limite para ' + nomeLimite(p) + ': ' + lim + ' dias' : '. Sem limite para esta classe, como no relatório');
+}
+/* coluna da direita na ordem "Tempo parado": dias sem movimento e a data do último movimento */
+function celulaParado(p) {
+  const c = el('div', { class: 'c-prazo parado' });
+  if (p.situacao === 'concluido') { c.classList.add('concl'); c.append(el('span', { class: 'c-rel' }, 'concluído')); return c; }
+  const d = diasParado(p);
+  c.title = explicaParado(p);
+  if (d === null) { c.append(el('span', { class: 'c-rel' }, 'sem data')); return c; }
+  if (paradoAlemDoLimite(p)) c.classList.add('alem');
+  c.append(el('span', { class: 'c-rel' }, d === 0 ? 'hoje' : d === 1 ? '1 dia' : d + ' dias'), el('span', { class: 'c-data' }, paraBR(dataEvento(p))));
+  return c;
+}
+/* nas outras ordens, só quem passou do limite ganha a marca */
+function chipParado(p) {
+  return el('span', { class: 'c-parado', title: explicaParado(p) }, 'parado ' + textoParado(diasParado(p)));
+}
+/* na ordem "Tempo parado" o prazo sai da coluna da direita; só aparece aqui se venceu ou vence em até 7 dias */
+function chipPrazoCurto(p) {
+  const b = bandaPrazo(p);
+  if (b !== 'venc' && b !== 'sete') return null;
+  const pe = prazoEfetivo(p), d = diasAte(pe);
+  return el('span', { class: 'c-pz ' + b, title: 'Prazo ' + (paraBR(pe) || pe) + ' · ' + textoPrazo(d, true) }, b === 'venc' ? 'prazo vencido' : 'prazo ' + textoPrazo(d, false));
+}
+function relParadoGaveta(p) {
+  const d = diasParado(p);
+  if (d === null || p.situacao === 'concluido') return null;
+  const lim = limiteParado(p);
+  return el('span', { class: 'g-rel ' + (paradoAlemDoLimite(p) ? 'venc' : 'parado'), title: explicaParado(p) },
+    ' · ' + textoParado(d) + (lim && !eventoDeArquivamento(p) ? ' (limite ' + nomeLimite(p) + ': ' + lim + ')' : ''));
+}
 /* o procedimento está no Índice de envolvidos? com quantas pessoas e entidades */
 let cacheIdx = null;
 function infoIndice(p) {
@@ -2944,8 +3035,8 @@ function estaNoFoco(id) { return db.focoDia.some((f) => f.procedimentoId === id 
 let gruposFechados = new Set();
 const ORDENS_CONTROLE = [
   ['prazoEfetivo', 'Prazo'],
+  ['eventoAntigo', 'Tempo parado'],
   ['eventoRecente', 'Último evento (recente)'],
-  ['eventoAntigo', 'Último evento (antigo)'],
   ['situacao', 'Situação'],
   ['trabalho', 'Trabalhados por último'],
   ['inicio', 'Início (recente)'],
@@ -3064,6 +3155,11 @@ function gruposDaLista(lista) {
     for (const p of lista) g.get(bandaPrazo(p)).push(p);
     return BANDAS.filter((b) => g.get(b[0]).length).map((b) => ({ chave: 'b:' + b[0], titulo: b[1], classe: 'g-' + b[0], itens: g.get(b[0]) }));
   }
+  if (ordemProc.campo === 'eventoAntigo') {
+    const g = new Map(FAIXAS_PARADO.map((f) => [f[0], []]));
+    for (const p of lista) g.get(faixaParado(p)).push(p);
+    return FAIXAS_PARADO.filter((f) => g.get(f[0]).length).map((f) => ({ chave: 'p:' + f[0], titulo: f[1], classe: 'g-' + f[0], itens: g.get(f[0]) }));
+  }
   if (ordemProc.campo === 'situacao') {
     const g = new Map(SITUACOES.map((s) => [s[0], []]));
     for (const p of lista) (g.get(p.situacao) || g.get('sem_triagem')).push(p);
@@ -3181,6 +3277,9 @@ function linhaProc(p, termo) {
   if (cl) l2.append(el('span', { class: 'c-cl' }, cl));
   const pj = numeroJudicial(p);
   if (pj) l2.append(el('span', { class: 'c-pj', title: 'Processo judicial' }, 'PJ ' + pj));
+  const modoParado = ordemProc.campo === 'eventoAntigo';
+  if (modoParado) { const cp = chipPrazoCurto(p); if (cp) l2.append(cp); }
+  else if (paradoAlemDoLimite(p)) l2.append(chipParado(p));
   const motivo = motivosBusca.get(p.id);
   if (motivo) l2.append(el('span', { class: 'c-motivo' }, motivo));
   else if (p.proximaAcao) l2.append(el('span', { class: 'c-acao', title: 'Próxima ação: ' + p.proximaAcao }, '→ ', realcar(p.proximaAcao, termo)));
@@ -3201,8 +3300,8 @@ function linhaProc(p, termo) {
   sit.addEventListener('click', (e) => { e.stopPropagation(); menuSituacao(sit, p); });
   sit.addEventListener('keydown', (e) => e.stopPropagation());
 
-  const prazoEl = el('div', { class: 'c-prazo ' + banda });
-  if (pe) {
+  const prazoEl = modoParado ? celulaParado(p) : el('div', { class: 'c-prazo ' + banda });
+  if (pe && !modoParado) {
     const interno = !!(p.prazoInterno && pe === p.prazoInterno && p.prazoInterno !== p.prazo);
     prazoEl.title = (interno ? 'Prazo interno ' : 'Prazo ') + pe + (banda === 'concl' ? '' : ' · ' + textoPrazo(d, true)) + (feitoAguardando(p) ? ' · já feito, aguardando' : '');
     prazoEl.append(el('span', { class: 'c-rel' }, banda === 'concl' ? 'concluído' : textoPrazo(d, false)),
@@ -3399,6 +3498,13 @@ function telaControle() {
     resumo.innerHTML = '';
     resumo.append(n === total ? total + ' procedimento(s)' : n + ' de ' + total, ' · ',
       el('button', { type: 'button', class: 'c-link', title: 'Abrir a aba Feitos hoje', onclick: () => { S.aba = 'feitos'; render(); } }, nHoje + ' feito(s) hoje'));
+    const porId = new Map(db.procedimentos.map((p) => [p.id, p]));
+    const nAlem = ultimaListaIds.filter((id) => paradoAlemDoLimite(porId.get(id))).length;
+    if (nAlem) {
+      const txt = nAlem + (nAlem === 1 ? ' parado além do limite' : ' parados além do limite');
+      resumo.append(' · ', ordemProc.campo === 'eventoAntigo' ? el('span', { class: 'c-alem-tx' }, txt)
+        : el('button', { type: 'button', class: 'c-link c-alem-tx', title: 'Ordenar por tempo parado', onclick: () => { ordemProc = { campo: 'eventoAntigo', asc: true }; selOrd.value = 'eventoAntigo'; guardarPrefControle(); desenharLista(); } }, txt));
+    }
   };
   const desenharLista = (manterId) => {
     const termo = norm(filtrosProc.busca);
@@ -3425,6 +3531,7 @@ function telaControle() {
           const fechado = gruposFechados.has(g.chave) && !termo;
           const cab = el('button', { type: 'button', class: 'c-grupo ' + g.classe, 'aria-expanded': String(!fechado) },
             el('span', { class: 'seta-dobra' }, fechado ? '▸' : '▾'), g.titulo, el('span', { class: 'c-grupo-n' }, String(g.itens.length)),
+            (() => { const na = g.itens.filter(paradoAlemDoLimite).length; return na ? el('span', { class: 'c-grupo-alem', title: 'Sem movimento no SIM além do limite do relatório: IC 90 dias, PP 60, processos judiciais 60 (fora os do Juizado)' }, '· ' + na + (ordemProc.campo === 'eventoAntigo' ? ' além do limite' : (na === 1 ? ' parado além do limite' : ' parados além do limite'))) : null; })(),
             (() => { const nf = g.itens.filter(feitoAguardando).length; return nf ? el('span', { class: 'c-grupo-feitos', title: nf + ' já feito(s), aguardando a Promotora ou o arquivamento' }, '· ' + nf + (nf === 1 ? ' já feito' : ' já feitos')) : null; })(),
             el('span', { class: 'srule' }));
           cab.addEventListener('click', () => {
@@ -3716,7 +3823,7 @@ function abrirProc(id, foco) {
   if (p.prazoInterno) fato('Prazo interno', paraBR(p.prazoInterno) || p.prazoInterno, relPrazo(p.prazoInterno));
   if (p.evento) {
     const de = dataEvento(p);
-    fato('Último evento', de ? el('span', { class: 'mono' }, de) : null, de ? ' · ' : null, el('span', { class: 'g-ev-tx' }, textoEvento(p) || p.evento));
+    fato('Último evento', de ? el('span', { class: 'mono' }, de) : null, de ? relParadoGaveta(p) : null, de ? ' · ' : null, el('span', { class: 'g-ev-tx' }, textoEvento(p) || p.evento));
   }
   if (p.inicio) fato('Início', paraBR(p.inicio) || p.inicio);
   const secFatos = fatos.childNodes.length ? secaoG(null, fatos) : null;
