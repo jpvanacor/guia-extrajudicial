@@ -1035,14 +1035,15 @@ mark.c-hit{background:var(--aviso-bg);color:inherit;border-radius:3px;padding:0 
 .c-prazo.parado .c-rel{color:var(--ink)}
 .c-prazo.parado.alem .c-rel{color:var(--t-regra)}
 .c-prazo.parado.concl .c-rel{color:var(--muted);font-weight:500}
-.c-parado{color:var(--t-regra);font-weight:600}
+.c-alerta{font-size:11.5px;color:var(--t-regra);font-weight:600;margin-top:2px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g-correg{color:var(--t-regra);font-weight:600}
 .c-pz.venc{color:var(--t-regra);font-weight:600}
 .c-pz.sete{color:var(--t-atencao);font-weight:600}
 .c-grupo-alem{font-family:Inter,system-ui,sans-serif;text-transform:none;letter-spacing:0;font-size:11.5px;color:var(--t-regra);font-weight:600}
 .c-alem-tx{color:var(--t-regra);font-weight:600}
 .c-link.c-alem-tx{text-decoration-color:currentColor}
 .g-rel.parado{color:var(--ink)}
-@media (max-width:720px){.c-resumo{white-space:normal}.c-grupo{flex-wrap:wrap;row-gap:2px}.c-grupo-alem,.c-grupo-feitos{white-space:nowrap}}
+@media (max-width:720px){.c-alerta{white-space:normal}.c-resumo{white-space:normal}.c-grupo{flex-wrap:wrap;row-gap:2px}.c-grupo-alem,.c-grupo-feitos{white-space:nowrap}}
 </style>
 </head>
 <body>
@@ -1160,7 +1161,7 @@ const S = { aba: 'controle' };
 const dobradas = new Set();
 const diasAbertosFeitos = new Set();
 let ultimaBaseHandle = null;
-const filtrosProc = { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, tipo: '', indice: '' };
+const filtrosProc = { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, tipo: '', indice: '', padrao: false };
 let ordemProc = { campo: 'prazoEfetivo', asc: true };
 let gavetaId = null;
 const ST = { subaba: 'tarefas', filtroTarefa: 'pendentes', busca: '', agrupar: 'prazo' };
@@ -2927,10 +2928,8 @@ function textoPrazo(d, longo) {
   if (d === 1) return longo ? 'vence amanhã' : 'amanhã';
   return (longo ? 'vence em ' : 'em ') + d + ' dias';
 }
-/* tempo sem movimentação: a mesma conta e os mesmos limites da skill relatorio-expedientes-mp (gerar_relatorios.py).
-   Parado = dias desde a data do último evento do relatório do SIM. Limite: IC 90 dias, PP 60, processos judiciais 60,
-   fora os do Juizado da Fazenda. NF, PA, Doc. Protocolado e as demais classes ficam só nas faixas, sem limite. */
-const JUDICIAIS_RELATORIO = ['Ação', 'Cumprimento', 'Liquidação', 'Homologação', 'Tutela', 'Recurso', 'Carta Precatória Cível'];
+/* tempo sem movimentação: dias desde a data do último evento do relatório do SIM, com as faixas da lista inercial
+   da skill relatorio-expedientes-mp (gerar_relatorios.py) */
 const FAIXAS_PARADO = [
   ['p90', 'Parados há 90 dias ou mais'],
   ['p60', 'Parados entre 60 e 89 dias'],
@@ -2944,24 +2943,6 @@ function diasParado(p) {
   if (!d) return null;
   return Math.max(0, Math.round((hojeData() - d) / 86400000));
 }
-function limiteParado(p) {
-  const c = String((p && p.classe) || '');
-  if (c.indexOf('Inquérito Civil') !== -1) return 90;
-  if (c.indexOf('Preparatório') !== -1) return 60;
-  if (JUDICIAIS_RELATORIO.some((j) => c.startsWith(j)) && c.indexOf('Juizado') === -1) return 60;
-  return null;
-}
-function nomeLimite(p) {
-  const c = String((p && p.classe) || '');
-  return c.indexOf('Inquérito Civil') !== -1 ? 'IC' : c.indexOf('Preparatório') !== -1 ? 'PP' : 'processo judicial';
-}
-/* o relatório também deixa de fora quem tem arquivamento como último evento */
-function eventoDeArquivamento(p) { return /Arquivamento/.test(String((p && p.evento) || '')); }
-function paradoAlemDoLimite(p) {
-  if (!p || p.arquivado || p.situacao === 'concluido' || feitoAguardando(p) || eventoDeArquivamento(p)) return false;
-  const lim = limiteParado(p), d = diasParado(p);
-  return lim !== null && d !== null && d >= lim;
-}
 function faixaParado(p) {
   if (p.situacao === 'concluido') return 'pconcl';
   const d = diasParado(p);
@@ -2969,27 +2950,75 @@ function faixaParado(p) {
   return d >= 90 ? 'p90' : d >= 60 ? 'p60' : d >= 30 ? 'p30' : 'p0';
 }
 function textoParado(d) { return d === 0 ? 'hoje' : d === 1 ? 'há 1 dia' : 'há ' + d + ' dias'; }
+/* quem tem arquivamento como último evento já saiu da mão (o relatório também tira) */
+function eventoDeArquivamento(p) { return /Arquivamento/.test(String((p && p.evento) || '')); }
+
+/* padrões da Corregedoria para procedimento parado:
+   IC em andamento há mais de 1 ano, com o prazo de prorrogação vencido; IC sem impulso há mais de 90 dias;
+   PIC em andamento há mais de 90 dias; NF em andamento há mais de 120 dias; PP em andamento há mais de 180 dias.
+   "Em andamento" conta da data de início do SIM; "sem impulso", da data do último evento; o prazo é o prazo de conclusão do SIM.
+   Ficam de fora: arquivados, concluídos, já feitos (com a Promotora ou arquivamento minutado) e arquivamento como último evento. */
+const PADROES_CORREG = { PIC: 90, NF: 120, PP: 180 };
+const TITULO_PADROES = 'Padrões da Corregedoria: IC em andamento há mais de 1 ano com prazo de prorrogação vencido; IC sem impulso há mais de 90 dias; PIC em andamento há mais de 90 dias; NF há mais de 120 dias; PP há mais de 180 dias';
+function classeCorreg(p) {
+  const c = String((p && p.classe) || '');
+  return /Inquérito Civil/.test(c) ? 'IC' : /Investigatório Criminal/.test(c) ? 'PIC' : /Notícia de Fato/.test(c) ? 'NF' : /Preparatório/.test(c) ? 'PP' : '';
+}
+function diasEmAndamento(p) {
+  const d = paraData(p && p.inicio);
+  if (!d) return null;
+  return Math.max(0, Math.round((hojeData() - d) / 86400000));
+}
+function maisDeUmAno(p) {
+  const d = paraData(p && p.inicio);
+  return !!d && hojeData() > new Date(d.getFullYear() + 1, d.getMonth(), d.getDate());
+}
+function textoIdade(dias) {
+  const anos = Math.floor(dias / 365.25);
+  if (anos < 1) return dias + (dias === 1 ? ' dia' : ' dias');
+  const meses = Math.floor((dias - anos * 365.25) / 30.44);
+  return anos + (anos === 1 ? ' ano' : ' anos') + (meses ? ' e ' + meses + (meses === 1 ? ' mês' : ' meses') : '');
+}
+function motivosCorreg(p) {
+  if (!p || p.arquivado || p.situacao === 'concluido' || feitoAguardando(p) || eventoDeArquivamento(p)) return [];
+  const k = classeCorreg(p);
+  if (!k) return [];
+  const m = [];
+  if (k === 'IC') {
+    const parado = diasParado(p);
+    if (parado !== null && parado > 90) m.push({ tipo: 'impulso', curto: 'sem impulso ' + textoParado(parado), longo: 'IC sem impulso há mais de 90 dias' });
+    const dp = diasAte(p.prazo);
+    if (maisDeUmAno(p) && dp !== null && dp < 0) m.push({ tipo: 'idade', curto: 'em andamento há ' + textoIdade(diasEmAndamento(p)) + ', prazo vencido', longo: 'IC em andamento há mais de 1 ano, com o prazo de prorrogação vencido' });
+  } else {
+    const idade = diasEmAndamento(p), lim = PADROES_CORREG[k];
+    if (idade !== null && idade > lim) m.push({ tipo: 'idade', curto: 'em andamento há ' + textoIdade(idade), longo: k + ' em andamento há mais de ' + lim + ' dias' });
+  }
+  return m;
+}
+function foraDoPadrao(p) { return motivosCorreg(p).length > 0; }
+function semImpulso(p) { return motivosCorreg(p).some((m) => m.tipo === 'impulso'); }
 function explicaParado(p) {
   const d = diasParado(p);
   if (d === null) return 'O relatório do SIM não trouxe a data do último movimento';
-  const lim = limiteParado(p);
   return 'Último movimento no SIM em ' + paraBR(dataEvento(p)) + ', ' + textoParado(d) +
-    (eventoDeArquivamento(p) ? '. O último evento é de arquivamento' : lim ? '. Limite para ' + nomeLimite(p) + ': ' + lim + ' dias' : '. Sem limite para esta classe, como no relatório');
+    (eventoDeArquivamento(p) ? '. O último evento é de arquivamento' : classeCorreg(p) === 'IC' ? '. Padrão da Corregedoria para IC: impulso em até 90 dias' : '');
 }
-/* coluna da direita na ordem "Tempo parado": dias sem movimento e a data do último movimento */
+/* coluna da direita na ordem "Tempo parado": dias sem movimento e a data do último movimento (vermelho: IC sem impulso há mais de 90 dias) */
 function celulaParado(p) {
   const c = el('div', { class: 'c-prazo parado' });
   if (p.situacao === 'concluido') { c.classList.add('concl'); c.append(el('span', { class: 'c-rel' }, 'concluído')); return c; }
   const d = diasParado(p);
   c.title = explicaParado(p);
   if (d === null) { c.append(el('span', { class: 'c-rel' }, 'sem data')); return c; }
-  if (paradoAlemDoLimite(p)) c.classList.add('alem');
+  if (semImpulso(p)) c.classList.add('alem');
   c.append(el('span', { class: 'c-rel' }, d === 0 ? 'hoje' : d === 1 ? '1 dia' : d + ' dias'), el('span', { class: 'c-data' }, paraBR(dataEvento(p))));
   return c;
 }
-/* nas outras ordens, só quem passou do limite ganha a marca */
-function chipParado(p) {
-  return el('span', { class: 'c-parado', title: explicaParado(p) }, 'parado ' + textoParado(diasParado(p)));
+/* linha embaixo do número dizendo por que está fora do padrão; na ordem "Tempo parado" o "sem impulso" já está na coluna da direita */
+function linhaAlerta(p, comImpulso) {
+  const ms = motivosCorreg(p).filter((m) => comImpulso || m.tipo !== 'impulso');
+  if (!ms.length) return null;
+  return el('div', { class: 'c-alerta', title: 'Fora do padrão da Corregedoria: ' + ms.map((m) => m.longo).join('; ') }, '⚑ ' + ms.map((m) => m.curto).join(' · '));
 }
 /* na ordem "Tempo parado" o prazo sai da coluna da direita; só aparece aqui se venceu ou vence em até 7 dias */
 function chipPrazoCurto(p) {
@@ -3001,9 +3030,13 @@ function chipPrazoCurto(p) {
 function relParadoGaveta(p) {
   const d = diasParado(p);
   if (d === null || p.situacao === 'concluido') return null;
-  const lim = limiteParado(p);
-  return el('span', { class: 'g-rel ' + (paradoAlemDoLimite(p) ? 'venc' : 'parado'), title: explicaParado(p) },
-    ' · ' + textoParado(d) + (lim && !eventoDeArquivamento(p) ? ' (limite ' + nomeLimite(p) + ': ' + lim + ')' : ''));
+  return el('span', { class: 'g-rel ' + (semImpulso(p) ? 'venc' : 'parado'), title: explicaParado(p) }, ' · ' + textoParado(d));
+}
+function relIdadeGaveta(p) {
+  const d = diasEmAndamento(p);
+  if (d === null || p.situacao === 'concluido') return null;
+  const fora = motivosCorreg(p).some((m) => m.tipo === 'idade');
+  return el('span', { class: 'g-rel ' + (fora ? 'venc' : 'parado') }, ' · há ' + textoIdade(d));
 }
 /* o procedimento está no Índice de envolvidos? com quantas pessoas e entidades */
 let cacheIdx = null;
@@ -3113,6 +3146,7 @@ function passaFiltros(p, ignorar, busca) {
     if (f.prazo === 'prox') { if (b !== 'sete' && b !== 'trinta') return false; }
     else if (b !== f.prazo) return false;
   }
+  if (ignorar !== 'padrao' && f.padrao && !foraDoPadrao(p)) return false;
   if (busca && !busca(p)) return false;
   return true;
 }
@@ -3279,7 +3313,6 @@ function linhaProc(p, termo) {
   if (pj) l2.append(el('span', { class: 'c-pj', title: 'Processo judicial' }, 'PJ ' + pj));
   const modoParado = ordemProc.campo === 'eventoAntigo';
   if (modoParado) { const cp = chipPrazoCurto(p); if (cp) l2.append(cp); }
-  else if (paradoAlemDoLimite(p)) l2.append(chipParado(p));
   const motivo = motivosBusca.get(p.id);
   if (motivo) l2.append(el('span', { class: 'c-motivo' }, motivo));
   else if (p.proximaAcao) l2.append(el('span', { class: 'c-acao', title: 'Próxima ação: ' + p.proximaAcao }, '→ ', realcar(p.proximaAcao, termo)));
@@ -3293,6 +3326,8 @@ function linhaProc(p, termo) {
   const nAx = anexosDe(p.id).length;
   if (nAx) l2.append(el('span', { class: 'c-badge', title: nAx + ' procedimento(s) anexado(s) a este' }, '📎 ' + nAx));
   main.append(l2);
+  const alerta = linhaAlerta(p, !modoParado);
+  if (alerta) main.append(alerta);
 
   const vazia = p.situacao === 'sem_triagem';
   const sit = el('button', { type: 'button', class: 'c-sit' + (vazia ? ' vazia' : ''), title: feitoAguardando(p) ? 'Feito: ' + rotuloSituacao(p.situacao).toLowerCase() + '. Clique para mudar a situação' : 'Mudar a situação', 'aria-haspopup': 'menu' },
@@ -3425,9 +3460,9 @@ function telaControle() {
   const ativos = el('div', { class: 'c-ativos' });
   const listaWrap = el('div', { class: 'c-lista' });
   const algumFiltroExtra = () => !!(filtrosProc.classe || filtrosProc.assunto || filtrosProc.tema || filtrosProc.arquivados);
-  const algumFiltro = () => !!(filtrosProc.busca || filtrosProc.situacao || filtrosProc.prazo || filtrosProc.indice || filtrosProc.semIndice || algumFiltroExtra());
+  const algumFiltro = () => !!(filtrosProc.busca || filtrosProc.situacao || filtrosProc.prazo || filtrosProc.indice || filtrosProc.semIndice || filtrosProc.padrao || algumFiltroExtra());
   const limparTudo = () => {
-    Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, indice: '' });
+    Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, indice: '', padrao: false });
     busca.value = '';
     fecharPopover();
     desenharTudo();
@@ -3488,7 +3523,8 @@ function telaControle() {
     if (filtrosProc.assunto) ativos.append(chipAtivo('Assunto: ' + filtrosProc.assunto, () => { filtrosProc.assunto = ''; }));
     if (filtrosProc.tema) ativos.append(chipAtivo('Eixo: ' + filtrosProc.tema, () => { filtrosProc.tema = ''; }));
     if (filtrosProc.arquivados) ativos.append(chipAtivo('Com arquivados', () => { filtrosProc.arquivados = false; }));
-    if (filtrosProc.situacao || filtrosProc.prazo || filtrosProc.indice || filtrosProc.semIndice || algumFiltroExtra()) ativos.append(el('button', { type: 'button', class: 'c-limpar', onclick: limparTudo }, 'Limpar filtros'));
+    if (filtrosProc.padrao) ativos.append(chipAtivo('Fora do padrão da Corregedoria', () => { filtrosProc.padrao = false; }));
+    if (filtrosProc.situacao || filtrosProc.prazo || filtrosProc.indice || filtrosProc.semIndice || filtrosProc.padrao || algumFiltroExtra()) ativos.append(el('button', { type: 'button', class: 'c-limpar', onclick: limparTudo }, 'Limpar filtros'));
     ativos.classList.toggle('oculto', !ativos.childNodes.length);
   };
   const desenharResumo = () => {
@@ -3499,11 +3535,9 @@ function telaControle() {
     resumo.append(n === total ? total + ' procedimento(s)' : n + ' de ' + total, ' · ',
       el('button', { type: 'button', class: 'c-link', title: 'Abrir a aba Feitos hoje', onclick: () => { S.aba = 'feitos'; render(); } }, nHoje + ' feito(s) hoje'));
     const porId = new Map(db.procedimentos.map((p) => [p.id, p]));
-    const nAlem = ultimaListaIds.filter((id) => paradoAlemDoLimite(porId.get(id))).length;
-    if (nAlem) {
-      const txt = nAlem + (nAlem === 1 ? ' parado além do limite' : ' parados além do limite');
-      resumo.append(' · ', ordemProc.campo === 'eventoAntigo' ? el('span', { class: 'c-alem-tx' }, txt)
-        : el('button', { type: 'button', class: 'c-link c-alem-tx', title: 'Ordenar por tempo parado', onclick: () => { ordemProc = { campo: 'eventoAntigo', asc: true }; selOrd.value = 'eventoAntigo'; guardarPrefControle(); desenharLista(); } }, txt));
+    const nFora = ultimaListaIds.filter((id) => foraDoPadrao(porId.get(id))).length;
+    if (nFora && !filtrosProc.padrao) {
+      resumo.append(' · ', el('button', { type: 'button', class: 'c-link c-alem-tx', title: 'Mostrar só os que estão fora dos padrões da Corregedoria', onclick: () => { filtrosProc.padrao = true; desenharTudo(); } }, nFora + ' fora do padrão'));
     }
   };
   const desenharLista = (manterId) => {
@@ -3531,7 +3565,7 @@ function telaControle() {
           const fechado = gruposFechados.has(g.chave) && !termo;
           const cab = el('button', { type: 'button', class: 'c-grupo ' + g.classe, 'aria-expanded': String(!fechado) },
             el('span', { class: 'seta-dobra' }, fechado ? '▸' : '▾'), g.titulo, el('span', { class: 'c-grupo-n' }, String(g.itens.length)),
-            (() => { const na = g.itens.filter(paradoAlemDoLimite).length; return na ? el('span', { class: 'c-grupo-alem', title: 'Sem movimento no SIM além do limite do relatório: IC 90 dias, PP 60, processos judiciais 60 (fora os do Juizado)' }, '· ' + na + (ordemProc.campo === 'eventoAntigo' ? ' além do limite' : (na === 1 ? ' parado além do limite' : ' parados além do limite'))) : null; })(),
+            (() => { const na = g.itens.filter(foraDoPadrao).length; return na ? el('span', { class: 'c-grupo-alem', title: TITULO_PADROES }, '· ' + na + ' fora do padrão') : null; })(),
             (() => { const nf = g.itens.filter(feitoAguardando).length; return nf ? el('span', { class: 'c-grupo-feitos', title: nf + ' já feito(s), aguardando a Promotora ou o arquivamento' }, '· ' + nf + (nf === 1 ? ' já feito' : ' já feitos')) : null; })(),
             el('span', { class: 'srule' }));
           cab.addEventListener('click', () => {
@@ -3825,7 +3859,8 @@ function abrirProc(id, foco) {
     const de = dataEvento(p);
     fato('Último evento', de ? el('span', { class: 'mono' }, de) : null, de ? relParadoGaveta(p) : null, de ? ' · ' : null, el('span', { class: 'g-ev-tx' }, textoEvento(p) || p.evento));
   }
-  if (p.inicio) fato('Início', paraBR(p.inicio) || p.inicio);
+  if (p.inicio) fato('Início', paraBR(p.inicio) || p.inicio, relIdadeGaveta(p));
+  { const ms = motivosCorreg(p); if (ms.length) fato('Corregedoria', el('span', { class: 'g-correg' }, 'Fora do padrão: ' + ms.map((m) => m.longo).join('; '))); }
   const secFatos = fatos.childNodes.length ? secaoG(null, fatos) : null;
 
   /* ações do dia */
@@ -4865,7 +4900,7 @@ function inicioIx() {
     c.append(el('div', { class: 'ix-aviso-controle' },
       el('span', {}, el('strong', {}, String(semIdx)), semIdx === 1 ? ' procedimento extrajudicial do Controle ainda não está no Índice.' : ' procedimentos extrajudiciais do Controle ainda não estão no Índice.'),
       el('button', { class: 'btn ghost sm', onclick: () => {
-        Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, tipo: 'extra', indice: 'nao' });
+        Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, tipo: 'extra', indice: 'nao', padrao: false });
         S.aba = 'controle'; render(); window.scrollTo(0, 0);
       } }, 'Ver no Controle')));
   }
@@ -4997,7 +5032,7 @@ function telaTemasIx() {
     if (procs.length) {
       const rotTema = IX.tema;
       c.append(el('button', { class: 'btn ghost sm', style: 'margin-top:10px', onclick: () => {
-        Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', arquivados: false, semIndice: false, tipo: '', indice: '' });
+        Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', arquivados: false, semIndice: false, tipo: '', indice: '', padrao: false });
         filtrosProc.tema = (todosTemas().find((x) => norm(x) === norm(rotTema))) || rotTema;
         S.aba = 'controle'; render();
       } }, 'Ver no Controle com este filtro'));
