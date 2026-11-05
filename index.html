@@ -1065,6 +1065,14 @@ input.inval{border-color:var(--t-regra);box-shadow:0 0 0 1px var(--t-regra)}
 @media (max-width:720px){.di-linha{grid-template-columns:1fr}.di-tit{white-space:normal}}
 
 /* v54: a situação virou só a marca de feito */
+/* v55: os que chegam ao limite da Corregedoria nos próximos 30 dias */
+.c-al-prox{color:var(--t-atencao)}
+.c-prox-tx{color:var(--t-atencao);font-weight:600}
+.c-correg-link{text-decoration-color:var(--muted)}
+.c-grupo.g-correg-fora,.c-grupo.g-correg-fora .c-grupo-n{color:var(--t-regra)}
+.c-grupo.g-correg-prox,.c-grupo.g-correg-prox .c-grupo-n{color:var(--t-atencao)}
+.g-correg-prox{color:var(--t-atencao);font-weight:600}
+.c-sel:disabled{opacity:.55;cursor:not-allowed}
 .chip-feito{display:inline-block;border-radius:6px;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;color:var(--t-pratica);background:var(--t-pratica-bg)}
 
 /* v53: fases tiradas dos documentos (bloco do índice) */
@@ -3180,6 +3188,59 @@ function dataNovaDaClasse(p, item, fases) {
   return dataDaFase(fases || fasesDocumentadasDoProc(p), classeCorregDe(item && item.classe)) || dataInstauracaoDoItem(item);
 }
 function foraDoPadrao(p) { return motivosCorreg(p).length > 0; }
+/* v55: quem chega ao limite da Corregedoria nos próximos 30 dias: NF a partir de 90 dias, PP de 150, PIC de 60,
+   IC de 60 dias sem impulso; IC que completa 1 ano com o prazo vencido nos próximos 30 dias. Conta como os
+   padrões (entrada na classe atual, último evento e prazo do SIM). "falta" = dias até o último dia dentro do
+   padrão (0 = hoje); no dia seguinte ao limite, fica fora. */
+const JANELA_CORREG = 30;
+function diasAteData(d) { return Math.round((d - hojeData()) / 86400000); }
+function limiteIC(ic, prazo) {
+  const d = paraData(ic.data), pz = paraData(prazo);
+  if (!d || !pz) return null;
+  const ani = new Date(d.getFullYear() + 1, d.getMonth(), d.getDate());
+  return { data: ani > pz ? ani : pz, peloPrazo: pz >= ani };
+}
+function limitesCorreg(p) {
+  if (foraDaContagem(p)) return [];
+  const k = classeCorreg(p);
+  if (!k) return [];
+  const ms = motivosCorreg(p).map((m) => m.tipo);
+  const ic = inicioDaClasse(p);
+  const out = [];
+  if (k === 'IC') {
+    const pa = diasParado(p);
+    if (pa !== null && ms.indexOf('impulso') === -1) out.push({ tipo: 'impulso', falta: 90 - pa, data: somarDias(hojeData(), 90 - pa) });
+    const li = ic && ms.indexOf('idade') === -1 ? limiteIC(ic, p.prazo) : null;
+    if (li) out.push({ tipo: 'idade', falta: diasAteData(li.data), data: li.data, peloPrazo: li.peloPrazo });
+  } else if (ic && !ms.length) {
+    const falta = PADROES_CORREG[k] - diasDesde(ic.data);
+    out.push({ tipo: 'idade', falta: falta, data: somarDias(hojeData(), falta) });
+  }
+  return out.filter((x) => x.falta >= 0 && x.falta <= JANELA_CORREG);
+}
+function proximoLimite(p) {
+  const ls = limitesCorreg(p);
+  return ls.length ? ls.reduce((a, b) => (b.falta < a.falta ? b : a)) : null;
+}
+function chegaAoLimite(p) { return limitesCorreg(p).length > 0; }
+function quandoLimite(f) { return f === 0 ? 'hoje' : f === 1 ? 'amanhã' : 'em ' + f + ' dias'; }
+function textoLimite(p, x) {
+  const k = classeCorreg(p), q = quandoLimite(x.falta);
+  if (k === 'IC' && x.tipo === 'impulso') return q + ', IC completa 90 dias sem impulso';
+  if (k === 'IC') return x.peloPrazo ? q + ' vence o prazo do IC, com mais de 1 ano' : q + ', IC completa 1 ano com o prazo vencido';
+  return q + ', ' + k + ' completa ' + PADROES_CORREG[k] + ' dias';
+}
+/* dias além do limite (para pôr os mais atrasados primeiro) */
+function excessoCorreg(p) {
+  const k = classeCorreg(p), ms = motivosCorreg(p).map((m) => m.tipo), ic = inicioDaClasse(p);
+  let e = 0;
+  if (ms.indexOf('impulso') !== -1) e = Math.max(e, diasParado(p) - 90);
+  if (ms.indexOf('idade') !== -1 && ic) {
+    if (k === 'IC') { const li = limiteIC(ic, p.prazo); if (li) e = Math.max(e, -diasAteData(li.data)); }
+    else e = Math.max(e, diasDesde(ic.data) - PADROES_CORREG[k]);
+  }
+  return e;
+}
 function semImpulso(p) { return motivosCorreg(p).some((m) => m.tipo === 'impulso'); }
 function explicaParado(p) {
   const d = diasParado(p);
@@ -3201,10 +3262,13 @@ function celulaParado(p) {
 function linhaAlerta(p, comImpulso) {
   const ms = motivosCorreg(p).filter((m) => comImpulso || m.tipo !== 'impulso');
   const falta = precisaDataInstauracao(p);
-  if (!ms.length && !falta) return null;
+  const lim = proximoLimite(p);
+  if (!ms.length && !falta && !lim) return null;
   const d = el('div', { class: 'c-alerta' });
+  const sep = () => (d.childNodes.length ? ' · ' : '');
   if (ms.length) d.append(el('span', { class: 'c-al-fora', title: 'Fora do padrão da Corregedoria: ' + ms.map((m) => m.longo).join('; ') }, '⚑ ' + ms.map((m) => m.curto).join(' · ')));
-  if (falta) d.append(el('span', { class: 'c-al-data', title: 'O início que vem do SIM é o do expediente. Informe a data da portaria para o app conferir o tempo em andamento.' }, (ms.length ? ' · ' : '') + (classeCorreg(p) === 'NF' ? '◷ falta a data de início como NF' : '◷ falta a data de instauração do ' + classeCorreg(p))));
+  if (lim) d.append(el('span', { class: 'c-al-prox', title: 'Chega ao limite da Corregedoria em ' + dataEmBR(lim.data) + ' e fica fora do padrão no dia seguinte, se nada mudar' }, sep() + '⚐ ' + textoLimite(p, lim)));
+  if (falta) d.append(el('span', { class: 'c-al-data', title: 'O início que vem do SIM é o do expediente. Informe a data da portaria para o app conferir o tempo em andamento.' }, sep() + (classeCorreg(p) === 'NF' ? '◷ falta a data de início como NF' : '◷ falta a data de instauração do ' + classeCorreg(p))));
   return d;
 }
 /* na ordem "Tempo parado" o prazo sai da coluna da direita; só aparece aqui se venceu ou vence em até 7 dias */
@@ -3402,7 +3466,7 @@ function passaFiltros(p, ignorar, busca) {
     if (f.prazo === 'prox') { if (b !== 'sete' && b !== 'trinta') return false; }
     else if (b !== f.prazo) return false;
   }
-  if (ignorar !== 'padrao' && f.padrao && !foraDoPadrao(p)) return false;
+  if (ignorar !== 'padrao' && f.padrao && !foraDoPadrao(p) && !chegaAoLimite(p)) return false;
   if (busca && !busca(p)) return false;
   return true;
 }
@@ -3430,6 +3494,11 @@ function ordenarProcs(lista) {
     inicio: (a, b) => porData(ms(a.inicio), ms(b.inicio), false) || porNumero(a, b),
     numero: porNumero
   };
+  if (filtrosProc.padrao) {
+    /* lista da Corregedoria: primeiro os fora do padrão, os mais atrasados antes; depois os que chegam ao limite, os mais próximos antes */
+    const chave = (p) => (foraDoPadrao(p) ? [0, -excessoCorreg(p)] : [1, (proximoLimite(p) || { falta: 999 }).falta]);
+    return lista.sort((a, b) => { const x = chave(a), y = chave(b); return (x[0] - y[0]) || (x[1] - y[1]) || porNumero(a, b); });
+  }
   return lista.sort(cmp[ordemProc.campo] || cmp.prazoEfetivo);
 }
 function listarProc() {
@@ -3437,6 +3506,13 @@ function listarProc() {
   return ordenarProcs(db.procedimentos.filter((p) => passaFiltros(p, '', busca)));
 }
 function gruposDaLista(lista) {
+  if (filtrosProc.padrao) {
+    const fora = lista.filter(foraDoPadrao), prox = lista.filter((p) => !foraDoPadrao(p));
+    return [
+      fora.length ? { chave: 'c:fora', titulo: 'Fora do padrão', classe: 'g-correg-fora', itens: fora } : null,
+      prox.length ? { chave: 'c:prox', titulo: 'Chegam ao limite em até ' + JANELA_CORREG + ' dias', classe: 'g-correg-prox', itens: prox } : null
+    ].filter(Boolean);
+  }
   if (ordemProc.campo === 'prazoEfetivo') {
     const g = new Map(BANDAS.map((b) => [b[0], []]));
     for (const p of lista) g.get(bandaPrazo(p)).push(p);
@@ -3744,6 +3820,8 @@ function telaControle() {
     }
     desenharSelFeito(b);
     desenharSelIdx(b);
+    selOrd.disabled = !!filtrosProc.padrao;
+    selOrd.title = filtrosProc.padrao ? 'Na lista da Corregedoria a ordem é por urgência: primeiro os fora do padrão, depois os que chegam ao limite' : '';
     faixas.append(resumo);
     /* filtros extras ativos */
     const nExtra = [filtrosProc.classe, filtrosProc.assunto, filtrosProc.tema, filtrosProc.arquivados].filter(Boolean).length;
@@ -3755,7 +3833,7 @@ function telaControle() {
     if (filtrosProc.assunto) ativos.append(chipAtivo('Assunto: ' + filtrosProc.assunto, () => { filtrosProc.assunto = ''; }));
     if (filtrosProc.tema) ativos.append(chipAtivo('Eixo: ' + filtrosProc.tema, () => { filtrosProc.tema = ''; }));
     if (filtrosProc.arquivados) ativos.append(chipAtivo('Com arquivados', () => { filtrosProc.arquivados = false; }));
-    if (filtrosProc.padrao) ativos.append(chipAtivo('Fora do padrão da Corregedoria', () => { filtrosProc.padrao = false; }));
+    if (filtrosProc.padrao) ativos.append(chipAtivo('Corregedoria: fora do padrão e os que chegam ao limite em ' + JANELA_CORREG + ' dias', () => { filtrosProc.padrao = false; }));
     if (filtrosProc.feito || filtrosProc.prazo || filtrosProc.indice || filtrosProc.semIndice || filtrosProc.padrao || algumFiltroExtra()) ativos.append(el('button', { type: 'button', class: 'c-limpar', onclick: limparTudo }, 'Limpar filtros'));
     ativos.classList.toggle('oculto', !ativos.childNodes.length);
   };
@@ -3768,8 +3846,12 @@ function telaControle() {
       el('button', { type: 'button', class: 'c-link', title: 'Abrir a aba Feitos hoje', onclick: () => { S.aba = 'feitos'; render(); } }, nHoje + ' feito(s) hoje'));
     const porId = new Map(db.procedimentos.map((p) => [p.id, p]));
     const nFora = ultimaListaIds.filter((id) => foraDoPadrao(porId.get(id))).length;
-    if (nFora && !filtrosProc.padrao) {
-      resumo.append(' · ', el('button', { type: 'button', class: 'c-link c-alem-tx', title: 'Mostrar só os que estão fora dos padrões da Corregedoria', onclick: () => { filtrosProc.padrao = true; desenharTudo(); } }, nFora + ' fora do padrão'));
+    const nProx = ultimaListaIds.filter((id) => { const p = porId.get(id); return !foraDoPadrao(p) && chegaAoLimite(p); }).length;
+    if ((nFora || nProx) && !filtrosProc.padrao) {
+      resumo.append(' · ', el('button', { type: 'button', class: 'c-link c-correg-link', title: 'Mostrar os que estão fora dos padrões da Corregedoria e os que chegam ao limite nos próximos ' + JANELA_CORREG + ' dias, do mais urgente ao menos', onclick: () => { filtrosProc.padrao = true; desenharTudo(); } },
+        nFora ? el('span', { class: 'c-alem-tx' }, nFora + ' fora do padrão') : null,
+        nFora && nProx ? ' + ' : null,
+        nProx ? el('span', { class: 'c-prox-tx' }, nProx + (nFora ? '' : ' chegam ao limite') + ' em ' + JANELA_CORREG + ' dias') : null));
     }
     const semData = ultimaListaIds.map((id) => porId.get(id)).filter(precisaDataInstauracao);
     if (semData.length) {
@@ -3801,7 +3883,7 @@ function telaControle() {
           const fechado = gruposFechados.has(g.chave) && !termo;
           const cab = el('button', { type: 'button', class: 'c-grupo ' + g.classe, 'aria-expanded': String(!fechado) },
             el('span', { class: 'seta-dobra' }, fechado ? '▸' : '▾'), g.titulo, el('span', { class: 'c-grupo-n' }, String(g.itens.length)),
-            (() => { const na = g.itens.filter(foraDoPadrao).length; return na ? el('span', { class: 'c-grupo-alem', title: TITULO_PADROES }, '· ' + na + ' fora do padrão') : null; })(),
+            (() => { const na = g.classe.indexOf('g-correg') === 0 ? 0 : g.itens.filter(foraDoPadrao).length; return na ? el('span', { class: 'c-grupo-alem', title: TITULO_PADROES }, '· ' + na + ' fora do padrão') : null; })(),
             (() => { const nf = g.itens.filter(estaFeito).length; return nf ? el('span', { class: 'c-grupo-feitos', title: nf + (nf === 1 ? ' marcado como feito' : ' marcados como feitos') }, '· ' + nf + (nf === 1 ? ' feito' : ' feitos')) : null; })(),
             el('span', { class: 'srule' }));
           cab.addEventListener('click', () => {
@@ -4075,7 +4157,13 @@ function abrirProc(id, foco) {
   const fInst = classeCorreg(p) ? fatoInicioClasse(p) : null;
   if (fInst) fato(fInst.rotulo, fInst.el);
   if (temFasesAnteriores(p)) fato('Antes', textoFases(p));
-  { const ms = motivosCorreg(p); if (ms.length) fato('Corregedoria', el('span', { class: 'g-correg' }, 'Fora do padrão: ' + ms.map((m) => m.longo).join('; '))); }
+  {
+    const ms = motivosCorreg(p), lim = proximoLimite(p);
+    if (ms.length || lim) fato('Corregedoria',
+      ms.length ? el('span', { class: 'g-correg' }, 'Fora do padrão: ' + ms.map((m) => m.longo).join('; ')) : null,
+      ms.length && lim ? el('br') : null,
+      lim ? el('span', { class: 'g-correg-prox' }, capitalizar(textoLimite(p, lim)) + ' (' + dataEmBR(lim.data) + ')') : null);
+  }
   const secFatos = fatos.childNodes.length ? secaoG(null, fatos) : null;
 
   /* ações do dia */
