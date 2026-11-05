@@ -649,7 +649,7 @@ footer{font-size:11.5px;opacity:.8}
 .c-grupo .seta-dobra{color:inherit}
 .c-painel{background:var(--card);border:1px solid var(--line);border-radius:var(--raio);overflow:hidden}
 .c-painel:first-child{margin-top:14px}
-.c-row{display:grid;grid-template-columns:minmax(0,1fr) 196px 112px 64px;gap:14px;align-items:center;padding:9px 12px 9px 16px;cursor:pointer;position:relative;transition:background .1s}
+.c-row{display:grid;grid-template-columns:minmax(0,1fr) 112px 64px;gap:14px;align-items:center;padding:9px 12px 9px 16px;cursor:pointer;position:relative;transition:background .1s}
 .c-row + .c-row{border-top:1px solid var(--line)}
 .c-row:hover{background:var(--paper)}
 .c-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:0}
@@ -774,7 +774,7 @@ mark.c-hit{background:var(--aviso-bg);color:inherit;border-radius:3px;padding:0 
 .feitos-metricas{margin:22px 0 0}
 
 @media (max-width:720px){
-  .c-row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"main acoes" "sit prazo";gap:4px 10px;padding:10px 12px}
+  .c-row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"main acoes" "prazo prazo";gap:4px 10px;padding:10px 12px}
   .c-main{grid-area:main}
   .c-acoes{grid-area:acoes;align-self:start}
   .c-sit{grid-area:sit;padding-left:0}
@@ -1064,6 +1064,9 @@ mark.c-hit{background:var(--aviso-bg);color:inherit;border-radius:3px;padding:0 
 input.inval{border-color:var(--t-regra);box-shadow:0 0 0 1px var(--t-regra)}
 @media (max-width:720px){.di-linha{grid-template-columns:1fr}.di-tit{white-space:normal}}
 
+/* v54: a situação virou só a marca de feito */
+.chip-feito{display:inline-block;border-radius:6px;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;color:var(--t-pratica);background:var(--t-pratica-bg)}
+
 /* v53: fases tiradas dos documentos (bloco do índice) */
 .fz-intro{font-size:12.5px;margin:0 0 4px}
 .fz-exp{padding:7px 0}
@@ -1190,7 +1193,7 @@ const S = { aba: 'controle' };
 const dobradas = new Set();
 const diasAbertosFeitos = new Set();
 let ultimaBaseHandle = null;
-const filtrosProc = { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, tipo: '', indice: '', padrao: false };
+const filtrosProc = { busca: '', classe: '', feito: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, tipo: '', indice: '', padrao: false };
 let ordemProc = { campo: 'prazoEfetivo', asc: true };
 let gavetaId = null;
 const ST = { subaba: 'tarefas', filtroTarefa: 'pendentes', busca: '', agrupar: 'prazo' };
@@ -1627,6 +1630,8 @@ function juntarRegistro(col, b, m, t, conflitos, info, ambosNovos) {
     else if (typeof vm === 'string' && typeof vt === 'string' && TEXTOS_LONGOS.has(k) && (j = juntarTexto(ambosNovos ? '' : (typeof vb === 'string' ? vb : ''), vm, vt)) !== null) {
       v = j;
       if (j !== vm && j !== vt) info.textos++;
+    } else if (k === 'situacao') {
+      v = vm; /* v54: campo antigo, acompanha a marca de feito; o conflito, se houver, aparece no "Feito" */
     } else {
       v = vm;
       conflitos.push({ tipo: 'campo', colecao: col, id: (m && m.id) || (t && t.id), rotulo: rotuloRegistro(col, m || t), campo: k, aqui: vm, la: vt });
@@ -1735,7 +1740,7 @@ function juntarVersoes(B0, M0, T0) {
 }
 
 /* ---------- quando o mesmo item mudou de jeitos diferentes nos dois computadores ---------- */
-const NOMES_CAMPOS = { situacao: 'Situação', prazoInterno: 'Prazo interno', proximaAcao: 'Próxima ação', anotacoes: 'Anotações', titulo: 'Título', assunto: 'Assunto', temas: 'Eixos temáticos', numero: 'Número', classe: 'Classe', inicio: 'Data de início', inicioClasse: 'Início na classe atual', classesAnteriores: 'Classes anteriores', fases: 'Fases (documentos)', prazo: 'Prazo de conclusão', evento: 'Último evento', arquivado: 'Arquivado', anexadoA: 'Anexado a', texto: 'Texto', detalhe: 'Detalhe', dataLimite: 'Prazo', categoria: 'Categoria', concluida: 'Concluída', data: 'Data', recorrencia: 'Repetir', ativo: 'Ativo', coluna: 'Coluna do foco', nome: 'Nome', cpf: 'CPF', cnpj: 'CNPJ', cargo: 'Cargo', orgao: 'Órgão', obs: 'Observações', resumo: 'Resumo', status: 'Status', tipo: 'Tipo', papel: 'Papel', registro: 'Dias trabalhados', procedimentoIds: 'Procedimentos vinculados', aliases: 'Outras grafias' };
+const NOMES_CAMPOS = { feito: 'Feito', feitoEm: 'Feito em', situacao: 'Situação (antiga)', prazoInterno: 'Prazo interno', proximaAcao: 'Próxima ação', anotacoes: 'Anotações', titulo: 'Título', assunto: 'Assunto', temas: 'Eixos temáticos', numero: 'Número', classe: 'Classe', inicio: 'Data de início', inicioClasse: 'Início na classe atual', classesAnteriores: 'Classes anteriores', fases: 'Fases (documentos)', prazo: 'Prazo de conclusão', evento: 'Último evento', arquivado: 'Arquivado', anexadoA: 'Anexado a', texto: 'Texto', detalhe: 'Detalhe', dataLimite: 'Prazo', categoria: 'Categoria', concluida: 'Concluída', data: 'Data', recorrencia: 'Repetir', ativo: 'Ativo', coluna: 'Coluna do foco', nome: 'Nome', cpf: 'CPF', cnpj: 'CNPJ', cargo: 'Cargo', orgao: 'Órgão', obs: 'Observações', resumo: 'Resumo', status: 'Status', tipo: 'Tipo', papel: 'Papel', registro: 'Dias trabalhados', procedimentoIds: 'Procedimentos vinculados', aliases: 'Outras grafias' };
 function nomeCampo(k) { return NOMES_CAMPOS[k] || k; }
 function rotuloRegistro(col, r) {
   r = r || {};
@@ -1755,6 +1760,7 @@ function fmtValorCampo(k, v) {
   if (vazioJ(v)) return '(vazio)';
   if (typeof v === 'boolean') return v ? 'Sim' : 'Não';
   if (k === 'situacao') return rotuloSituacao(v);
+  if (k === 'feitoEm') return fmtDataHora(v) || String(v);
   if (k === 'recorrencia') return rotuloRecorrencia(v);
   if (k === 'anexadoA') return procLabel(v) || String(v);
   if (k === 'registro' && Array.isArray(v)) return v.map((r) => fmtData(r.data) + (r.nota ? ': ' + recorte(r.nota, 60) : '')).join('; ');
@@ -2446,10 +2452,10 @@ function telaFeitosHoje() {
       if (p.titulo) info.append(el('div', { class: 'proc-titulo' }, p.titulo));
       if (p.assunto) info.append(el('div', { class: 'proc-assunto', title: p.assunto }, assuntosIndividuais(p.assunto).join(' · ') || p.assunto));
       const pills = el('div', { class: 'proc-pills' });
-      pills.append(el('span', { class: 'chip-sit s-' + p.situacao }, rotuloSituacao(p.situacao)));
+      if (estaFeito(p)) pills.append(el('span', { class: 'chip-feito', title: tituloFeito(p).replace('. Clique para desmarcar', '') }, '✓ feito'));
       if (pe) {
         let cls = 'nulo', txt = pe;
-        if (p.situacao !== 'concluido') {
+        {
           if (f === 'venc') { cls = 'venc'; txt += ' · ' + Math.abs(d) + 'd atraso'; }
           else if (d === 0) { cls = 'prox'; txt += ' · hoje'; }
           else if (f === 'prox') { cls = 'prox'; txt += ' · ' + d + 'd'; }
@@ -2650,7 +2656,7 @@ function kcard(f, readonly) {
     if (p.titulo) info.append(el('div', { class: 'kcard-titulo', title: p.titulo }, p.titulo));
     if (!readonly) {
       const pills = el('div', { class: 'kcard-pills' });
-      pills.append(el('span', { class: 'chip-sit s-' + p.situacao }, rotuloSituacao(p.situacao)));
+      if (estaFeito(p)) pills.append(el('span', { class: 'chip-feito', title: tituloFeito(p).replace('. Clique para desmarcar', '') }, '✓ feito'));
       const pe = prazoEfetivo(p);
       if (pe) {
         const d = diasAte(pe);
@@ -2704,7 +2710,7 @@ function dialogAdicionarFoco() {
     const jaNoFoco = new Set(focoDeHoje().map((f) => f.procedimentoId));
     let itens = db.procedimentos.filter((p) => !p.arquivado && !jaNoFoco.has(p.id));
     if (q) itens = itens.filter((p) => textoBuscaProc(p).indexOf(q) !== -1);
-    else itens = itens.filter((p) => (faixaPrazo(p) === 'venc' || faixaPrazo(p) === 'prox') && !feitoAguardando(p))
+    else itens = itens.filter((p) => (faixaPrazo(p) === 'venc' || faixaPrazo(p) === 'prox') && !estaFeito(p))
       .sort((a, b) => (paraData(prazoEfetivo(a)) || 0) - (paraData(prazoEfetivo(b)) || 0));
     if (!q) listaF.append(el('div', { class: 'sel-grupo' }, itens.length ? 'Sugestões: prazos vencidos e próximos' : 'Digite para buscar.'));
     if (q && !itens.length) { listaF.append(el('div', { class: 'muted', style: 'font-size:12px;padding:4px' }, 'Nenhum encontrado.')); return; }
@@ -2736,26 +2742,40 @@ const SITUACOES = [
   ['arquivamento', 'Arquivamento minutado'],
   ['concluido', 'Concluído']
 ];
-/* já feitas por mim: esperam a Promotora olhar ou o arquivamento sair.
-   Ficam no lugar de sempre, esmaecidas e riscadas, e voltam para "Sem triagem" quando o SIM registra movimento depois da marcação */
-const SITUACOES_FEITAS = new Set(['promotora', 'arquivamento']);
-function feitoAguardando(p) { return !!p && SITUACOES_FEITAS.has(p.situacao); }
+/* v54: a situação virou só a marca de feito. O feito fica no lugar de sempre, com alertas e contagens iguais
+   aos outros; só ganha o ✓. A marca sai sozinha quando o SIM registra movimento depois dela.
+   O campo antigo "situacao" continua nos dados e acompanha a marca ("promotora" quando feito), para versões e
+   relatórios antigos; quem estava "Com a promotora", "Arquivamento minutado" ou "Concluído" fica feito. */
+const SITUACOES_FEITAS_ANTIGAS = new Set(['promotora', 'arquivamento', 'concluido']);
+function estaFeito(p) { return !!p && p.feito === true; }
+function definirFeito(p, sim, agora) {
+  agora = agora || new Date().toISOString();
+  p.feito = !!sim;
+  p.feitoEm = sim ? agora : '';
+  p.situacao = sim ? 'promotora' : 'sem_triagem';
+  p.situacaoEm = agora;
+  p.alteradoEm = agora;
+}
+function tituloFeito(p) {
+  const d = p.feitoEm ? new Date(p.feitoEm) : null;
+  return 'Feito' + (d && !isNaN(d.getTime()) ? ' em ' + d.toLocaleDateString('pt-BR') : '') + '. Clique para desmarcar';
+}
 function diaDoIso(iso) { const d = new Date(iso); return isNaN(d) ? null : new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
 function dataDoEvento(ev) { const m = String(ev || '').match(/^\s*(\d{2}\/\d{2}\/\d{4})/); return m ? paraData(m[1]) : null; }
 /* o relatório novo traz movimento depois que o caso foi marcado como feito? */
 function movimentoDepoisDoFeito(p, eventoNovo) {
-  if (!feitoAguardando(p) || !eventoNovo || String(eventoNovo).trim() === String(p.evento || '').trim()) return false;
+  if (!estaFeito(p) || !eventoNovo || String(eventoNovo).trim() === String(p.evento || '').trim()) return false;
   const dNovo = dataDoEvento(eventoNovo);
   if (!dNovo) return false;
-  /* sem a data da marcação (marcados antes desta versão), compara com o último evento conhecido */
-  const marca = p.situacaoEm ? diaDoIso(p.situacaoEm) : dataDoEvento(p.evento);
+  /* sem a data da marcação (marcados antes da v49), compara com o último evento conhecido */
+  const marca = p.feitoEm ? diaDoIso(p.feitoEm) : p.situacaoEm ? diaDoIso(p.situacaoEm) : dataDoEvento(p.evento);
   if (marca && !(dNovo > marca)) return false;
-  /* arquivamento minutado que agora aparece arquivando: continua como está, sai do relatório sozinho */
-  if (p.situacao === 'arquivamento' && /arquiv|csmp|homolog/i.test(String(eventoNovo))) return false;
+  /* o movimento novo é o arquivamento: continua feito e sai do relatório sozinho */
+  if (/(?<!des)arquiv|csmp|homolog/i.test(String(eventoNovo))) return false;
   return true;
 }
 const CAMPOS_FONTE = ['classe', 'numero', 'titulo', 'assunto', 'inicio', 'prazo', 'evento', 'temas'];
-const CAMPOS_CONTROLE = ['situacao', 'prioridade', 'proximaAcao', 'prazoInterno', 'anotacoes', 'arquivado'];
+const CAMPOS_CONTROLE = ['prioridade', 'proximaAcao', 'prazoInterno', 'anotacoes', 'arquivado'];
 function rotuloSituacao(v) { const s = SITUACOES.find((x) => x[0] === v); return s ? s[1] : v; }
 function normalizarProc(p) {
   const r = Object.assign({
@@ -2768,6 +2788,8 @@ function normalizarProc(p) {
   if (!Array.isArray(r.temas)) r.temas = [];
   if (r.inicioClasse !== undefined && typeof r.inicioClasse !== 'string') delete r.inicioClasse;
   if (r.classesAnteriores !== undefined && !Array.isArray(r.classesAnteriores)) delete r.classesAnteriores;
+  if (typeof r.feito !== 'boolean') r.feito = r.feito === undefined || r.feito === null ? SITUACOES_FEITAS_ANTIGAS.has(r.situacao) : (r.feito === 'true' || r.feito === 1);
+  if (typeof r.feitoEm !== 'string') r.feitoEm = r.feito && typeof r.situacaoEm === 'string' ? r.situacaoEm : '';
   return r;
 }
 const AGRUPAMENTO_CLASSES = [
@@ -2881,7 +2903,6 @@ function prazoEfetivo(p) {
   return p.prazo || '';
 }
 function faixaPrazo(p) {
-  if (p.situacao === 'concluido') return 'concl';
   const d = diasAte(prazoEfetivo(p));
   if (d === null) return '';
   if (d < 0) return 'venc';
@@ -2937,7 +2958,6 @@ function dataCurta(br) {
   return p2(d.getDate()) + '/' + p2(d.getMonth() + 1) + (d.getFullYear() === new Date().getFullYear() ? '' : '/' + String(d.getFullYear()).slice(2));
 }
 function bandaPrazo(p) {
-  if (p.situacao === 'concluido') return 'concl';
   const d = diasAte(prazoEfetivo(p));
   if (d === null) return 'sem';
   if (d < 0) return 'venc';
@@ -2950,8 +2970,7 @@ const BANDAS = [
   ['sete', 'Vencem em até 7 dias', 'Até 7 dias'],
   ['trinta', 'Vencem em 8 a 30 dias', '8 a 30 dias'],
   ['folg', 'Mais de 30 dias', 'Mais de 30 dias'],
-  ['sem', 'Sem prazo', 'Sem prazo'],
-  ['concl', 'Concluídos', 'Concluídos']
+  ['sem', 'Sem prazo', 'Sem prazo']
 ];
 function textoPrazo(d, longo) {
   if (d === null || d === undefined) return '';
@@ -2968,8 +2987,7 @@ const FAIXAS_PARADO = [
   ['p60', 'Parados entre 60 e 89 dias'],
   ['p30', 'Parados entre 30 e 59 dias'],
   ['p0', 'Movimentados nos últimos 30 dias'],
-  ['psem', 'Sem data do último movimento'],
-  ['pconcl', 'Concluídos']
+  ['psem', 'Sem data do último movimento']
 ];
 function diasParado(p) {
   const d = paraData(dataEvento(p));
@@ -2977,7 +2995,6 @@ function diasParado(p) {
   return Math.max(0, Math.round((hojeData() - d) / 86400000));
 }
 function faixaParado(p) {
-  if (p.situacao === 'concluido') return 'pconcl';
   const d = diasParado(p);
   if (d === null) return 'psem';
   return d >= 90 ? 'p90' : d >= 60 ? 'p60' : d >= 30 ? 'p30' : 'p0';
@@ -3036,7 +3053,7 @@ function textoIdade(dias) {
   const meses = Math.floor((dias - anos * 365.25) / 30.44);
   return anos + (anos === 1 ? ' ano' : ' anos') + (meses ? ' e ' + meses + (meses === 1 ? ' mês' : ' meses') : '');
 }
-function foraDaContagem(p) { return !p || p.arquivado || p.situacao === 'concluido' || feitoAguardando(p) || eventoDeArquivamento(p); }
+function foraDaContagem(p) { return !p || p.arquivado || eventoDeArquivamento(p); }
 /* PP, IC e PIC (e a NF que veio de outra classe) sem a data de entrada na classe: o app não confere o tempo em andamento */
 function precisaDataInstauracao(p) {
   if (foraDaContagem(p)) return false;
@@ -3173,7 +3190,6 @@ function explicaParado(p) {
 /* coluna da direita na ordem "Tempo parado": dias sem movimento e a data do último movimento (vermelho: IC sem impulso há mais de 90 dias) */
 function celulaParado(p) {
   const c = el('div', { class: 'c-prazo parado' });
-  if (p.situacao === 'concluido') { c.classList.add('concl'); c.append(el('span', { class: 'c-rel' }, 'concluído')); return c; }
   const d = diasParado(p);
   c.title = explicaParado(p);
   if (d === null) { c.append(el('span', { class: 'c-rel' }, 'sem data')); return c; }
@@ -3200,12 +3216,12 @@ function chipPrazoCurto(p) {
 }
 function relParadoGaveta(p) {
   const d = diasParado(p);
-  if (d === null || p.situacao === 'concluido') return null;
+  if (d === null) return null;
   return el('span', { class: 'g-rel ' + (semImpulso(p) ? 'venc' : 'parado'), title: explicaParado(p) }, ' · ' + textoParado(d));
 }
 function relIdadeSim(p) {
   const d = diasDesde(p.inicio);
-  if (d === null || p.situacao === 'concluido') return null;
+  if (d === null) return null;
   return el('span', { class: 'g-rel parado' }, ' · há ' + textoIdade(d));
 }
 /* gaveta: data em que entrou na classe atual, com campo para informar ou corrigir */
@@ -3218,7 +3234,7 @@ function fatoInicioClasse(p) {
   const info = el('span', { class: 'g-inst-info' });
   if (ic && ic.fonte !== 'sim') {
     const fora = motivosCorreg(p).some((m) => m.tipo === 'idade');
-    if (p.situacao !== 'concluido') info.append(el('span', { class: 'g-rel ' + (fora ? 'venc' : 'parado') }, 'há ' + textoIdade(diasDesde(ic.data))));
+    info.append(el('span', { class: 'g-rel ' + (fora ? 'venc' : 'parado') }, 'há ' + textoIdade(diasDesde(ic.data))));
     if (ic.fonte === 'evento') info.append(el('span', { class: 'muted' }, ' · pelo último evento do SIM'));
     else if (dDoc && dDoc === ic.data) info.append(el('span', { class: 'muted' }, ' · pelos documentos indexados'));
     else if (dDoc) info.append(el('span', { class: 'muted' }, ' · nos documentos indexados: ' + dDoc));
@@ -3311,7 +3327,6 @@ const ORDENS_CONTROLE = [
   ['prazoEfetivo', 'Prazo'],
   ['eventoAntigo', 'Tempo parado'],
   ['eventoRecente', 'Último evento (recente)'],
-  ['situacao', 'Situação'],
   ['trabalho', 'Trabalhados por último'],
   ['inicio', 'Início (recente)'],
   ['numero', 'Número']
@@ -3377,7 +3392,7 @@ function passaFiltros(p, ignorar, busca) {
   if (f.classe && classeAgrupada(p.classe) !== f.classe) return false;
   if (f.assunto && !procTemAssunto(p, f.assunto)) return false;
   if (f.tema && !(p.temas || []).some((t2) => norm(t2) === norm(f.tema))) return false;
-  if (ignorar !== 'situacao' && f.situacao && (f.situacao === 'feitos' ? !feitoAguardando(p) : p.situacao !== f.situacao)) return false;
+  if (ignorar !== 'feito' && f.feito && (f.feito === 'sim') !== estaFeito(p)) return false;
   if (ignorar !== 'indice') {
     const modo = f.indice || (f.semIndice ? 'nao' : '');
     if (modo && (modo === 'sim') !== !!infoIndice(p).exp) return false;
@@ -3400,8 +3415,6 @@ function ordenarProcs(lista) {
     return asc ? a - b : b - a;
   };
   const ultimoTrabalho = (p) => (p.registro || []).reduce((m, r) => (r.data > m ? r.data : m), '');
-  const ordSit = {};
-  SITUACOES.forEach((s, i) => { ordSit[s[0]] = i; });
   const porNumero = (a, b) => (a.numero || '').localeCompare(b.numero || '');
   const porPrazo = (a, b) => porData(ms(prazoEfetivo(a)), ms(prazoEfetivo(b)), true);
   const porEvento = (a, b, asc) => porData(ms(dataEvento(a)), ms(dataEvento(b)), asc);
@@ -3409,7 +3422,6 @@ function ordenarProcs(lista) {
     prazoEfetivo: (a, b) => porPrazo(a, b) || porEvento(a, b, false) || porNumero(a, b),
     eventoRecente: (a, b) => porEvento(a, b, false) || porNumero(a, b),
     eventoAntigo: (a, b) => porEvento(a, b, true) || porNumero(a, b),
-    situacao: (a, b) => ((ordSit[a.situacao] || 0) - (ordSit[b.situacao] || 0)) || porPrazo(a, b) || porNumero(a, b),
     trabalho: (a, b) => {
       const x = ultimoTrabalho(a), y = ultimoTrabalho(b);
       if (x !== y) { if (!x) return 1; if (!y) return -1; return x < y ? 1 : -1; }
@@ -3434,11 +3446,6 @@ function gruposDaLista(lista) {
     const g = new Map(FAIXAS_PARADO.map((f) => [f[0], []]));
     for (const p of lista) g.get(faixaParado(p)).push(p);
     return FAIXAS_PARADO.filter((f) => g.get(f[0]).length).map((f) => ({ chave: 'p:' + f[0], titulo: f[1], classe: 'g-' + f[0], itens: g.get(f[0]) }));
-  }
-  if (ordemProc.campo === 'situacao') {
-    const g = new Map(SITUACOES.map((s) => [s[0], []]));
-    for (const p of lista) (g.get(p.situacao) || g.get('sem_triagem')).push(p);
-    return SITUACOES.filter((s) => g.get(s[0]).length).map((s) => ({ chave: 's:' + s[0], titulo: s[1], classe: 'g-sit', itens: g.get(s[0]) }));
   }
   return [{ chave: '', titulo: '', classe: '', itens: lista }];
 }
@@ -3539,7 +3546,7 @@ function linhaProc(p, termo) {
   const pe = prazoEfetivo(p);
   const d = diasAte(pe);
   const row = el('div', {
-    class: 'c-row' + (p.arquivado ? ' arquivado' : '') + (feitoAguardando(p) ? ' feito-espera' : '') + (p.id === gavetaId ? ' atual' : ''),
+    class: 'c-row' + (p.arquivado ? ' arquivado' : '') + (estaFeito(p) ? ' feito' : '') + (p.id === gavetaId ? ' atual' : ''),
     tabindex: '0', role: 'button', 'data-id': p.id,
     'aria-label': 'Abrir ' + (p.numero || 'procedimento sem número') + ': ' + tituloVisivel(p)
   });
@@ -3570,29 +3577,23 @@ function linhaProc(p, termo) {
   const alerta = linhaAlerta(p, !modoParado);
   if (alerta) main.append(alerta);
 
-  const vazia = p.situacao === 'sem_triagem';
-  const sit = el('button', { type: 'button', class: 'c-sit' + (vazia ? ' vazia' : ''), title: feitoAguardando(p) ? 'Feito: ' + rotuloSituacao(p.situacao).toLowerCase() + '. Clique para mudar a situação' : 'Mudar a situação', 'aria-haspopup': 'menu' },
-    feitoAguardando(p) ? el('span', { class: 'c-ok ok-' + p.situacao, 'aria-hidden': 'true' }, '✓') : el('span', { class: 'c-dot d-' + p.situacao }), el('span', { class: 'c-sit-tx' }, rotuloSituacao(p.situacao)));
-  sit.addEventListener('click', (e) => { e.stopPropagation(); menuSituacao(sit, p); });
-  sit.addEventListener('keydown', (e) => e.stopPropagation());
-
   const prazoEl = modoParado ? celulaParado(p) : el('div', { class: 'c-prazo ' + banda });
   if (pe && !modoParado) {
     const interno = !!(p.prazoInterno && pe === p.prazoInterno && p.prazoInterno !== p.prazo);
-    prazoEl.title = (interno ? 'Prazo interno ' : 'Prazo ') + pe + (banda === 'concl' ? '' : ' · ' + textoPrazo(d, true)) + (feitoAguardando(p) ? ' · já feito, aguardando' : '');
-    prazoEl.append(el('span', { class: 'c-rel' }, banda === 'concl' ? 'concluído' : textoPrazo(d, false)),
+    prazoEl.title = (interno ? 'Prazo interno ' : 'Prazo ') + pe + ' · ' + textoPrazo(d, true);
+    prazoEl.append(el('span', { class: 'c-rel' }, textoPrazo(d, false)),
       el('span', { class: 'c-data' }, (interno ? 'int. ' : '') + (paraBR(pe) || pe)));
   }
 
-  const feito = feitoHoje(p);
+  const feito = estaFeito(p);
   const noFoco = estaNoFoco(p.id);
-  const bFeito = el('button', { type: 'button', class: 'c-ic' + (feito ? ' on' : ''), 'aria-pressed': String(feito), title: feito ? 'Feito hoje (clique para desmarcar)' : 'Marcar como feito hoje' }, '✓');
+  const bFeito = el('button', { type: 'button', class: 'c-ic c-feito' + (feito ? ' on' : ''), 'aria-pressed': String(feito), title: feito ? tituloFeito(p) : 'Marcar como feito (fica até você desmarcar ou o SIM registrar movimento novo)' }, '✓');
   bFeito.addEventListener('click', (e) => { e.stopPropagation(); alternarFeitoLinha(p); });
   const bFoco = el('button', { type: 'button', class: 'c-ic foco' + (noFoco ? ' on' : ''), 'aria-pressed': String(noFoco), title: noFoco ? 'No foco de hoje (clique para tirar)' : 'Pôr no foco de hoje' }, '◎');
   bFoco.addEventListener('click', (e) => { e.stopPropagation(); alternarFocoLinha(p); });
   for (const b of [bFeito, bFoco]) b.addEventListener('keydown', (e) => e.stopPropagation());
 
-  row.append(main, sit, prazoEl, el('div', { class: 'c-acoes' }, bFeito, bFoco));
+  row.append(main, prazoEl, el('div', { class: 'c-acoes' }, bFeito, bFoco));
   row.addEventListener('click', () => abrirProc(p.id));
   row.addEventListener('keydown', (e) => {
     if (e.target !== row) return;
@@ -3617,8 +3618,18 @@ function atualizarLinha(id) {
   if (tinhaFoco) nova.focus({ preventScroll: true });
   if (atualizarResumoControle) atualizarResumoControle();
 }
+/* o ✓ da linha e da gaveta: marca ou desmarca o feito. Marcar também registra o trabalho de hoje ("Feitos hoje");
+   desmarcar tira o registro de hoje */
+function alternarFeito(p) {
+  const marcar = !estaFeito(p);
+  definirFeito(p, marcar);
+  if (marcar) { if (!Array.isArray(p.registro)) p.registro = []; if (!feitoHoje(p)) p.registro.push({ data: hojeStr(), nota: '' }); }
+  else p.registro = (p.registro || []).filter((r) => r.data !== hojeStr());
+  touch();
+  return marcar;
+}
 function alternarFeitoLinha(p) {
-  if (feitoHoje(p)) desmarcarFeito(p); else marcarFeito(p, '');
+  alternarFeito(p);
   atualizarLinha(p.id);
 }
 function alternarFocoLinha(p) {
@@ -3635,24 +3646,6 @@ function alternarFocoLinha(p) {
     recado('Posto no foco de hoje.', { rotulo: 'Ver o foco', fn: () => { fecharGaveta(); S.aba = 'foco'; render(); } });
   }
 }
-function menuSituacao(anchor, p) {
-  const itens = SITUACOES.map((s) => el('button', {
-    type: 'button', class: 'pop-item' + (p.situacao === s[0] ? ' atual' : ''), role: 'menuitemradio', 'aria-checked': String(p.situacao === s[0]),
-    onclick: () => {
-      fecharPopover();
-      if (p.situacao === s[0]) { anchor.focus(); return; }
-      const foto = fotoBase();
-      p.situacao = s[0];
-      p.situacaoEm = new Date().toISOString();
-      p.alteradoEm = p.situacaoEm;
-      touch();
-      if (redesenharListaControle) redesenharListaControle(p.id); else render();
-      oferecerDesfazer('Situação: ' + s[1] + '.', foto);
-    }
-  }, SITUACOES_FEITAS.has(s[0]) ? el('span', { class: 'c-ok ok-' + s[0], 'aria-hidden': 'true' }, '✓') : el('span', { class: 'c-dot d-' + s[0] }), s[1]));
-  abrirPopover(anchor, itens, { menu: true, classe: 'pop-menu' });
-}
-
 function telaControle() {
   const c = el('div', { class: 'controle' });
   if (!db.procedimentos.length) {
@@ -3683,17 +3676,17 @@ function telaControle() {
       el('button', { class: 'btn primary sm', onclick: novoProc }, '+ Novo'),
       menuAcoes([['Importar JSON…', importarJsonProc], ['Exportar CSV (lista filtrada)', exportarCsvProc]], '⋯', 'Importar e exportar')));
 
-  /* linha 2: busca, situação, ordem, filtros */
+  /* linha 2: busca, feitos, índice, ordem, filtros */
   const busca = el('input', { type: 'search', class: 'c-busca', id: 'busca-proc', placeholder: 'Buscar número, título, assunto ou pessoa…', title: 'Atalho: tecla /', value: filtrosProc.busca, autocomplete: 'off', spellcheck: 'false', 'aria-label': 'Buscar procedimentos' });
   const lupa = el('span', { class: 'c-lupa', 'aria-hidden': 'true' });
   lupa.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
-  const selSit = el('select', { class: 'c-sel', 'aria-label': 'Situação' });
+  const selFeito = el('select', { class: 'c-sel', 'aria-label': 'Feitos' });
   const selIdx = el('select', { class: 'c-sel', 'aria-label': 'Índice de envolvidos' });
   const selOrd = el('select', { class: 'c-sel', 'aria-label': 'Ordenar' });
   for (const o of ORDENS_CONTROLE) selOrd.append(el('option', { value: o[0] }, 'Ordenar: ' + o[1]));
   selOrd.value = ordemProc.campo;
   const btFiltros = el('button', { type: 'button', class: 'btn ghost sm c-btfiltros', 'aria-haspopup': 'dialog' }, 'Filtros', el('span', { class: 'c-nfiltros' }));
-  const linha2 = el('div', { class: 'c-ferr' }, el('div', { class: 'c-busca-wrap' }, lupa, busca), selSit, selIdx, selOrd, btFiltros);
+  const linha2 = el('div', { class: 'c-ferr' }, el('div', { class: 'c-busca-wrap' }, lupa, busca), selFeito, selIdx, selOrd, btFiltros);
 
   /* linha 3: faixas de prazo e resumo */
   const faixas = el('div', { class: 'c-faixas' });
@@ -3701,23 +3694,21 @@ function telaControle() {
   const ativos = el('div', { class: 'c-ativos' });
   const listaWrap = el('div', { class: 'c-lista' });
   const algumFiltroExtra = () => !!(filtrosProc.classe || filtrosProc.assunto || filtrosProc.tema || filtrosProc.arquivados);
-  const algumFiltro = () => !!(filtrosProc.busca || filtrosProc.situacao || filtrosProc.prazo || filtrosProc.indice || filtrosProc.semIndice || filtrosProc.padrao || algumFiltroExtra());
+  const algumFiltro = () => !!(filtrosProc.busca || filtrosProc.feito || filtrosProc.prazo || filtrosProc.indice || filtrosProc.semIndice || filtrosProc.padrao || algumFiltroExtra());
   const limparTudo = () => {
-    Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, indice: '', padrao: false });
+    Object.assign(filtrosProc, { busca: '', classe: '', feito: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, indice: '', padrao: false });
     busca.value = '';
     fecharPopover();
     desenharTudo();
   };
 
-  const desenharSelSit = (contBusca) => {
-    const cont = {};
-    for (const p of db.procedimentos) if (passaFiltros(p, 'situacao', contBusca)) cont[p.situacao] = (cont[p.situacao] || 0) + 1;
-    selSit.innerHTML = '';
-    selSit.append(el('option', { value: '' }, 'Situação: todas'));
-    selSit.append(el('option', { value: 'feitos' }, 'Feitos, aguardando · ' + ((cont.promotora || 0) + (cont.arquivamento || 0))));
-    for (const s of SITUACOES) selSit.append(el('option', { value: s[0] }, s[1] + ' · ' + (cont[s[0]] || 0)));
-    selSit.value = filtrosProc.situacao;
-    selSit.classList.toggle('ativo', !!filtrosProc.situacao);
+  const desenharSelFeito = (contBusca) => {
+    let sim = 0, nao = 0;
+    for (const p of db.procedimentos) if (passaFiltros(p, 'feito', contBusca)) { if (estaFeito(p)) sim++; else nao++; }
+    selFeito.innerHTML = '';
+    selFeito.append(el('option', { value: '' }, 'Feitos: todos'), el('option', { value: 'sim' }, 'Só os feitos · ' + sim), el('option', { value: 'nao' }, 'Sem os feitos · ' + nao));
+    selFeito.value = filtrosProc.feito || '';
+    selFeito.classList.toggle('ativo', !!filtrosProc.feito);
   };
   const desenharSelIdx = (contBusca) => {
     let sim = 0, nao = 0;
@@ -3751,7 +3742,7 @@ function telaControle() {
           onclick: () => { filtrosProc.prazo = on ? '' : x[0]; desenharTudo(); } }, x[2], el('span', { class: 'n' }, String(nf[x[0]] || 0))));
       }
     }
-    desenharSelSit(b);
+    desenharSelFeito(b);
     desenharSelIdx(b);
     faixas.append(resumo);
     /* filtros extras ativos */
@@ -3765,7 +3756,7 @@ function telaControle() {
     if (filtrosProc.tema) ativos.append(chipAtivo('Eixo: ' + filtrosProc.tema, () => { filtrosProc.tema = ''; }));
     if (filtrosProc.arquivados) ativos.append(chipAtivo('Com arquivados', () => { filtrosProc.arquivados = false; }));
     if (filtrosProc.padrao) ativos.append(chipAtivo('Fora do padrão da Corregedoria', () => { filtrosProc.padrao = false; }));
-    if (filtrosProc.situacao || filtrosProc.prazo || filtrosProc.indice || filtrosProc.semIndice || filtrosProc.padrao || algumFiltroExtra()) ativos.append(el('button', { type: 'button', class: 'c-limpar', onclick: limparTudo }, 'Limpar filtros'));
+    if (filtrosProc.feito || filtrosProc.prazo || filtrosProc.indice || filtrosProc.semIndice || filtrosProc.padrao || algumFiltroExtra()) ativos.append(el('button', { type: 'button', class: 'c-limpar', onclick: limparTudo }, 'Limpar filtros'));
     ativos.classList.toggle('oculto', !ativos.childNodes.length);
   };
   const desenharResumo = () => {
@@ -3811,7 +3802,7 @@ function telaControle() {
           const cab = el('button', { type: 'button', class: 'c-grupo ' + g.classe, 'aria-expanded': String(!fechado) },
             el('span', { class: 'seta-dobra' }, fechado ? '▸' : '▾'), g.titulo, el('span', { class: 'c-grupo-n' }, String(g.itens.length)),
             (() => { const na = g.itens.filter(foraDoPadrao).length; return na ? el('span', { class: 'c-grupo-alem', title: TITULO_PADROES }, '· ' + na + ' fora do padrão') : null; })(),
-            (() => { const nf = g.itens.filter(feitoAguardando).length; return nf ? el('span', { class: 'c-grupo-feitos', title: nf + ' já feito(s), aguardando a Promotora ou o arquivamento' }, '· ' + nf + (nf === 1 ? ' já feito' : ' já feitos')) : null; })(),
+            (() => { const nf = g.itens.filter(estaFeito).length; return nf ? el('span', { class: 'c-grupo-feitos', title: nf + (nf === 1 ? ' marcado como feito' : ' marcados como feitos') }, '· ' + nf + (nf === 1 ? ' feito' : ' feitos')) : null; })(),
             el('span', { class: 'srule' }));
           cab.addEventListener('click', () => {
             if (gruposFechados.has(g.chave)) gruposFechados.delete(g.chave); else gruposFechados.add(g.chave);
@@ -3838,7 +3829,7 @@ function telaControle() {
     if (e.key === 'ArrowDown') { const r = document.querySelector('.c-row'); if (r) { e.preventDefault(); r.focus(); } }
     if (e.key === 'Enter' && ultimaListaIds.length) { e.preventDefault(); abrirProc(ultimaListaIds[0]); }
   });
-  selSit.addEventListener('change', () => { filtrosProc.situacao = selSit.value; desenharTudo(); });
+  selFeito.addEventListener('change', () => { filtrosProc.feito = selFeito.value; desenharTudo(); });
   selIdx.addEventListener('change', () => { filtrosProc.indice = selIdx.value; filtrosProc.semIndice = false; desenharTudo(); });
   selOrd.addEventListener('change', () => { ordemProc = { campo: selOrd.value, asc: true }; guardarPrefControle(); desenharLista(); });
   btFiltros.addEventListener('click', (e) => {
@@ -4005,36 +3996,6 @@ function botaoCopiar(valor, aviso) {
     window.prompt('Copie o número:', valor);
   } }, 'copiar');
 }
-/* situação em botões: um clique */
-function seletorSituacao(valor) {
-  let atual = valor || 'sem_triagem';
-  const box = el('div', { class: 'g-sits', role: 'radiogroup', 'aria-label': 'Situação' });
-  const botoes = SITUACOES.map((s) => {
-    const b = el('button', { type: 'button', role: 'radio', 'data-v': s[0] }, SITUACOES_FEITAS.has(s[0]) ? el('span', { class: 'c-ok ok-' + s[0], 'aria-hidden': 'true' }, '✓') : el('span', { class: 'c-dot d-' + s[0] }), s[1]);
-    b.addEventListener('click', () => { atual = s[0]; desenhar(); });
-    box.append(b);
-    return b;
-  });
-  const desenhar = () => {
-    for (const b of botoes) {
-      const on = b.dataset.v === atual;
-      b.className = 'g-sit' + (on ? ' on s-' + b.dataset.v : '');
-      b.setAttribute('aria-checked', String(on));
-      b.tabIndex = on ? 0 : -1;
-    }
-  };
-  box.addEventListener('keydown', (e) => {
-    if (!/^Arrow(Left|Right|Up|Down)$/.test(e.key) || e.altKey) return;
-    e.preventDefault();
-    const i = SITUACOES.findIndex((s) => s[0] === atual);
-    const j = (i + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : SITUACOES.length - 1)) % SITUACOES.length;
-    atual = SITUACOES[j][0];
-    desenhar();
-    botoes[j].focus();
-  });
-  desenhar();
-  return { el: box, ler: () => atual };
-}
 function atualizarNavGaveta() {
   const i = S.aba === 'controle' ? ultimaListaIds.indexOf(gavetaId) : -1;
   const nav = $('#g-nav');
@@ -4099,7 +4060,6 @@ function abrirProc(id, foco) {
   const fatos = el('dl', { class: 'g-fatos' });
   const fato = (rotulo, ...valor) => fatos.append(el('dt', {}, rotulo), el('dd', {}, ...valor));
   const relPrazo = (v) => {
-    if (p.situacao === 'concluido') return null;
     const d = diasAte(v);
     if (d === null) return null;
     const cls = d < 0 ? 'venc' : d <= 7 ? 'sete' : d <= 30 ? 'trinta' : 'folg';
@@ -4120,20 +4080,19 @@ function abrirProc(id, foco) {
 
   /* ações do dia */
   const noFoco = focoDeHoje().some((f) => f.procedimentoId === p.id);
-  const feito = feitoHoje(p);
+  const feito = estaFeito(p);
   const acoes = el('div', { class: 'g-acoes' },
     el('button', { class: 'btn sm ' + (noFoco ? 'ghost marcado' : 'ghost'), title: noFoco ? 'Ir para o Foco do dia' : 'Pôr no Foco do dia',
       onclick: () => { if (noFoco) { fecharGaveta(); S.aba = 'foco'; render(); return; } aplicarGaveta(); adicionarAoFoco(p.id); abrirProc(p.id); } },
       noFoco ? '◎ No foco' : '◎ Pôr no foco'),
-    el('button', { class: 'btn sm ' + (feito ? 'ghost marcado' : 'ghost'), title: feito ? 'Desmarcar' : 'Registrar que trabalhou neste procedimento hoje',
-      onclick: () => { aplicarGaveta(); if (feito) desmarcarFeito(p); else marcarFeito(p, ''); render(); abrirProc(p.id); } },
-      feito ? '✓ Feito hoje' : '✓ Marcar feito'),
+    el('button', { class: 'btn sm ' + (feito ? 'ghost marcado' : 'ghost'), title: feito ? tituloFeito(p) : 'Marcar como feito: fica até você desmarcar ou o SIM registrar movimento novo',
+      onclick: () => { aplicarGaveta(); alternarFeito(p); render(); abrirProc(p.id); } },
+      feito ? '✓ Feito' : '✓ Marcar feito'),
     el('button', { class: 'btn ghost sm', onclick: () => criarTarefaDoProc(p.id) }, '+ Tarefa')
   );
 
   /* meu controle */
   preencherSugestoesAcao();
-  const cSit = seletorSituacao(p.situacao);
   const cProximaAcao = texto(p.proximaAcao, { placeholder: 'Escolha na lista ou escreva (ex.: requisitar informações ao SEMAE)', list: 'dl-acoes', autocomplete: 'off' });
   const cPrazoInterno = el('input', { type: 'date', value: paraISO(p.prazoInterno) });
   const atalho = (rot, fn) => el('button', { type: 'button', class: 'mini-chip', onclick: fn }, rot);
@@ -4144,7 +4103,7 @@ function abrirProc(id, foco) {
       atalho('+30 dias', () => { cPrazoInterno.value = isoDaquiA(30); }),
       atalho('Limpar', () => { cPrazoInterno.value = ''; })));
   const cAnotacoes = areaTexto(p.anotacoes, 4);
-  const secControle = secaoG('Meu controle', campo('Situação', cSit.el),
+  const secControle = secaoG('Meu controle',
     campo('Próxima ação', cProximaAcao),
     campo('Prazo interno', prazoInt, 'Só seu: entra no lugar do prazo do SIM quando vence antes dele.'),
     campo('Anotações', cAnotacoes, 'A mesma anotação aparece no cartão do Foco do dia.'));
@@ -4178,7 +4137,7 @@ function abrirProc(id, foco) {
   const lerData = (inp) => () => (inp.value ? paraBR(inp.value) : '');
   const lerTxt = (inp) => () => inp.value.trim();
   gavetaCampos = {
-    situacao: cSit.ler, prazoInterno: lerData(cPrazoInterno), proximaAcao: lerTxt(cProximaAcao), anotacoes: lerTxt(cAnotacoes),
+    prazoInterno: lerData(cPrazoInterno), proximaAcao: lerTxt(cProximaAcao), anotacoes: lerTxt(cAnotacoes),
     titulo: lerTxt(cTitulo), assunto: lerTxt(cAssunto), temas: edTemas.ler, numero: lerTxt(cNumero), classe: lerTxt(cClasse),
     inicio: lerData(cInicio), prazo: lerData(cPrazo)
   };
@@ -4441,7 +4400,7 @@ function mesclarProc(lista, substituir, arquivarAusentes) {
       }
       for (const cpo of CAMPOS_FONTE) { if (item[cpo] && (!Array.isArray(item[cpo]) || item[cpo].length)) existente[cpo] = item[cpo]; }
       if (item.inicioClasse && paraData(item.inicioClasse)) existente.inicioClasse = paraBR(item.inicioClasse);
-      if (volta) { existente.situacao = 'sem_triagem'; existente.situacaoEm = agora; voltaram++; }
+      if (volta) { definirFeito(existente, false, agora); voltaram++; }
       for (const cpo of CAMPOS_CONTROLE) { if (item[cpo] !== undefined && item[cpo] !== '' && item[cpo] !== false) existente[cpo] = item[cpo]; }
       if (existente.arquivado) { existente.arquivado = false; desarquivados++; }
       existente.alteradoEm = agora;
@@ -4465,7 +4424,7 @@ function mesclarProc(lista, substituir, arquivarAusentes) {
   touch();
   render();
   let msg = novos + ' incluído(s), ' + atualizados + ' atualizado(s).';
-  if (voltaram) msg += ' ' + voltaram + (voltaram === 1 ? ' voltou' : ' voltaram') + ' para "Sem triagem": estava(m) como feito(s) e o SIM registrou movimento depois.';
+  if (voltaram) msg += ' ' + voltaram + (voltaram === 1 ? ' deixou de estar feito' : ' deixaram de estar feitos') + ': o SIM registrou movimento depois da marcação.';
   if (mudaramClasse) msg += ' ' + mudaramClasse + (mudaramClasse === 1 ? ' mudou de classe' : ' mudaram de classe') + (semDataNova ? ' (' + semDataNova + ' sem a data da portaria: informe no Controle, em "sem data de instauração")' : '') + '.';
   if (desarquivados) msg += ' ' + desarquivados + ' desarquivado(s).';
   if (arquivados) msg += ' ' + arquivados + ' arquivado(s) por não constarem no relatório.';
@@ -4514,10 +4473,10 @@ function confirmarMesclagem(lista, arquivarAusentes) {
   const corpo = [el('p', { class: 'muted', style: 'margin:0 0 6px' }, 'O bloco tem ' + lista.length + ' procedimento(s).')];
   if (pv.novos.length) corpo.push(bloco('Serão incluídos', pv.novos));
   if (pv.atualizados.length) corpo.push(el('div', { class: 'conf-bloco' }, el('div', { class: 'sec-h' }, 'Serão atualizados', el('span', { class: 'cont' }, String(pv.atualizados.length))),
-    el('div', { class: 'muted g-dica' }, 'Recebem os dados do relatório (título, prazo, último evento…). ' + (pv.voltam.length ? 'Próxima ação e anotações ficam como estão; a situação também, menos nos que voltam para "Sem triagem" (abaixo).' : 'Situação, próxima ação e anotações ficam como estão.'))));
+    el('div', { class: 'muted g-dica' }, 'Recebem os dados do relatório (título, prazo, último evento…). Próxima ação, anotações e a marca de feito ficam como estão' + (pv.voltam.length ? ', menos nos que deixam de estar feitos (abaixo).' : '.'))));
   if (pv.voltam.length) {
-    const bv = bloco('Voltam para "Sem triagem"', pv.voltam);
-    bv.firstChild.after(el('div', { class: 'muted g-dica' }, 'Estavam como feitos, e o SIM registrou movimento depois da marcação.'));
+    const bv = bloco('Deixam de estar feitos', pv.voltam);
+    bv.firstChild.after(el('div', { class: 'muted g-dica' }, 'Estavam marcados como feitos, e o SIM registrou movimento depois da marcação.'));
     corpo.push(bv);
   }
   if (pv.mudam.length) {
@@ -4601,7 +4560,7 @@ function colarProcedimentos() {
   const labelArq = el('label', { style: 'display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-top:6px;cursor:pointer' },
     chkArq, 'Relatório completo: arquivar procedimentos que não aparecem neste bloco e desarquivar os que reaparecem');
   abrirDialogo('Colar do Claude · procedimentos', [
-    campo('Bloco de procedimentos', ta, 'O casamento é feito pelo número do expediente: quem já existe é atualizado (suas anotações de controle são preservadas; os já feitos que o SIM movimentou depois voltam para "Sem triagem"), quem não existe é incluído. Nada muda antes da tela de conferência.'),
+    campo('Bloco de procedimentos', ta, 'O casamento é feito pelo número do expediente: quem já existe é atualizado (suas anotações de controle são preservadas; os feitos que o SIM movimentou depois da marcação perdem a marca), quem não existe é incluído. Nada muda antes da tela de conferência.'),
     labelArq
   ], () => {
     let d;
@@ -4646,10 +4605,10 @@ function importarJsonProc() {
 }
 function exportarCsvProc() {
   if (!db || !db.procedimentos.length) { alert('Não há procedimentos para exportar.'); return; }
-  const cols = ['numero', 'classe', 'titulo', 'assunto', 'temas', 'inicio', 'inicioClasse', 'prazo', 'prazoInterno', 'situacao', 'proximaAcao', 'anotacoes', 'evento', 'arquivado'];
+  const cols = ['numero', 'classe', 'titulo', 'assunto', 'temas', 'inicio', 'inicioClasse', 'prazo', 'prazoInterno', 'feito', 'proximaAcao', 'anotacoes', 'evento', 'arquivado'];
   const cel = (v) => '"' + String(v === null || v === undefined ? '' : (Array.isArray(v) ? v.join(', ') : v)).replace(/"/g, '""') + '"';
   const linhas = [cols.join(';')];
-  listarProc().forEach((p) => linhas.push(cols.map((cName) => cel(cName === 'situacao' ? rotuloSituacao(p[cName]) : p[cName])).join(';')));
+  listarProc().forEach((p) => linhas.push(cols.map((cName) => cel(cName === 'feito' ? (estaFeito(p) ? 'sim' : '') : p[cName])).join(';')));
   baixarArquivo('procedimentos-3pj-' + carimboData() + '.csv', '\ufeff' + linhas.join('\r\n'), 'text/csv');
   recado('CSV exportado com ' + (linhas.length - 1) + ' procedimento(s) da lista atual.');
 }
@@ -5182,7 +5141,7 @@ function inicioIx() {
     c.append(el('div', { class: 'ix-aviso-controle' },
       el('span', {}, el('strong', {}, String(semIdx)), semIdx === 1 ? ' procedimento extrajudicial do Controle ainda não está no Índice.' : ' procedimentos extrajudiciais do Controle ainda não estão no Índice.'),
       el('button', { class: 'btn ghost sm', onclick: () => {
-        Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, tipo: 'extra', indice: 'nao', padrao: false });
+        Object.assign(filtrosProc, { busca: '', classe: '', feito: '', prazo: '', assunto: '', tema: '', arquivados: false, semIndice: false, tipo: 'extra', indice: 'nao', padrao: false });
         S.aba = 'controle'; render(); window.scrollTo(0, 0);
       } }, 'Ver no Controle')));
   }
@@ -5275,7 +5234,7 @@ function telaListaIx(tipo) {
 function linhaProcIx(p) {
   const row = el('div', { class: 'ix-row', tabindex: '0', role: 'button', 'data-id': p.id, 'aria-label': 'Abrir no Controle ' + (p.numero || '') });
   const main = el('div', { class: 'ix-main' },
-    el('div', { class: 'ix-l1' }, el('span', { class: 'ix-tipo' }, classeAgrupada(p.classe) || 'Procedimento'), el('strong', { class: 'mono ix-num' }, p.numero || '(s/ nº)'), el('span', { class: 'ix-status' }, rotuloSituacao(p.situacao))),
+    el('div', { class: 'ix-l1' }, el('span', { class: 'ix-tipo' }, classeAgrupada(p.classe) || 'Procedimento'), el('strong', { class: 'mono ix-num' }, p.numero || '(s/ nº)'), estaFeito(p) ? el('span', { class: 'ix-status' }, '✓ feito') : null),
     el('div', { class: 'ix-l2' }, el('span', { class: 'ix-tx' }, recorte(tituloVisivel(p) || 'sem título', 200))));
   row.append(iconeIx('expediente'), main, el('div', { class: 'ix-dir' }, el('span', { class: 'ix-n' }, 'Controle ↗')));
   const abrir = () => abrirProc(p.id);
@@ -5314,7 +5273,7 @@ function telaTemasIx() {
     if (procs.length) {
       const rotTema = IX.tema;
       c.append(el('button', { class: 'btn ghost sm', style: 'margin-top:10px', onclick: () => {
-        Object.assign(filtrosProc, { busca: '', classe: '', situacao: '', prazo: '', assunto: '', arquivados: false, semIndice: false, tipo: '', indice: '', padrao: false });
+        Object.assign(filtrosProc, { busca: '', classe: '', feito: '', prazo: '', assunto: '', arquivados: false, semIndice: false, tipo: '', indice: '', padrao: false });
         filtrosProc.tema = (todosTemas().find((x) => norm(x) === norm(rotTema))) || rotTema;
         S.aba = 'controle'; render();
       } }, 'Ver no Controle com este filtro'));
