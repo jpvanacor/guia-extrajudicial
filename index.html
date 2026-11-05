@@ -1044,6 +1044,25 @@ mark.c-hit{background:var(--aviso-bg);color:inherit;border-radius:3px;padding:0 
 .c-link.c-alem-tx{text-decoration-color:currentColor}
 .g-rel.parado{color:var(--ink)}
 @media (max-width:720px){.c-alerta{white-space:normal}.c-resumo{white-space:normal}.c-grupo{flex-wrap:wrap;row-gap:2px}.c-grupo-alem,.c-grupo-feitos{white-space:nowrap}}
+
+/* v52: início de cada classe */
+.c-al-data{color:var(--t-atencao)}
+.c-semdata-tx{color:var(--t-atencao);font-weight:600}
+.c-link.c-semdata-tx{text-decoration-color:currentColor}
+.g-inst-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px}
+.g-fatos input.g-inst{width:auto;flex:0 0 150px;padding:3px 6px;font-size:13px}
+.g-inst-info{font-size:12.5px}
+.g-falta{color:var(--t-atencao);font-weight:600}
+.di-lista{border:1px solid var(--line);border-radius:10px}
+.di-linha{display:grid;grid-template-columns:minmax(0,1fr) 160px;gap:6px 14px;align-items:center;padding:9px 12px}
+.di-linha + .di-linha{border-top:1px solid var(--line)}
+.di-tit{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.di-k{font-weight:700;font-size:11.5px;letter-spacing:.03em}
+.di-dica{font-size:11.5px;margin-top:2px;line-height:1.35}
+.di-data{display:flex;flex-direction:column;gap:2px;font-size:11px}
+.di-data input{width:100%}
+input.inval{border-color:var(--t-regra);box-shadow:0 0 0 1px var(--t-regra)}
+@media (max-width:720px){.di-linha{grid-template-columns:1fr}.di-tit{white-space:normal}}
 </style>
 </head>
 <body>
@@ -1706,7 +1725,7 @@ function juntarVersoes(B0, M0, T0) {
 }
 
 /* ---------- quando o mesmo item mudou de jeitos diferentes nos dois computadores ---------- */
-const NOMES_CAMPOS = { situacao: 'Situação', prazoInterno: 'Prazo interno', proximaAcao: 'Próxima ação', anotacoes: 'Anotações', titulo: 'Título', assunto: 'Assunto', temas: 'Eixos temáticos', numero: 'Número', classe: 'Classe', inicio: 'Data de início', prazo: 'Prazo de conclusão', evento: 'Último evento', arquivado: 'Arquivado', anexadoA: 'Anexado a', texto: 'Texto', detalhe: 'Detalhe', dataLimite: 'Prazo', categoria: 'Categoria', concluida: 'Concluída', data: 'Data', recorrencia: 'Repetir', ativo: 'Ativo', coluna: 'Coluna do foco', nome: 'Nome', cpf: 'CPF', cnpj: 'CNPJ', cargo: 'Cargo', orgao: 'Órgão', obs: 'Observações', resumo: 'Resumo', status: 'Status', tipo: 'Tipo', papel: 'Papel', registro: 'Dias trabalhados', procedimentoIds: 'Procedimentos vinculados', aliases: 'Outras grafias' };
+const NOMES_CAMPOS = { situacao: 'Situação', prazoInterno: 'Prazo interno', proximaAcao: 'Próxima ação', anotacoes: 'Anotações', titulo: 'Título', assunto: 'Assunto', temas: 'Eixos temáticos', numero: 'Número', classe: 'Classe', inicio: 'Data de início', inicioClasse: 'Início na classe atual', classesAnteriores: 'Classes anteriores', prazo: 'Prazo de conclusão', evento: 'Último evento', arquivado: 'Arquivado', anexadoA: 'Anexado a', texto: 'Texto', detalhe: 'Detalhe', dataLimite: 'Prazo', categoria: 'Categoria', concluida: 'Concluída', data: 'Data', recorrencia: 'Repetir', ativo: 'Ativo', coluna: 'Coluna do foco', nome: 'Nome', cpf: 'CPF', cnpj: 'CNPJ', cargo: 'Cargo', orgao: 'Órgão', obs: 'Observações', resumo: 'Resumo', status: 'Status', tipo: 'Tipo', papel: 'Papel', registro: 'Dias trabalhados', procedimentoIds: 'Procedimentos vinculados', aliases: 'Outras grafias' };
 function nomeCampo(k) { return NOMES_CAMPOS[k] || k; }
 function rotuloRegistro(col, r) {
   r = r || {};
@@ -1729,6 +1748,7 @@ function fmtValorCampo(k, v) {
   if (k === 'recorrencia') return rotuloRecorrencia(v);
   if (k === 'anexadoA') return procLabel(v) || String(v);
   if (k === 'registro' && Array.isArray(v)) return v.map((r) => fmtData(r.data) + (r.nota ? ': ' + recorte(r.nota, 60) : '')).join('; ');
+  if (k === 'classesAnteriores' && Array.isArray(v)) return textoFases({ classesAnteriores: v });
   if (Array.isArray(v)) return v.every((x) => x === null || typeof x !== 'object') ? v.join(', ') : v.length + ' item(ns)';
   if (typeof v === 'object') return '(dados compostos)';
   return recorte(String(v), 240);
@@ -2735,6 +2755,8 @@ function normalizarProc(p) {
   }, p || {});
   if (!Array.isArray(r.registro)) r.registro = [];
   if (!Array.isArray(r.temas)) r.temas = [];
+  if (r.inicioClasse !== undefined && typeof r.inicioClasse !== 'string') delete r.inicioClasse;
+  if (r.classesAnteriores !== undefined && !Array.isArray(r.classesAnteriores)) delete r.classesAnteriores;
   return r;
 }
 const AGRUPAMENTO_CLASSES = [
@@ -2956,21 +2978,45 @@ function eventoDeArquivamento(p) { return /Arquivamento/.test(String((p && p.eve
 /* padrões da Corregedoria para procedimento parado:
    IC em andamento há mais de 1 ano, com o prazo de prorrogação vencido; IC sem impulso há mais de 90 dias;
    PIC em andamento há mais de 90 dias; NF em andamento há mais de 120 dias; PP em andamento há mais de 180 dias.
-   "Em andamento" conta da data de início do SIM; "sem impulso", da data do último evento; o prazo é o prazo de conclusão do SIM.
+   "Em andamento" conta da data em que o procedimento entrou na classe atual (portaria de instauração ou de conversão).
+   O "início" do relatório do SIM é o início do expediente: num PP que veio de NF, é a data da NF; por isso não serve
+   para PP, IC e PIC. "Sem impulso" conta da data do último evento; o prazo é o prazo de conclusão do SIM.
    Ficam de fora: arquivados, concluídos, já feitos (com a Promotora ou arquivamento minutado) e arquivamento como último evento. */
 const PADROES_CORREG = { PIC: 90, NF: 120, PP: 180 };
-const TITULO_PADROES = 'Padrões da Corregedoria: IC em andamento há mais de 1 ano com prazo de prorrogação vencido; IC sem impulso há mais de 90 dias; PIC em andamento há mais de 90 dias; NF há mais de 120 dias; PP há mais de 180 dias';
-function classeCorreg(p) {
-  const c = String((p && p.classe) || '');
+const TITULO_PADROES = 'Padrões da Corregedoria: IC em andamento há mais de 1 ano com prazo de prorrogação vencido; IC sem impulso há mais de 90 dias; PIC em andamento há mais de 90 dias; NF há mais de 120 dias; PP há mais de 180 dias. O tempo em andamento conta da entrada na classe atual';
+function classeCorregDe(c) {
+  c = String(c || '');
   return /Inquérito Civil/.test(c) ? 'IC' : /Investigatório Criminal/.test(c) ? 'PIC' : /Notícia de Fato/.test(c) ? 'NF' : /Preparatório/.test(c) ? 'PP' : '';
 }
-function diasEmAndamento(p) {
-  const d = paraData(p && p.inicio);
+function classeCorreg(p) { return classeCorregDe(p && p.classe); }
+function siglaFase(c) { return siglaClasse(c) || classeAgrupada(c) || '(sem classe)'; }
+function temFasesAnteriores(p) { return !!p && Array.isArray(p.classesAnteriores) && p.classesAnteriores.length > 0; }
+/* o evento do SIM que marca a entrada na classe: portaria de instauração ou de conversão; na NF, o registro */
+function eventoDeInstauracao(classe, evento) {
+  const t = String(evento || '');
+  if (!/^\s*\d{2}\/\d{2}\/\d{4}/.test(t) || /aditamento/i.test(t)) return false;
+  const k = classeCorregDe(classe);
+  if (k === 'NF') return /Registro de Not[íi]cia de Fato|Portaria de instaura/i.test(t);
+  if (k === 'PP' || k === 'IC' || k === 'PIC') return /Portaria de instaura|Movimento:\s*Portaria\b|Convers[ãa]o/i.test(t);
+  return false;
+}
+/* data em que o procedimento entrou na classe atual, ou null quando o app não sabe.
+   fonte: "informada" (guardada no app), "evento" (último evento do SIM é a portaria), "sim" (NF que nasceu NF: início do SIM) */
+function inicioDaClasse(p) {
+  if (!p) return null;
+  if (p.inicioClasse && paraData(p.inicioClasse)) return { data: paraBR(p.inicioClasse), fonte: 'informada' };
+  const k = classeCorreg(p);
+  if (k === 'NF' && !temFasesAnteriores(p) && paraData(p.inicio)) return { data: paraBR(p.inicio), fonte: 'sim' };
+  if (k && eventoDeInstauracao(p.classe, p.evento)) return { data: dataEvento(p), fonte: 'evento' };
+  return null;
+}
+function diasDesde(br) {
+  const d = paraData(br);
   if (!d) return null;
   return Math.max(0, Math.round((hojeData() - d) / 86400000));
 }
-function maisDeUmAno(p) {
-  const d = paraData(p && p.inicio);
+function maisDeUmAnoDesde(br) {
+  const d = paraData(br);
   return !!d && hojeData() > new Date(d.getFullYear() + 1, d.getMonth(), d.getDate());
 }
 function textoIdade(dias) {
@@ -2979,21 +3025,46 @@ function textoIdade(dias) {
   const meses = Math.floor((dias - anos * 365.25) / 30.44);
   return anos + (anos === 1 ? ' ano' : ' anos') + (meses ? ' e ' + meses + (meses === 1 ? ' mês' : ' meses') : '');
 }
+function foraDaContagem(p) { return !p || p.arquivado || p.situacao === 'concluido' || feitoAguardando(p) || eventoDeArquivamento(p); }
+/* PP, IC e PIC (e a NF que veio de outra classe) sem a data de entrada na classe: o app não confere o tempo em andamento */
+function precisaDataInstauracao(p) {
+  if (foraDaContagem(p)) return false;
+  const k = classeCorreg(p);
+  if (!k || (k === 'NF' && !temFasesAnteriores(p))) return false;
+  return !inicioDaClasse(p);
+}
 function motivosCorreg(p) {
-  if (!p || p.arquivado || p.situacao === 'concluido' || feitoAguardando(p) || eventoDeArquivamento(p)) return [];
+  if (foraDaContagem(p)) return [];
   const k = classeCorreg(p);
   if (!k) return [];
   const m = [];
+  const ic = inicioDaClasse(p);
   if (k === 'IC') {
     const parado = diasParado(p);
     if (parado !== null && parado > 90) m.push({ tipo: 'impulso', curto: 'sem impulso ' + textoParado(parado), longo: 'IC sem impulso há mais de 90 dias' });
     const dp = diasAte(p.prazo);
-    if (maisDeUmAno(p) && dp !== null && dp < 0) m.push({ tipo: 'idade', curto: 'em andamento há ' + textoIdade(diasEmAndamento(p)) + ', prazo vencido', longo: 'IC em andamento há mais de 1 ano, com o prazo de prorrogação vencido' });
-  } else {
-    const idade = diasEmAndamento(p), lim = PADROES_CORREG[k];
-    if (idade !== null && idade > lim) m.push({ tipo: 'idade', curto: 'em andamento há ' + textoIdade(idade), longo: k + ' em andamento há mais de ' + lim + ' dias' });
+    if (ic && maisDeUmAnoDesde(ic.data) && dp !== null && dp < 0) m.push({ tipo: 'idade', curto: 'IC em andamento há ' + textoIdade(diasDesde(ic.data)) + ', prazo vencido', longo: 'IC em andamento há mais de 1 ano, com o prazo de prorrogação vencido' });
+  } else if (ic) {
+    const idade = diasDesde(ic.data), lim = PADROES_CORREG[k];
+    if (idade !== null && idade > lim) m.push({ tipo: 'idade', curto: k + ' em andamento há ' + textoIdade(idade), longo: k + ' em andamento há mais de ' + lim + ' dias' });
   }
   return m;
+}
+/* NF virou PP, PP virou IC...: guarda a fase anterior; a classe nova começa na data da portaria, quando se sabe */
+function registrarMudancaClasse(p, dataNova) {
+  const ant = inicioDaClasse(p);
+  const fases = temFasesAnteriores(p) ? p.classesAnteriores.slice() : [];
+  fases.push({ classe: p.classe || '', inicio: ant ? ant.data : '', fim: dataNova || '' });
+  p.classesAnteriores = fases;
+  p.inicioClasse = dataNova || '';
+}
+/* data de entrada na classe que o bloco do SIM traz: o campo inicioClasse, ou o último evento quando ele é a portaria */
+function dataInstauracaoDoItem(item) {
+  if (item && item.inicioClasse && paraData(item.inicioClasse)) return paraBR(item.inicioClasse);
+  return item && eventoDeInstauracao(item.classe, item.evento) ? dataEvento(item) : '';
+}
+function textoFases(p) {
+  return (p.classesAnteriores || []).map((f) => siglaFase(f && f.classe) + (f && f.inicio ? ' de ' + f.inicio : '') + (f && f.fim ? (f.inicio ? ' a ' : ' até ') + f.fim : '')).join('; ');
 }
 function foraDoPadrao(p) { return motivosCorreg(p).length > 0; }
 function semImpulso(p) { return motivosCorreg(p).some((m) => m.tipo === 'impulso'); }
@@ -3017,8 +3088,12 @@ function celulaParado(p) {
 /* linha embaixo do número dizendo por que está fora do padrão; na ordem "Tempo parado" o "sem impulso" já está na coluna da direita */
 function linhaAlerta(p, comImpulso) {
   const ms = motivosCorreg(p).filter((m) => comImpulso || m.tipo !== 'impulso');
-  if (!ms.length) return null;
-  return el('div', { class: 'c-alerta', title: 'Fora do padrão da Corregedoria: ' + ms.map((m) => m.longo).join('; ') }, '⚑ ' + ms.map((m) => m.curto).join(' · '));
+  const falta = precisaDataInstauracao(p);
+  if (!ms.length && !falta) return null;
+  const d = el('div', { class: 'c-alerta' });
+  if (ms.length) d.append(el('span', { class: 'c-al-fora', title: 'Fora do padrão da Corregedoria: ' + ms.map((m) => m.longo).join('; ') }, '⚑ ' + ms.map((m) => m.curto).join(' · ')));
+  if (falta) d.append(el('span', { class: 'c-al-data', title: 'O início que vem do SIM é o do expediente. Informe a data da portaria para o app conferir o tempo em andamento.' }, (ms.length ? ' · ' : '') + '◷ falta a data de instauração do ' + classeCorreg(p)));
+  return d;
 }
 /* na ordem "Tempo parado" o prazo sai da coluna da direita; só aparece aqui se venceu ou vence em até 7 dias */
 function chipPrazoCurto(p) {
@@ -3032,11 +3107,78 @@ function relParadoGaveta(p) {
   if (d === null || p.situacao === 'concluido') return null;
   return el('span', { class: 'g-rel ' + (semImpulso(p) ? 'venc' : 'parado'), title: explicaParado(p) }, ' · ' + textoParado(d));
 }
-function relIdadeGaveta(p) {
-  const d = diasEmAndamento(p);
+function relIdadeSim(p) {
+  const d = diasDesde(p.inicio);
   if (d === null || p.situacao === 'concluido') return null;
-  const fora = motivosCorreg(p).some((m) => m.tipo === 'idade');
-  return el('span', { class: 'g-rel ' + (fora ? 'venc' : 'parado') }, ' · há ' + textoIdade(d));
+  return el('span', { class: 'g-rel parado' }, ' · há ' + textoIdade(d));
+}
+/* gaveta: data em que entrou na classe atual, com campo para informar ou corrigir */
+function fatoInicioClasse(p) {
+  const k = classeCorreg(p);
+  const ic = inicioDaClasse(p);
+  const rotulo = k === 'NF' ? 'Início como NF' : 'Instauração do ' + k;
+  const inp = el('input', { type: 'date', class: 'g-inst', value: ic && ic.fonte !== 'sim' ? paraISO(ic.data) : '', max: isoDaquiA(0), 'aria-label': rotulo });
+  const info = el('span', { class: 'g-inst-info' });
+  if (ic && ic.fonte !== 'sim') {
+    const fora = motivosCorreg(p).some((m) => m.tipo === 'idade');
+    if (p.situacao !== 'concluido') info.append(el('span', { class: 'g-rel ' + (fora ? 'venc' : 'parado') }, 'há ' + textoIdade(diasDesde(ic.data))));
+    if (ic.fonte === 'evento') info.append(el('span', { class: 'muted' }, ' · pelo último evento do SIM'));
+  } else if (ic) {
+    info.append(el('span', { class: 'muted' }, 'em branco: conta do início no SIM'));
+  } else if (!foraDaContagem(p)) {
+    info.append(el('span', { class: 'g-falta' }, 'falta: use a data da portaria, na movimentação do SIM'));
+  }
+  return { rotulo: rotulo, el: el('span', { class: 'g-inst-wrap' }, inp, info), ler: () => (inp.value ? paraBR(inp.value) : '') };
+}
+/* PP, IC e PIC sem a data em que entraram na classe atual: informa todas de uma vez */
+function dialogoDatasInstauracao(ids) {
+  const ordem = { PP: 0, IC: 1, PIC: 2, NF: 3 };
+  const procs = ids.map(acharProc).filter(precisaDataInstauracao)
+    .sort((a, b) => (ordem[classeCorreg(a)] - ordem[classeCorreg(b)]) || (((paraData(a.inicio) || 0) - (paraData(b.inicio) || 0))));
+  if (!procs.length) { recado('Nenhum procedimento sem data de instauração.'); return; }
+  const hoje = isoDaquiA(0);
+  const aviso = el('div', { class: 'aviso oculto', role: 'alert' });
+  const linhas = procs.map((p) => {
+    const k = classeCorreg(p);
+    const rot = k === 'NF' ? 'Início como NF' : 'Instauração do ' + k;
+    const inp = el('input', { type: 'date', max: hoje, 'aria-label': rot + ' ' + (p.numero || '') });
+    const de = dataEvento(p);
+    const dica = ['início no SIM ' + (paraBR(p.inicio) || '?'), p.prazo ? 'prazo ' + (paraBR(p.prazo) || p.prazo) : '', de ? 'último evento ' + de + ' · ' + rotuloEvento(p) : '', temFasesAnteriores(p) ? 'antes: ' + textoFases(p) : ''].filter(Boolean).join(' · ');
+    const linha = el('div', { class: 'di-linha', 'data-id': p.id },
+      el('div', { class: 'di-info' },
+        el('div', { class: 'di-tit', title: tituloVisivel(p) }, el('span', { class: 'di-k' }, k), ' ', el('span', { class: 'mono' }, p.numero || '(s/ nº)'), ' ', recorte(tituloVisivel(p), 70)),
+        el('div', { class: 'di-dica muted' }, dica)),
+      el('label', { class: 'di-data' }, el('span', { class: 'muted' }, rot), inp));
+    return { p: p, inp: inp, linha: linha };
+  });
+  const corpo = [
+    el('p', { class: 'muted', style: 'margin:0' }, 'O início que vem do SIM é o do expediente: num PP que veio de NF, é a data da NF. Informe a data da portaria de instauração ou de conversão, que está na movimentação do SIM. O que ficar em branco continua como está.'),
+    aviso,
+    el('div', { class: 'di-lista' }, linhas.map((x) => x.linha))
+  ];
+  abrirDialogo('Datas de instauração', corpo, () => {
+    let erros = 0;
+    const validas = [];
+    for (const x of linhas) {
+      x.inp.classList.remove('inval');
+      if (!x.inp.value) continue;
+      const d = paraData(x.inp.value);
+      if (!d || x.inp.value > hoje || d.getFullYear() < 1990) { x.inp.classList.add('inval'); erros++; continue; }
+      validas.push(x);
+    }
+    if (erros) {
+      aviso.textContent = (erros === 1 ? 'Uma data está' : erros + ' datas estão') + ' fora do intervalo possível (depois de hoje ou antes de 1990). Corrija ou apague.';
+      aviso.classList.remove('oculto');
+      return false;
+    }
+    if (!validas.length) return true;
+    const foto = fotoBase();
+    const agora = new Date().toISOString();
+    for (const x of validas) { x.p.inicioClasse = paraBR(x.inp.value); x.p.alteradoEm = agora; }
+    touch();
+    setTimeout(() => oferecerDesfazer(validas.length === 1 ? '1 data de instauração salva.' : validas.length + ' datas de instauração salvas.', foto), 60);
+    return true;
+  }, 'Salvar datas');
 }
 /* o procedimento está no Índice de envolvidos? com quantas pessoas e entidades */
 let cacheIdx = null;
@@ -3539,6 +3681,10 @@ function telaControle() {
     if (nFora && !filtrosProc.padrao) {
       resumo.append(' · ', el('button', { type: 'button', class: 'c-link c-alem-tx', title: 'Mostrar só os que estão fora dos padrões da Corregedoria', onclick: () => { filtrosProc.padrao = true; desenharTudo(); } }, nFora + ' fora do padrão'));
     }
+    const semData = ultimaListaIds.map((id) => porId.get(id)).filter(precisaDataInstauracao);
+    if (semData.length) {
+      resumo.append(' · ', el('button', { type: 'button', class: 'c-link c-semdata-tx', title: 'Informar a data em que cada um entrou na classe atual (portaria)', onclick: () => dialogoDatasInstauracao(semData.map((p) => p.id)) }, semData.length + ' sem data de instauração'));
+    }
   };
   const desenharLista = (manterId) => {
     const termo = norm(filtrosProc.busca);
@@ -3711,7 +3857,10 @@ function aplicarGaveta() {
   const atual = lerGaveta();
   let mudou = false;
   for (const k of Object.keys(atual)) {
-    if (JSON.stringify(atual[k]) !== JSON.stringify(gavetaInicial[k])) { p[k] = atual[k]; mudou = true; if (k === 'situacao') p.situacaoEm = new Date().toISOString(); }
+    if (JSON.stringify(atual[k]) !== JSON.stringify(gavetaInicial[k])) {
+      if (k === 'classe' && gavetaInicial.classe && classeAgrupada(atual.classe) !== classeAgrupada(gavetaInicial.classe)) registrarMudancaClasse(p, '');
+      p[k] = atual[k]; mudou = true; if (k === 'situacao') p.situacaoEm = new Date().toISOString();
+    }
   }
   if (mudou) { p.alteradoEm = new Date().toISOString(); gavetaInicial = atual; touch(); }
   return mudou;
@@ -3859,7 +4008,10 @@ function abrirProc(id, foco) {
     const de = dataEvento(p);
     fato('Último evento', de ? el('span', { class: 'mono' }, de) : null, de ? relParadoGaveta(p) : null, de ? ' · ' : null, el('span', { class: 'g-ev-tx' }, textoEvento(p) || p.evento));
   }
-  if (p.inicio) fato('Início', paraBR(p.inicio) || p.inicio, relIdadeGaveta(p));
+  if (p.inicio) { fato('Início no SIM', paraBR(p.inicio) || p.inicio, relIdadeSim(p)); fatos.lastChild.title = 'Início do expediente no relatório do SIM. Num PP que veio de NF, é a data da NF.'; }
+  const fInst = classeCorreg(p) ? fatoInicioClasse(p) : null;
+  if (fInst) fato(fInst.rotulo, fInst.el);
+  if (temFasesAnteriores(p)) fato('Antes', textoFases(p));
   { const ms = motivosCorreg(p); if (ms.length) fato('Corregedoria', el('span', { class: 'g-correg' }, 'Fora do padrão: ' + ms.map((m) => m.longo).join('; '))); }
   const secFatos = fatos.childNodes.length ? secaoG(null, fatos) : null;
 
@@ -3927,6 +4079,7 @@ function abrirProc(id, foco) {
     titulo: lerTxt(cTitulo), assunto: lerTxt(cAssunto), temas: edTemas.ler, numero: lerTxt(cNumero), classe: lerTxt(cClasse),
     inicio: lerData(cInicio), prazo: lerData(cPrazo)
   };
+  if (fInst) gavetaCampos.inicioClasse = fInst.ler;
   gavetaInicial = lerGaveta();
   gavetaEls = { numero: cNumero, detalhes: det };
 
@@ -4160,7 +4313,7 @@ function mesclarProc(lista, substituir, arquivarAusentes) {
     recado('Controle substituído: ' + lista.length + ' procedimentos. Vínculos com o mesmo número foram mantidos.');
     return;
   }
-  let novos = 0, atualizados = 0, arquivados = 0, desarquivados = 0, semNumero = 0, voltaram = 0;
+  let novos = 0, atualizados = 0, arquivados = 0, desarquivados = 0, semNumero = 0, voltaram = 0, mudaramClasse = 0, semDataNova = 0;
   const porChave = new Map();
   for (const p of db.procedimentos) { const k = chaveNumero(p.numero); if (k.length >= 4 && !porChave.has(k)) porChave.set(k, p); }
   const chavesRelatorio = new Set();
@@ -4171,7 +4324,18 @@ function mesclarProc(lista, substituir, arquivarAusentes) {
     const existente = porChave.get(k);
     if (existente) {
       const volta = movimentoDepoisDoFeito(existente, item.evento);
+      if (item.classe && existente.classe && classeAgrupada(item.classe) !== classeAgrupada(existente.classe)) {
+        const dataNova = dataInstauracaoDoItem(item);
+        registrarMudancaClasse(existente, dataNova);
+        mudaramClasse++;
+        if (!dataNova && classeCorregDe(item.classe) && classeCorregDe(item.classe) !== 'NF') semDataNova++;
+      } else {
+        /* a portaria no último evento é a data de entrada na classe: guarda antes que o evento seja trocado */
+        const ic = inicioDaClasse(existente);
+        if (ic && ic.fonte === 'evento') existente.inicioClasse = ic.data;
+      }
       for (const cpo of CAMPOS_FONTE) { if (item[cpo] && (!Array.isArray(item[cpo]) || item[cpo].length)) existente[cpo] = item[cpo]; }
+      if (item.inicioClasse && paraData(item.inicioClasse)) existente.inicioClasse = paraBR(item.inicioClasse);
       if (volta) { existente.situacao = 'sem_triagem'; existente.situacaoEm = agora; voltaram++; }
       for (const cpo of CAMPOS_CONTROLE) { if (item[cpo] !== undefined && item[cpo] !== '' && item[cpo] !== false) existente[cpo] = item[cpo]; }
       if (existente.arquivado) { existente.arquivado = false; desarquivados++; }
@@ -4179,6 +4343,7 @@ function mesclarProc(lista, substituir, arquivarAusentes) {
       atualizados++;
     } else {
       const novo = normalizarProc(Object.assign({ origem: 'importado' }, item));
+      { const dn = dataInstauracaoDoItem(item); delete novo.inicioClasse; if (dn && classeCorreg(novo) && (item.inicioClasse || classeCorreg(novo) !== 'NF')) novo.inicioClasse = dn; }
       db.procedimentos.push(novo);
       porChave.set(k, novo);
       novos++;
@@ -4195,6 +4360,7 @@ function mesclarProc(lista, substituir, arquivarAusentes) {
   render();
   let msg = novos + ' incluído(s), ' + atualizados + ' atualizado(s).';
   if (voltaram) msg += ' ' + voltaram + (voltaram === 1 ? ' voltou' : ' voltaram') + ' para "Sem triagem": estava(m) como feito(s) e o SIM registrou movimento depois.';
+  if (mudaramClasse) msg += ' ' + mudaramClasse + (mudaramClasse === 1 ? ' mudou de classe' : ' mudaram de classe') + (semDataNova ? ' (' + semDataNova + ' sem a data da portaria: informe no Controle, em "sem data de instauração")' : '') + '.';
   if (desarquivados) msg += ' ' + desarquivados + ' desarquivado(s).';
   if (arquivados) msg += ' ' + arquivados + ' arquivado(s) por não constarem no relatório.';
   if (semNumero) msg += ' ' + semNumero + ' item(ns) sem número ignorado(s).';
@@ -4207,14 +4373,17 @@ function mesclarProc(lista, substituir, arquivarAusentes) {
 function previaMesclagem(lista, arquivarAusentes) {
   const porChave = new Map();
   for (const p of db.procedimentos) { const k = chaveNumero(p.numero); if (k.length >= 4 && !porChave.has(k)) porChave.set(k, p); }
-  const novos = new Map(), atualizados = new Set(), desarquivados = new Set(), chaves = new Set(), voltam = new Set();
+  const novos = new Map(), atualizados = new Set(), desarquivados = new Set(), chaves = new Set(), voltam = new Set(), mudam = [];
   let semNumero = 0;
   for (const item of lista) {
     const k = chaveNumero(item.numero);
     if (k.length < 4) { semNumero++; continue; }
     chaves.add(k);
     const ex = porChave.get(k);
-    if (ex) { atualizados.add(ex); if (ex.arquivado) desarquivados.add(ex); if (movimentoDepoisDoFeito(ex, item.evento)) voltam.add(ex); }
+    if (ex) {
+      atualizados.add(ex); if (ex.arquivado) desarquivados.add(ex); if (movimentoDepoisDoFeito(ex, item.evento)) voltam.add(ex);
+      if (item.classe && ex.classe && classeAgrupada(item.classe) !== classeAgrupada(ex.classe) && !mudam.some((x) => x.p === ex)) mudam.push({ p: ex, de: ex.classe, para: item.classe, data: dataInstauracaoDoItem(item) });
+    }
     else if (!novos.has(k)) novos.set(k, item);
   }
   const arquivar = [];
@@ -4225,7 +4394,7 @@ function previaMesclagem(lista, arquivarAusentes) {
       if (k.length >= 4 && !chaves.has(k)) arquivar.push(p);
     }
   }
-  return { novos: Array.from(novos.values()), atualizados: Array.from(atualizados), desarquivados: Array.from(desarquivados), arquivar: arquivar, semNumero: semNumero, voltam: Array.from(voltam) };
+  return { novos: Array.from(novos.values()), atualizados: Array.from(atualizados), desarquivados: Array.from(desarquivados), arquivar: arquivar, semNumero: semNumero, voltam: Array.from(voltam), mudam: mudam };
 }
 function confirmarMesclagem(lista, arquivarAusentes) {
   const pv = previaMesclagem(lista, arquivarAusentes);
@@ -4244,6 +4413,13 @@ function confirmarMesclagem(lista, arquivarAusentes) {
     const bv = bloco('Voltam para "Sem triagem"', pv.voltam);
     bv.firstChild.after(el('div', { class: 'muted g-dica' }, 'Estavam como feitos, e o SIM registrou movimento depois da marcação.'));
     corpo.push(bv);
+  }
+  if (pv.mudam.length) {
+    const bm = el('div', { class: 'conf-bloco' }, el('div', { class: 'sec-h' }, 'Mudam de classe', el('span', { class: 'cont' }, String(pv.mudam.length))),
+      el('div', { class: 'muted g-dica' }, 'O início do SIM continua o do expediente. A classe nova começa na data da portaria; quando o relatório não mostra a portaria, informe a data depois.'));
+    for (const x of pv.mudam.slice(0, 12)) bm.append(el('div', { class: 'conf-linha' }, el('span', { class: 'mono' }, x.p.numero || '(s/ nº)'), el('span', { class: 'muted' }, siglaFase(x.de) + ' → ' + siglaFase(x.para)), el('span', { class: x.data ? '' : 'c-semdata-tx' }, x.data ? 'portaria em ' + x.data : 'sem a data da portaria')));
+    if (pv.mudam.length > 12) bm.append(el('div', { class: 'muted g-dica' }, '… e mais ' + (pv.mudam.length - 12)));
+    corpo.push(bm);
   }
   if (pv.desarquivados.length) corpo.push(bloco('Voltam da lista de arquivados', pv.desarquivados));
   if (pv.arquivar.length) corpo.push(bloco('Serão arquivados por não constarem no relatório', pv.arquivar, ' alerta'));
@@ -4364,7 +4540,7 @@ function importarJsonProc() {
 }
 function exportarCsvProc() {
   if (!db || !db.procedimentos.length) { alert('Não há procedimentos para exportar.'); return; }
-  const cols = ['numero', 'classe', 'titulo', 'assunto', 'temas', 'inicio', 'prazo', 'prazoInterno', 'situacao', 'proximaAcao', 'anotacoes', 'evento', 'arquivado'];
+  const cols = ['numero', 'classe', 'titulo', 'assunto', 'temas', 'inicio', 'inicioClasse', 'prazo', 'prazoInterno', 'situacao', 'proximaAcao', 'anotacoes', 'evento', 'arquivado'];
   const cel = (v) => '"' + String(v === null || v === undefined ? '' : (Array.isArray(v) ? v.join(', ') : v)).replace(/"/g, '""') + '"';
   const linhas = [cols.join(';')];
   listarProc().forEach((p) => linhas.push(cols.map((cName) => cel(cName === 'situacao' ? rotuloSituacao(p[cName]) : p[cName])).join(';')));
