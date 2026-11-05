@@ -1063,6 +1063,16 @@ mark.c-hit{background:var(--aviso-bg);color:inherit;border-radius:3px;padding:0 
 .di-data input{width:100%}
 input.inval{border-color:var(--t-regra);box-shadow:0 0 0 1px var(--t-regra)}
 @media (max-width:720px){.di-linha{grid-template-columns:1fr}.di-tit{white-space:normal}}
+
+/* v53: fases tiradas dos documentos (bloco do índice) */
+.fz-intro{font-size:12.5px;margin:0 0 4px}
+.fz-exp{padding:7px 0}
+.fz-exp + .fz-exp{border-top:1px solid var(--line)}
+.fz-fases{display:flex;flex-wrap:wrap;gap:2px 10px;font-size:13px}
+.fz-sub{font-size:12.5px;margin-top:3px}
+.fz-div{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;margin-top:6px;cursor:pointer}
+.fz-div input{margin:2px 0 0;flex:none}
+.ix-fase{white-space:pre}
 </style>
 </head>
 <body>
@@ -1725,7 +1735,7 @@ function juntarVersoes(B0, M0, T0) {
 }
 
 /* ---------- quando o mesmo item mudou de jeitos diferentes nos dois computadores ---------- */
-const NOMES_CAMPOS = { situacao: 'Situação', prazoInterno: 'Prazo interno', proximaAcao: 'Próxima ação', anotacoes: 'Anotações', titulo: 'Título', assunto: 'Assunto', temas: 'Eixos temáticos', numero: 'Número', classe: 'Classe', inicio: 'Data de início', inicioClasse: 'Início na classe atual', classesAnteriores: 'Classes anteriores', prazo: 'Prazo de conclusão', evento: 'Último evento', arquivado: 'Arquivado', anexadoA: 'Anexado a', texto: 'Texto', detalhe: 'Detalhe', dataLimite: 'Prazo', categoria: 'Categoria', concluida: 'Concluída', data: 'Data', recorrencia: 'Repetir', ativo: 'Ativo', coluna: 'Coluna do foco', nome: 'Nome', cpf: 'CPF', cnpj: 'CNPJ', cargo: 'Cargo', orgao: 'Órgão', obs: 'Observações', resumo: 'Resumo', status: 'Status', tipo: 'Tipo', papel: 'Papel', registro: 'Dias trabalhados', procedimentoIds: 'Procedimentos vinculados', aliases: 'Outras grafias' };
+const NOMES_CAMPOS = { situacao: 'Situação', prazoInterno: 'Prazo interno', proximaAcao: 'Próxima ação', anotacoes: 'Anotações', titulo: 'Título', assunto: 'Assunto', temas: 'Eixos temáticos', numero: 'Número', classe: 'Classe', inicio: 'Data de início', inicioClasse: 'Início na classe atual', classesAnteriores: 'Classes anteriores', fases: 'Fases (documentos)', prazo: 'Prazo de conclusão', evento: 'Último evento', arquivado: 'Arquivado', anexadoA: 'Anexado a', texto: 'Texto', detalhe: 'Detalhe', dataLimite: 'Prazo', categoria: 'Categoria', concluida: 'Concluída', data: 'Data', recorrencia: 'Repetir', ativo: 'Ativo', coluna: 'Coluna do foco', nome: 'Nome', cpf: 'CPF', cnpj: 'CNPJ', cargo: 'Cargo', orgao: 'Órgão', obs: 'Observações', resumo: 'Resumo', status: 'Status', tipo: 'Tipo', papel: 'Papel', registro: 'Dias trabalhados', procedimentoIds: 'Procedimentos vinculados', aliases: 'Outras grafias' };
 function nomeCampo(k) { return NOMES_CAMPOS[k] || k; }
 function rotuloRegistro(col, r) {
   r = r || {};
@@ -1749,6 +1759,7 @@ function fmtValorCampo(k, v) {
   if (k === 'anexadoA') return procLabel(v) || String(v);
   if (k === 'registro' && Array.isArray(v)) return v.map((r) => fmtData(r.data) + (r.nota ? ': ' + recorte(r.nota, 60) : '')).join('; ');
   if (k === 'classesAnteriores' && Array.isArray(v)) return textoFases({ classesAnteriores: v });
+  if (k === 'fases' && Array.isArray(v)) return textoFasesDoc(v.filter((f) => f && paraData(f.inicio)));
   if (Array.isArray(v)) return v.every((x) => x === null || typeof x !== 'object') ? v.join(', ') : v.length + ' item(ns)';
   if (typeof v === 'object') return '(dados compostos)';
   return recorte(String(v), 240);
@@ -2989,7 +3000,7 @@ function classeCorregDe(c) {
   return /Inquérito Civil/.test(c) ? 'IC' : /Investigatório Criminal/.test(c) ? 'PIC' : /Notícia de Fato/.test(c) ? 'NF' : /Preparatório/.test(c) ? 'PP' : '';
 }
 function classeCorreg(p) { return classeCorregDe(p && p.classe); }
-function siglaFase(c) { return siglaClasse(c) || classeAgrupada(c) || '(sem classe)'; }
+function siglaFase(c) { return siglaClasse(c) || (/^Procedimento Administrativo/i.test(String(c || '')) ? 'PA' : '') || classeAgrupada(c) || '(sem classe)'; }
 function temFasesAnteriores(p) { return !!p && Array.isArray(p.classesAnteriores) && p.classesAnteriores.length > 0; }
 /* o evento do SIM que marca a entrada na classe: portaria de instauração ou de conversão; na NF, o registro */
 function eventoDeInstauracao(classe, evento) {
@@ -3066,6 +3077,91 @@ function dataInstauracaoDoItem(item) {
 function textoFases(p) {
   return (p.classesAnteriores || []).map((f) => siglaFase(f && f.classe) + (f && f.inicio ? ' de ' + f.inicio : '') + (f && f.fim ? (f.inicio ? ' a ' : ' até ') + f.fim : '')).join('; ');
 }
+/* v53: fases do expediente tiradas dos documentos pela skill indexar-envolvidos e guardadas no Índice:
+   [{ classe: 'NF', inicio: 'AAAA-MM-DD', obs }], em ordem de data. No Controle, a data da classe atual
+   vira o inicioClasse e as fases anteriores, o classesAnteriores. O início do SIM continua o do expediente. */
+const NOME_FASE = { DP: 'Documento Protocolado', NF: 'Notícia de Fato', PP: 'Procedimento Preparatório', IC: 'Inquérito Civil', PIC: 'Procedimento Investigatório Criminal', PA: 'Procedimento Administrativo' };
+const ORDEM_FASE = { DP: 0, NF: 1, PP: 2, PIC: 2, IC: 3 };
+function siglaDaFase(c) {
+  const t = String(c || '').trim();
+  if (!t) return '';
+  const u = t.toUpperCase().replace(/[\s.\-]/g, '');
+  if (NOME_FASE[u]) return u;
+  if (u === 'PICMP') return 'PIC';
+  if (/^Documento Protocolado/i.test(t)) return 'DP';
+  if (/^Procedimento Administrativo/i.test(t)) return 'PA';
+  return classeCorregDe(t) || siglaClasse(t) || t;
+}
+function fasesDoExpediente(x) {
+  return (x && Array.isArray(x.fases) ? x.fases : []).filter((f) => f && siglaDaFase(f.classe) && paraData(f.inicio));
+}
+function fasesDocumentadasDoProc(p) { return fasesDoExpediente(expedienteDoProc(p)); }
+function textoFasesDoc(fases) { return fases.map((f) => siglaDaFase(f.classe) + ' ' + paraBR(f.inicio)).join(' → '); }
+/* data de início da classe (NF, PP, IC, PIC...) nas fases documentadas, em DD/MM/AAAA, ou '' */
+function dataDaFase(fases, sigla) {
+  let r = '';
+  if (sigla) for (const f of fases || []) if (siglaDaFase(f.classe) === sigla && paraData(f.inicio)) r = paraBR(f.inicio);
+  return r;
+}
+/* fases documentadas antes da classe atual, no formato de classesAnteriores (a última termina onde a atual começa) */
+function anterioresDasFases(p, fases) {
+  const sig = siglaDaFase(p.classe);
+  const fs = (fases || []).filter((f) => paraData(f.inicio));
+  let ate = -1;
+  for (let i = fs.length - 1; i >= 0; i--) if (siglaDaFase(fs[i].classe) === sig) { ate = i; break; }
+  const ic = inicioDaClasse(p);
+  let lim = ate, fimUltima = ate >= 0 ? paraBR(fs[ate].inicio) : '';
+  if (ate < 0) {
+    /* a classe atual não está nas fases: só contam as que começaram antes dela */
+    const d0 = ic ? paraData(ic.data) : null, oAt = ORDEM_FASE[sig];
+    lim = 0;
+    while (lim < fs.length) {
+      const o = ORDEM_FASE[siglaDaFase(fs[lim].classe)];
+      if (d0 && !(paraData(fs[lim].inicio) < d0)) break;
+      if (oAt !== undefined && o !== undefined && o >= oAt) break;
+      lim++;
+    }
+    fimUltima = ic && ic.fonte !== 'sim' ? ic.data : '';
+  }
+  const out = [];
+  for (let i = 0; i < lim; i++) {
+    const sg = siglaDaFase(fs[i].classe);
+    out.push({ classe: NOME_FASE[sg] || sg, inicio: paraBR(fs[i].inicio), fim: i + 1 < lim ? paraBR(fs[i + 1].inicio) : fimUltima });
+  }
+  return out;
+}
+/* passa ao procedimento do Controle o que as fases documentadas dizem: o histórico, se o app ainda não tem,
+   e a data de entrada na classe atual, se faltava ou vinha só do último evento do SIM. Uma data já guardada
+   só é trocada com trocar = true. A NF que nasceu NF continua contando do início do SIM. */
+function aplicarFasesNoControle(p, fases, trocar, agora) {
+  const r = { data: false, historico: false, mudou: false };
+  if (!p || !fases || !fases.length) return r;
+  let ant = [];
+  if (!temFasesAnteriores(p)) {
+    ant = anterioresDasFases(p, fases);
+    if (ant.length) { p.classesAnteriores = ant; r.historico = true; r.mudou = true; }
+  }
+  const k = classeCorreg(p);
+  const d = k && (k !== 'NF' || temFasesAnteriores(p)) ? dataDaFase(fases, k) : '';
+  if (d) {
+    const cur = inicioDaClasse(p);
+    const pode = !cur || cur.fonte === 'evento' || (cur.data !== d && trocar);
+    if (pode && p.inicioClasse !== d) { if (!cur || cur.data !== d) r.data = true; p.inicioClasse = d; r.mudou = true; }
+  }
+  /* a última fase anterior termina onde a classe atual começa no Controle */
+  if (ant.length) { const ic = inicioDaClasse(p); if (ic && ic.fonte !== 'sim') ant[ant.length - 1].fim = ic.data; }
+  if (r.mudou && agora) p.alteradoEm = agora;
+  return r;
+}
+/* "o PP", "a NF"; "do PP", "da NF" */
+function oK(k) { return (k === 'NF' ? 'a ' : 'o ') + k; }
+function doK(k) { return (k === 'NF' ? 'da ' : 'do ') + k; }
+/* data de entrada na classe nova quando o relatório do SIM traz a mudança: o inicioClasse do bloco,
+   a fase documentada no Índice ou a portaria no último evento */
+function dataNovaDaClasse(p, item, fases) {
+  if (item && item.inicioClasse && paraData(item.inicioClasse)) return paraBR(item.inicioClasse);
+  return dataDaFase(fases || fasesDocumentadasDoProc(p), classeCorregDe(item && item.classe)) || dataInstauracaoDoItem(item);
+}
 function foraDoPadrao(p) { return motivosCorreg(p).length > 0; }
 function semImpulso(p) { return motivosCorreg(p).some((m) => m.tipo === 'impulso'); }
 function explicaParado(p) {
@@ -3092,7 +3188,7 @@ function linhaAlerta(p, comImpulso) {
   if (!ms.length && !falta) return null;
   const d = el('div', { class: 'c-alerta' });
   if (ms.length) d.append(el('span', { class: 'c-al-fora', title: 'Fora do padrão da Corregedoria: ' + ms.map((m) => m.longo).join('; ') }, '⚑ ' + ms.map((m) => m.curto).join(' · ')));
-  if (falta) d.append(el('span', { class: 'c-al-data', title: 'O início que vem do SIM é o do expediente. Informe a data da portaria para o app conferir o tempo em andamento.' }, (ms.length ? ' · ' : '') + '◷ falta a data de instauração do ' + classeCorreg(p)));
+  if (falta) d.append(el('span', { class: 'c-al-data', title: 'O início que vem do SIM é o do expediente. Informe a data da portaria para o app conferir o tempo em andamento.' }, (ms.length ? ' · ' : '') + (classeCorreg(p) === 'NF' ? '◷ falta a data de início como NF' : '◷ falta a data de instauração do ' + classeCorreg(p))));
   return d;
 }
 /* na ordem "Tempo parado" o prazo sai da coluna da direita; só aparece aqui se venceu ou vence em até 7 dias */
@@ -3116,6 +3212,7 @@ function relIdadeSim(p) {
 function fatoInicioClasse(p) {
   const k = classeCorreg(p);
   const ic = inicioDaClasse(p);
+  const dDoc = k ? dataDaFase(fasesDocumentadasDoProc(p), k) : '';
   const rotulo = k === 'NF' ? 'Início como NF' : 'Instauração do ' + k;
   const inp = el('input', { type: 'date', class: 'g-inst', value: ic && ic.fonte !== 'sim' ? paraISO(ic.data) : '', max: isoDaquiA(0), 'aria-label': rotulo });
   const info = el('span', { class: 'g-inst-info' });
@@ -3123,10 +3220,12 @@ function fatoInicioClasse(p) {
     const fora = motivosCorreg(p).some((m) => m.tipo === 'idade');
     if (p.situacao !== 'concluido') info.append(el('span', { class: 'g-rel ' + (fora ? 'venc' : 'parado') }, 'há ' + textoIdade(diasDesde(ic.data))));
     if (ic.fonte === 'evento') info.append(el('span', { class: 'muted' }, ' · pelo último evento do SIM'));
+    else if (dDoc && dDoc === ic.data) info.append(el('span', { class: 'muted' }, ' · pelos documentos indexados'));
+    else if (dDoc) info.append(el('span', { class: 'muted' }, ' · nos documentos indexados: ' + dDoc));
   } else if (ic) {
     info.append(el('span', { class: 'muted' }, 'em branco: conta do início no SIM'));
   } else if (!foraDaContagem(p)) {
-    info.append(el('span', { class: 'g-falta' }, 'falta: use a data da portaria, na movimentação do SIM'));
+    info.append(el('span', { class: 'g-falta' }, 'falta: use a data da portaria, na movimentação do SIM, ou indexe o caso'));
   }
   return { rotulo: rotulo, el: el('span', { class: 'g-inst-wrap' }, inp, info), ler: () => (inp.value ? paraBR(inp.value) : '') };
 }
@@ -3152,7 +3251,7 @@ function dialogoDatasInstauracao(ids) {
     return { p: p, inp: inp, linha: linha };
   });
   const corpo = [
-    el('p', { class: 'muted', style: 'margin:0' }, 'O início que vem do SIM é o do expediente: num PP que veio de NF, é a data da NF. Informe a data da portaria de instauração ou de conversão, que está na movimentação do SIM. O que ficar em branco continua como está.'),
+    el('p', { class: 'muted', style: 'margin:0' }, 'O início que vem do SIM é o do expediente: num PP que veio de NF, é a data da NF. Informe a data da portaria de instauração ou de conversão, que está na movimentação do SIM. O que ficar em branco continua como está. O caso indexado pela skill com as fases recebe a data sozinho.'),
     aviso,
     el('div', { class: 'di-lista' }, linhas.map((x) => x.linha))
   ];
@@ -3858,7 +3957,11 @@ function aplicarGaveta() {
   let mudou = false;
   for (const k of Object.keys(atual)) {
     if (JSON.stringify(atual[k]) !== JSON.stringify(gavetaInicial[k])) {
-      if (k === 'classe' && gavetaInicial.classe && classeAgrupada(atual.classe) !== classeAgrupada(gavetaInicial.classe)) registrarMudancaClasse(p, '');
+      if (k === 'classe' && gavetaInicial.classe && classeAgrupada(atual.classe) !== classeAgrupada(gavetaInicial.classe)) {
+        const fs = fasesDocumentadasDoProc(p);
+        if (fs.length) aplicarFasesNoControle(p, fs, false, '');
+        registrarMudancaClasse(p, dataDaFase(fs, classeCorregDe(atual.classe)));
+      }
       p[k] = atual[k]; mudou = true; if (k === 'situacao') p.situacaoEm = new Date().toISOString();
     }
   }
@@ -4324,8 +4427,10 @@ function mesclarProc(lista, substituir, arquivarAusentes) {
     const existente = porChave.get(k);
     if (existente) {
       const volta = movimentoDepoisDoFeito(existente, item.evento);
+      const fasesDoc = fasesDocumentadasDoProc(existente);
+      if (fasesDoc.length) aplicarFasesNoControle(existente, fasesDoc, false, '');
       if (item.classe && existente.classe && classeAgrupada(item.classe) !== classeAgrupada(existente.classe)) {
-        const dataNova = dataInstauracaoDoItem(item);
+        const dataNova = dataNovaDaClasse(existente, item, fasesDoc);
         registrarMudancaClasse(existente, dataNova);
         mudaramClasse++;
         if (!dataNova && classeCorregDe(item.classe) && classeCorregDe(item.classe) !== 'NF') semDataNova++;
@@ -4343,7 +4448,8 @@ function mesclarProc(lista, substituir, arquivarAusentes) {
       atualizados++;
     } else {
       const novo = normalizarProc(Object.assign({ origem: 'importado' }, item));
-      { const dn = dataInstauracaoDoItem(item); delete novo.inicioClasse; if (dn && classeCorreg(novo) && (item.inicioClasse || classeCorreg(novo) !== 'NF')) novo.inicioClasse = dn; }
+      { const dn = dataNovaDaClasse(novo, item); delete novo.inicioClasse; if (dn && classeCorreg(novo) && (item.inicioClasse || classeCorreg(novo) !== 'NF')) novo.inicioClasse = dn; }
+      { const fs = fasesDocumentadasDoProc(novo); if (fs.length) aplicarFasesNoControle(novo, fs, false, ''); }
       db.procedimentos.push(novo);
       porChave.set(k, novo);
       novos++;
@@ -4382,7 +4488,7 @@ function previaMesclagem(lista, arquivarAusentes) {
     const ex = porChave.get(k);
     if (ex) {
       atualizados.add(ex); if (ex.arquivado) desarquivados.add(ex); if (movimentoDepoisDoFeito(ex, item.evento)) voltam.add(ex);
-      if (item.classe && ex.classe && classeAgrupada(item.classe) !== classeAgrupada(ex.classe) && !mudam.some((x) => x.p === ex)) mudam.push({ p: ex, de: ex.classe, para: item.classe, data: dataInstauracaoDoItem(item) });
+      if (item.classe && ex.classe && classeAgrupada(item.classe) !== classeAgrupada(ex.classe) && !mudam.some((x) => x.p === ex)) mudam.push({ p: ex, de: ex.classe, para: item.classe, data: dataNovaDaClasse(ex, item) });
     }
     else if (!novos.has(k)) novos.set(k, item);
   }
@@ -4416,7 +4522,7 @@ function confirmarMesclagem(lista, arquivarAusentes) {
   }
   if (pv.mudam.length) {
     const bm = el('div', { class: 'conf-bloco' }, el('div', { class: 'sec-h' }, 'Mudam de classe', el('span', { class: 'cont' }, String(pv.mudam.length))),
-      el('div', { class: 'muted g-dica' }, 'O início do SIM continua o do expediente. A classe nova começa na data da portaria; quando o relatório não mostra a portaria, informe a data depois.'));
+      el('div', { class: 'muted g-dica' }, 'O início do SIM continua o do expediente. A classe nova começa na data da portaria, tirada das fases do caso indexado ou do último evento; sem ela, informe a data depois.'));
     for (const x of pv.mudam.slice(0, 12)) bm.append(el('div', { class: 'conf-linha' }, el('span', { class: 'mono' }, x.p.numero || '(s/ nº)'), el('span', { class: 'muted' }, siglaFase(x.de) + ' → ' + siglaFase(x.para)), el('span', { class: x.data ? '' : 'c-semdata-tx' }, x.data ? 'portaria em ' + x.data : 'sem a data da portaria')));
     if (pv.mudam.length > 12) bm.append(el('div', { class: 'muted g-dica' }, '… e mais ' + (pv.mudam.length - 12)));
     corpo.push(bm);
@@ -5294,7 +5400,9 @@ function telaFichaIx() {
   } else if (t === 'entidade') {
     if (r.cnpj) fato(el('span', { class: 'mono' }, 'CNPJ ' + fmtDoc(r.cnpj)), botaoCopiar(fmtDoc(r.cnpj), 'CNPJ copiado.'));
   } else {
-    if (r.data) fato('entrada ', el('span', { class: 'mono' }, fmtData(r.data)));
+    const fz = fasesDoExpediente(r);
+    if (r.data && !(fz.length && paraISO(fz[0].inicio) === paraISO(r.data))) fato('entrada ', el('span', { class: 'mono' }, fmtData(r.data)));
+    if (fz.length) fato(...fz.map((f, i) => el('span', { class: 'ix-fase', title: f.obs || null }, i ? ' → ' : '', siglaDaFase(f.classe) + ' ', el('span', { class: 'mono' }, paraBR(f.inicio)))));
     if ((r.temas || []).length) fato(...r.temas.map((tm) => el('button', { class: 'chip clique', title: 'Ver o tema', onclick: () => { pilhaIx.push({ view: IX.view, fichaId: IX.fichaId, tema: IX.tema, y: window.scrollY || 0 }); IX.view = 'temas'; IX.tema = tm; IX.fichaId = null; render(); window.scrollTo(0, 0); } }, tm)));
   }
   if (fatos.childNodes.length) cab.append(fatos);
@@ -5595,6 +5703,95 @@ function formVinculo(origemId, pre) {
 }
 
 /* ---------- índice: colar bloco do Claude ---------- */
+/* fases que o bloco trouxe para o expediente: classe e data de início (AAAA-MM-DD ou DD/MM/AAAA), em ordem de data */
+function lerFasesBloco(lista, numero, avisos) {
+  if (lista === undefined || lista === null || lista === '') return [];
+  if (!Array.isArray(lista)) { avisos.push('As fases do expediente ' + numero + ' não vieram em lista e foram ignoradas.'); return []; }
+  const hoje = isoDaquiA(0);
+  const porSigla = new Map();
+  let ignoradas = 0;
+  for (const f of lista) {
+    const ehObj = !!f && typeof f === 'object';
+    const sg = ehObj ? siglaDaFase(f.classe || f.tipo) : '';
+    const bruto = ehObj ? sTrim(f.inicio || f.data) : '';
+    const iso = paraISO(/^\d{4}-\d{2}-\d{2}T/.test(bruto) ? bruto.slice(0, 10) : bruto);
+    if (!sg || !iso || iso > hoje || iso < '1990-01-01') { ignoradas++; continue; }
+    const ant = porSigla.get(sg);
+    if (ant && ant.inicio !== iso) avisos.push('O bloco trouxe duas datas para a fase ' + sg + ' do expediente ' + numero + '; ficou a mais antiga.');
+    if (!ant || iso < ant.inicio) porSigla.set(sg, { classe: sg, inicio: iso, obs: sTrim(f.obs) });
+  }
+  if (ignoradas) avisos.push((ignoradas === 1 ? 'Uma fase do expediente ' + numero + ' veio sem classe ou sem data válida e foi ignorada.' : ignoradas + ' fases do expediente ' + numero + ' vieram sem classe ou sem data válida e foram ignoradas.'));
+  return Array.from(porSigla.values()).sort((a, b) => (a.inicio < b.inicio ? -1 : a.inicio > b.inicio ? 1 : 0));
+}
+/* junta as fases do bloco com as do Índice: classe nova entra; data diferente só troca quando trocar(sigla) */
+function juntarFases(atuais, novas, trocar) {
+  const r = (Array.isArray(atuais) ? atuais : []).filter((f) => f && siglaDaFase(f.classe)).map((f) => Object.assign({}, f, { classe: siglaDaFase(f.classe) }));
+  let mudou = false;
+  for (const f of novas || []) {
+    const sg = siglaDaFase(f.classe);
+    const i = r.findIndex((g) => g.classe === sg);
+    if (i === -1) { r.push({ classe: sg, inicio: f.inicio, obs: f.obs || '' }); mudou = true; continue; }
+    const g = r[i];
+    if (!paraData(g.inicio) || (paraISO(g.inicio) !== f.inicio && trocar(sg))) { r[i] = { classe: sg, inicio: f.inicio, obs: f.obs || g.obs || '' }; mudou = true; }
+    else if (!g.obs && f.obs && paraISO(g.inicio) === f.inicio) { r[i] = Object.assign({}, g, { obs: f.obs }); mudou = true; }
+  }
+  const iso = (f) => paraISO(f.inicio);
+  r.sort((a, b) => (iso(a) < iso(b) ? -1 : iso(a) > iso(b) ? 1 : 0));
+  return { fases: r, mudou: mudou };
+}
+/* o que as fases do bloco mudam no Índice e no Controle, para a tela de conferência */
+function planoFases(chave, numero, ex, fz) {
+  const atuais = ex ? fasesDoExpediente(ex) : [];
+  const juntas = juntarFases(atuais, fz, () => false).fases;
+  const pf = { ref: chave, numero: numero, juntas: juntas, notas: [], divergencias: [] };
+  const divs = new Map();
+  const div = (sg, b) => { if (!divs.has(sg)) divs.set(sg, { chave: chave + '|' + sg, sigla: sg, bloco: b, indice: '', controle: '' }); return divs.get(sg); };
+  for (const f of fz) {
+    const noIx = dataDaFase(atuais, f.classe), b = paraBR(f.inicio);
+    if (noIx && noIx !== b) div(f.classe, b).indice = noIx;
+  }
+  const p = procDoExpediente({ numero: numero });
+  if (!p) {
+    if (juntas.some((f) => f.classe === 'PP' || f.classe === 'IC' || f.classe === 'PIC')) pf.notas.push('Ainda não está no Controle: as datas valem quando o procedimento entrar pelo relatório do SIM.');
+  } else {
+    const k = classeCorreg(p), sig = siglaDaFase(p.classe);
+    const antes = inicioDaClasse(p);
+    const sim = JSON.parse(JSON.stringify(p));
+    const r = aplicarFasesNoControle(sim, juntas, false, '');
+    const depois = inicioDaClasse(sim);
+    if (r.data && depois) pf.notas.push('Controle: ' + oK(k) + ' passa a contar de ' + depois.data + (antes && antes.fonte === 'evento' ? ' (pelo último evento do SIM, era ' + antes.data + ')' : '') + '.');
+    if (r.historico) pf.notas.push('Controle: antes, ' + textoFases(sim) + '.');
+    const dk = k && (k !== 'NF' || temFasesAnteriores(sim)) ? dataDaFase(fz, k) : '';
+    if (dk && antes && antes.fonte === 'informada' && antes.data !== dk) div(k, dk).controle = antes.data;
+    const ult = juntas.length ? juntas[juntas.length - 1].classe : '';
+    if (ult && sig && ult !== sig && juntas.some((f) => f.classe === sig)) pf.notas.push('No Controle ainda é ' + sig + ': a data ' + doK(ult) + ' vale quando o relatório do SIM trouxer a mudança de classe.');
+    else if (precisaDataInstauracao(sim)) pf.notas.push('Controle: o bloco não traz a ' + (k === 'NF' ? 'data de início como NF' : 'instauração ' + doK(k)) + '; continua sem data.');
+  }
+  pf.divergencias = Array.from(divs.values());
+  return pf;
+}
+function blocoFasesConferencia(plano) {
+  const b = el('div', { class: 'fz-conf' },
+    el('div', { class: 'sec-h' }, 'Início de cada fase', el('span', { class: 'cont' }, String(plano.fases.length))),
+    el('p', { class: 'muted fz-intro' }, 'Datas tiradas dos documentos do expediente. No Controle, a data da classe atual passa a contar para os padrões da Corregedoria.'));
+  plano.caixas = [];
+  for (const pf of plano.fases) {
+    const bx = el('div', { class: 'fz-exp' },
+      el('div', { class: 'fz-fases' }, el('span', { class: 'mono' }, pf.numero), el('span', {}, textoFasesDoc(pf.juntas))));
+    for (const n of pf.notas) bx.append(el('div', { class: 'fz-sub muted' }, n));
+    for (const dv of pf.divergencias) {
+      const inp = el('input', { type: 'checkbox' });
+      plano.caixas.push({ chave: dv.chave, inp: inp });
+      const atuais = [];
+      if (dv.indice && dv.indice === dv.controle) atuais.push(dv.indice + ' (Índice e Controle)');
+      else { if (dv.indice) atuais.push(dv.indice + ' (Índice)'); if (dv.controle) atuais.push(dv.controle + ' (Controle)'); }
+      bx.append(el('label', { class: 'fz-div' }, inp, el('span', {}, el('strong', {}, dv.sigla), ': trocar ' + atuais.join(' e ') + ' por ' + dv.bloco + ', dos documentos')));
+    }
+    if (pf.divergencias.length) bx.append(el('div', { class: 'fz-sub muted' }, 'Sem marcar, fica a data que já estava.'));
+    b.append(bx);
+  }
+  return b;
+}
 function parseBloco(txt) {
   if (!txt || !txt.trim()) throw new Error('nada foi colado.');
   let s = txt.trim();
@@ -5611,7 +5808,7 @@ function parseBloco(txt) {
 }
 function planejarImportacao(txt) {
   const b = parseBloco(txt);
-  const plano = { itens: [], vincNovos: [], vincExistentes: 0, avisos: [], refMap: {} };
+  const plano = { itens: [], vincNovos: [], vincExistentes: 0, avisos: [], refMap: {}, fases: [], trocar: new Set(), caixas: [] };
   let seq = 0;
   const registrar = (tipo, ref, existente, dados, rotuloNovo) => {
     const chave = ref || ('auto' + (++seq));
@@ -5637,8 +5834,11 @@ function planejarImportacao(txt) {
     const numero = sTrim(x.numero);
     if (!numero) { plano.avisos.push('Expediente sem número foi ignorado (e os vínculos dele também).'); continue; }
     const dados = { numero: numero, tipo: sTrim(x.tipo), data: sTrim(x.data), status: sTrim(x.status), temas: aLista(x.temas), resumo: sTrim(x.resumo), obs: sTrim(x.obs) };
+    const fz = lerFasesBloco(x.fases, numero, plano.avisos);
+    if (fz.length) dados.fases = fz;
     const ex = expedientePorNumero(numero, null);
-    registrar('expediente', sTrim(x.ref), ex, dados, (dados.tipo || 'Expediente') + ' ' + numero);
+    const chave = registrar('expediente', sTrim(x.ref), ex, dados, (dados.tipo || 'Expediente') + ' ' + numero);
+    if (fz.length) plano.fases.push(planoFases(chave, numero, ex, fz));
   }
   for (const v of b.vinculos) {
     const o = plano.refMap[sTrim(v.origem)];
@@ -5657,7 +5857,7 @@ function planejarImportacao(txt) {
   if (!plano.itens.length && !plano.vincNovos.length) throw new Error('o bloco não trouxe nenhum registro aproveitável.');
   return plano;
 }
-function completarExistente(ex, dados, tipo) {
+function completarExistente(ex, dados, tipo, trocarFase) {
   const camposTexto = tipo === 'expediente' ? ['tipo', 'data', 'status', 'resumo', 'obs'] : tipo === 'pessoa' ? ['cpf', 'cargo', 'orgao', 'obs'] : ['cnpj', 'tipo', 'obs'];
   let mudou = false;
   for (const c of camposTexto) {
@@ -5672,6 +5872,10 @@ function completarExistente(ex, dados, tipo) {
     ex[campoNome] = atual;
   };
   if (tipo === 'expediente') uniao('temas'); else uniao('aliases');
+  if (tipo === 'expediente' && Array.isArray(dados.fases) && dados.fases.length) {
+    const j = juntarFases(ex.fases, dados.fases, trocarFase || (() => false));
+    if (j.mudou) { ex.fases = j.fases; mudou = true; }
+  }
   if (tipo !== 'expediente' && sTrim(dados.nome) && norm(ex.nome) !== norm(dados.nome)) {
     const aliases = ex.aliases || [];
     if (aliases.map(norm).indexOf(norm(dados.nome)) === -1) { aliases.push(dados.nome); ex.aliases = aliases; mudou = true; }
@@ -5683,7 +5887,7 @@ function aplicarImportacao(plano) {
   for (const item of plano.itens) {
     const reg = plano.refMap[item.ref];
     if (reg.existente) {
-      if (completarExistente(reg.existente, reg.dados, reg.tipo)) completados++;
+      if (completarExistente(reg.existente, reg.dados, reg.tipo, (sg) => plano.trocar.has(item.ref + '|' + sg))) completados++;
       reg.novoId = reg.existente.id;
     } else {
       const prefixo = reg.tipo === 'pessoa' ? 'p' : reg.tipo === 'entidade' ? 'e' : 'x';
@@ -5703,12 +5907,23 @@ function aplicarImportacao(plano) {
     db.vinculos.push({ id: uid('v'), origem: oId, destino: dId, papel: v.papel, obs: v.obs });
     vincs++;
   }
+  /* Controle: a data da classe atual e o histórico, tirados das fases */
+  let datas = 0, historicos = 0;
+  const agora = new Date().toISOString();
+  for (const pf of plano.fases || []) {
+    const x = db.expedientes.find((e) => e.id === plano.refMap[pf.ref].novoId);
+    const p = x ? procDoExpediente(x) : null;
+    if (!p) continue;
+    const r = aplicarFasesNoControle(p, fasesDoExpediente(x), plano.trocar.has(pf.ref + '|' + classeCorreg(p)), agora);
+    if (r.data) datas++;
+    if (r.historico) historicos++;
+  }
   touch();
   const exps = plano.itens.filter((i) => i.tipo === 'expediente');
   if (exps.length === 1) { S.aba = 'indice'; IX.view = 'ficha'; IX.fichaId = plano.refMap[exps[0].ref].novoId; pilhaIx.length = 0; }
   render();
   window.scrollTo(0, 0);
-  return { criados: criados, completados: completados, vincs: vincs };
+  return { criados: criados, completados: completados, vincs: vincs, datas: datas, historicos: historicos };
 }
 function confirmarImportacao(plano) {
   const corpo = [];
@@ -5731,6 +5946,7 @@ function confirmarImportacao(plano) {
     }
   }
   if (plano.vincExistentes) corpo.push(el('p', { class: 'muted dica' }, plano.vincExistentes + ' vínculo(s) do bloco já existiam e serão ignorados.'));
+  if (plano.fases.length) corpo.push(blocoFasesConferencia(plano));
   if (plano.avisos.length) {
     const av = el('div', { class: 'aviso' });
     plano.avisos.forEach((a) => av.append(el('div', null, a)));
@@ -5738,9 +5954,17 @@ function confirmarImportacao(plano) {
   }
   abrirDialogo('Conferir antes de aplicar', corpo, () => {
     const foto = fotoBase();
+    plano.trocar = new Set(plano.caixas.filter((c) => c.inp.checked).map((c) => c.chave));
     const r = aplicarImportacao(plano);
-    setTimeout(() => oferecerDesfazer('Índice atualizado: ' + r.criados + ' registro(s) criado(s), ' + r.completados + ' completado(s), ' + r.vincs + ' vínculo(s) novo(s).', foto), 60);
+    let msg = 'Índice atualizado: ' + r.criados + ' registro(s) criado(s), ' + r.completados + ' completado(s), ' + r.vincs + ' vínculo(s) novo(s).';
+    if (r.datas || r.historicos) msg += ' No Controle: ' + [r.datas ? r.datas + (r.datas === 1 ? ' data de instauração' : ' datas de instauração') : '', r.historicos ? r.historicos + (r.historicos === 1 ? ' histórico de classes' : ' históricos de classes') : ''].filter(Boolean).join(' e ') + '.';
+    setTimeout(() => oferecerDesfazer(msg, foto), 60);
   }, 'Aplicar na base');
+  if (plano.caixas.length) {
+    const c = document.querySelector('#dlg .d-foot .btn.ghost');
+    if (c) c.focus();
+    for (const e of [document.querySelector('#dlg .d-body'), document.querySelector('#dlg')]) if (e) e.scrollTop = 0;
+  }
 }
 function importarBlocoClaude() {
   if (!db) { alert('Abra ou crie a base antes de colar registros.'); return; }
