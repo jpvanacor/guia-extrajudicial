@@ -6003,13 +6003,26 @@ function lerBlocoReuniao(txt) {
   if (ini === -1 || fim === -1 || fim <= ini) throw new Error('não encontrei um objeto JSON no texto colado.');
   const d = JSON.parse(s.slice(ini, fim + 1));
   const r = d.reuniao || d;
-  if (!r || typeof r !== 'object' || (!Array.isArray(r.expedientes) && !Array.isArray(r.tarefas) && !Array.isArray(r.orientacoes))) throw new Error('o bloco não tem a chave "reuniao" com expedientes, tarefas ou orientações.');
+  if (!r || typeof r !== 'object' || !['expedientes', 'tarefas', 'tarefasGerais', 'orientacoes', 'lembretes', 'pendencias'].some((k) => Array.isArray(r[k]))) throw new Error('o bloco não tem a chave "reuniao" com expedientes, tarefas, orientações ou lembretes.');
   return r;
 }
+/* v57: a skill reuniao-tarefas-mp escreve "tarefasGerais" e "lembretes"; blocos antigos, "tarefas" e "pendencias" */
+function listaDoBloco(r, chaves) {
+  let out = [];
+  for (const k of chaves) if (Array.isArray(r[k])) out = out.concat(r[k]);
+  return out;
+}
 function tarefaObj(x) {
-  if (typeof x === 'string') return { texto: x.trim(), detalhe: '' };
-  if (x && typeof x === 'object') return { texto: String(x.texto || '').trim(), detalhe: String(x.detalhe || '').trim() };
-  return { texto: '', detalhe: '' };
+  if (typeof x === 'string') return { texto: x.trim(), detalhe: '', categoria: '', prazo: '' };
+  if (x && typeof x === 'object') {
+    return {
+      texto: String(x.texto || '').trim(),
+      detalhe: String(x.detalhe || x.detalhes || '').trim(),
+      categoria: String(x.categoria || '').trim(),
+      prazo: paraBR(x.prazo || x.dataLimite || '')
+    };
+  }
+  return { texto: '', detalhe: '', categoria: '', prazo: '' };
 }
 function colarReuniao() {
   if (!db) { alert('Abra ou crie a base antes de colar.'); return; }
@@ -6028,10 +6041,10 @@ function colarReuniao() {
 function confirmarReuniao(r) {
   const exps = Array.isArray(r.expedientes) ? r.expedientes : [];
   const nTarExp = exps.reduce((a, e) => a + (Array.isArray(e.tarefas) ? e.tarefas.length : 0), 0);
-  const nTar = nTarExp + (Array.isArray(r.tarefas) ? r.tarefas.length : 0);
+  const nTar = nTarExp + listaDoBloco(r, ['tarefas', 'tarefasGerais']).length;
   const ori = Array.isArray(r.orientacoes) ? r.orientacoes : [];
   const oriNovas = ori.filter((o) => !db.orientacoes.some((x) => norm(x.texto) === norm(typeof o === 'string' ? o : o.texto)));
-  const pend = Array.isArray(r.pendencias) ? r.pendencias : [];
+  const pend = listaDoBloco(r, ['pendencias', 'lembretes']);
   const ligados = exps.filter((e) => acharProcPorNumero(e.numero)).length;
   const jaExiste = db.reunioes.find((x) => x.data === r.data && norm(x.titulo) === norm(r.titulo || r.tipo || ''));
   const item = (txt) => el('div', { class: 'r-item' }, el('span', { class: 'rk' }, '•'), txt);
@@ -6064,7 +6077,7 @@ function importarReuniao(r) {
     const o = tarefaObj(x);
     if (!o.texto) return null;
     ordem += 10;
-    const t2 = normTarefa({ texto: o.texto, detalhe: o.detalhe, categoria: 'reunião', reuniaoId: reg.id, expedienteRef: procId ? '' : String(numero || ''), procedimentoIds: procId ? [procId] : [], ordem: ordem });
+    const t2 = normTarefa({ texto: o.texto, detalhe: o.detalhe, categoria: o.categoria || 'reunião', dataLimite: o.prazo, reuniaoId: reg.id, expedienteRef: procId ? '' : String(numero || ''), procedimentoIds: procId ? [procId] : [], ordem: ordem });
     db.tarefas.push(t2);
     reg.tarefaIds.push(t2.id);
     return t2.id;
@@ -6083,8 +6096,8 @@ function importarReuniao(r) {
     }
     reg.expedientes.push(ex);
   }
-  for (const x of (Array.isArray(r.tarefas) ? r.tarefas : [])) addTarefa(x, '', '');
-  for (const x of (Array.isArray(r.pendencias) ? r.pendencias : [])) {
+  for (const x of listaDoBloco(r, ['tarefas', 'tarefasGerais'])) addTarefa(x, '', '');
+  for (const x of listaDoBloco(r, ['pendencias', 'lembretes'])) {
     const tx = typeof x === 'string' ? x : (x && x.texto) || '';
     if (!tx.trim()) continue;
     const l = normLembrete({ texto: tx.trim(), reuniaoId: reg.id, data: (x && x.data) ? String(x.data) : '' });
