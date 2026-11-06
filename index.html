@@ -224,35 +224,7 @@ dialog::backdrop{background:rgba(15,17,22,.5)}
 .painel .prox .n{color:var(--t-atencao)}
 .painel .folg .n{color:var(--t-pratica)}
 
-.proc-lista{display:grid;gap:8px}
-.proc-card{background:var(--card);border:1px solid var(--line);border-radius:var(--raio);padding:14px 16px;cursor:pointer;display:flex;gap:10px;align-items:flex-start;transition:all .15s}
-.proc-card:hover{border-color:var(--accent);box-shadow:var(--sombra)}
-.proc-card.arquivado{opacity:.5}
-.proc-faixa{width:3px;min-width:3px;border-radius:3px;align-self:stretch;flex-shrink:0}
-.proc-faixa.venc{background:var(--t-regra)}
-.proc-faixa.prox{background:var(--t-atencao)}
-.proc-faixa.folg{background:var(--t-pratica)}
-.proc-check{flex-shrink:0;margin-top:1px}
-.proc-info{flex:1;min-width:0}
-.proc-topo{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
-.proc-num{font-family:"JetBrains Mono","Cascadia Code",Consolas,monospace;font-size:13px;font-weight:600}
-.proc-classe{font-size:11.5px;color:var(--muted)}
-.proc-titulo{font-size:14px;margin-top:3px;line-height:1.4}
-.proc-assunto{font-size:11.5px;color:var(--muted);margin-top:2px}
-.proc-pills{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:6px}
 .chip-sit{display:inline-block;border:0;border-radius:6px;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
-.proc-prazo{font-size:11.5px;font-weight:600}
-.proc-prazo.venc{color:var(--t-regra)}
-.proc-prazo.prox{color:var(--t-atencao)}
-.proc-prazo.folg{color:var(--t-pratica)}
-.proc-prazo.nulo{color:var(--muted);font-weight:500}
-.vinc-badge{font-size:11px;color:var(--accent);font-weight:600;opacity:.7}
-.idx-badge{font-size:10px;color:var(--t-atencao);font-weight:600;opacity:.7}
-.proc-acao{font-size:12.5px;color:var(--muted);margin-top:3px}
-.proc-ordenar{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 6px;align-items:center;font-size:11.5px;color:var(--muted)}
-.proc-ord-btn{appearance:none;border:0;background:transparent;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600;color:var(--muted);padding:3px 8px;border-radius:6px}
-.proc-ord-btn:hover{color:var(--accent);background:var(--accent-soft)}
-.proc-ord-btn.ativo{color:var(--accent)}
 .s-sem_triagem{color:var(--t-checklist);background:var(--t-checklist-bg)}
 .s-analise{color:var(--t-ferramenta);background:var(--t-ferramenta-bg)}
 .s-aguardando{color:var(--t-atencao);background:var(--t-atencao-bg)}
@@ -323,8 +295,6 @@ dialog::backdrop{background:rgba(15,17,22,.5)}
 .due.soon{color:var(--t-atencao);font-weight:600}
 .due.ok{color:var(--t-pratica)}
 .t-cat{font-family:"JetBrains Mono",Consolas,monospace;font-size:10.5px;color:var(--muted);background:var(--chip);border-radius:5px;padding:2px 7px}
-.t-acoes{display:flex;gap:2px;flex-shrink:0;opacity:0;transition:opacity .12s}
-.trow:hover .t-acoes{opacity:1}
 .lem-flag{flex:none;width:20px;text-align:center;font-size:14px}
 .trow.lem-ack .tt{color:var(--muted);text-decoration:line-through}
 .trow.lem-ack .lem-flag{opacity:.3}
@@ -384,51 +354,6 @@ button.x:hover{color:var(--accent);background:var(--accent-soft)}
   main,.faixa,.abas,footer{padding-left:16px;padding-right:16px}
 }
 
-/* kanban foco */
-.kanban{display:flex;gap:12px;margin:14px 0;min-height:200px}
-.kanban-col{flex:1;min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:var(--raio);display:flex;flex-direction:column;overflow:hidden}
-.kanban-cab{padding:10px 14px;font-family:"JetBrains Mono",Consolas,monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}
-.kanban-cab .kn{font-variant-numeric:tabular-nums;color:var(--ink)}
-.kanban-cab.k-venc{color:var(--t-regra);border-bottom-color:var(--t-regra)}
-.kanban-cab.k-prio{color:var(--t-atencao);border-bottom-color:var(--t-atencao)}
-.kanban-cab.k-nova{color:var(--t-pratica);border-bottom-color:var(--t-pratica)}
-.kanban-corpo{flex:1;padding:8px;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
-.kanban-corpo:empty::after{content:'Nenhum';display:block;text-align:center;color:var(--muted);font-size:12.5px;padding:20px 0}
-.kcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;transition:all .15s}
-.kcard:hover{border-color:var(--line-forte);box-shadow:var(--sombra)}
-.kcard.feito{opacity:.5}
-.kcard-topo{display:flex;gap:8px;align-items:flex-start}
-.kcard-info{flex:1;min-width:0}
-.kcard-num{font-family:"JetBrains Mono",Consolas,monospace;font-size:12px;font-weight:600}
-.kcard-classe{font-size:11px;color:var(--muted);margin-left:6px}
-.kcard-titulo{font-size:13px;margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.kcard-pills{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
-.kcard-nota textarea{width:100%;min-height:48px;font-size:12.5px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper);font-family:inherit;color:var(--ink);resize:vertical;margin-top:8px}
-.kcard-nota textarea:focus{border-color:var(--accent);outline:none}
-.kcard-nota textarea::placeholder{color:var(--muted)}
-.kcard-acoes{display:flex;gap:3px;justify-content:flex-end;margin-top:6px;opacity:0;transition:opacity .12s}
-.kcard:hover .kcard-acoes{opacity:1}
-.kcard[draggable="true"]{cursor:grab}
-.kcard[draggable="true"]:active{cursor:grabbing}
-.kcard.dragging{opacity:.3}
-.kanban-corpo.drag-over{background:var(--accent-soft);border-radius:10px}
-@media (max-width:768px){.kanban{flex-direction:column}}
-/* foco do dia */
-.foco-vazio{text-align:center;padding:40px 20px;color:var(--muted)}
-.foco-item{background:var(--card);border:1px solid var(--line);border-radius:var(--raio);padding:16px;margin:8px 0;transition:all .15s}
-.foco-item:hover{border-color:var(--line-forte)}
-.foco-item.feito{opacity:.55}
-.foco-topo{display:flex;gap:12px;align-items:flex-start}
-.foco-ck{flex:none;margin-top:2px}
-.foco-proc{flex:1;min-width:0}
-.foco-num{font-family:"JetBrains Mono",Consolas,monospace;font-size:13px;font-weight:600}
-.foco-classe{font-size:12px;color:var(--muted);margin-left:8px}
-.foco-titulo{font-size:14px;margin-top:3px;color:var(--ink)}
-.foco-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-.foco-nota textarea{width:100%;min-height:60px;font-size:13.5px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--paper);font-family:inherit;color:var(--ink);resize:vertical;margin-top:10px}
-.foco-nota textarea:focus{border-color:var(--accent);outline:none}
-.foco-nota textarea::placeholder{color:var(--muted)}
-.foco-acoes{display:flex;gap:6px;margin-top:8px;justify-content:flex-end}
 
 /* v39: gaveta */
 .g-acoes{display:flex;gap:6px;flex-wrap:wrap}
@@ -463,7 +388,6 @@ button.x:hover{color:var(--accent);background:var(--accent-soft)}
 .metricas:not(.fechada) .metricas-cab{margin-bottom:10px}
 .metricas-resumo{font-weight:400;font-size:12.5px}
 .filtro-chip.limpar{border-style:dashed}
-.idx-badge{font-size:10.5px;color:var(--muted);border:1px dashed var(--line-forte);border-radius:5px;padding:0 6px;line-height:1.6}
 .c-filtros select.oculto{display:none}
 
 /* v39: feitos hoje */
@@ -478,21 +402,7 @@ button.x:hover{color:var(--accent);background:var(--accent-soft)}
 .hist-proc-tit{flex:1;min-width:200px}
 .hist-proc-nota{flex-basis:100%;font-size:12.5px;color:var(--muted);white-space:pre-wrap}
 
-/* v39: foco do dia */
-.foco-progresso{display:flex;align-items:center;gap:12px;font-size:12.5px;color:var(--muted);margin:10px 0 0}
-.foco-barra{flex:0 1 240px;height:6px;border-radius:99px;background:var(--line);overflow:hidden}
-.foco-barra > div{height:100%;background:var(--t-pratica);border-radius:99px;transition:width .3s}
-.kcard{cursor:grab}
-.kcard.leitura{cursor:default;padding:8px 12px}
-.kcard textarea,.kcard select,.kcard button{cursor:auto}
-.kcard-titulo{font-size:13px}
-.kcard-marca{flex:none;width:17px;text-align:center;color:var(--muted);font-weight:700}
-.kcard-marca.on{color:var(--t-pratica)}
-.kcard-hist-nota{margin-top:5px;font-size:12.5px;color:var(--muted);white-space:pre-wrap}
-.kcard-acoes{align-items:center}
-.kcard-mover{font-size:11.5px;padding:2px 6px;border:1px solid var(--line-forte);border-radius:6px;background:var(--card);color:var(--ink);font-family:inherit}
 .sel-grupo{font-size:11.5px;color:var(--muted);padding:2px 2px 4px}
-@media (hover: none){.kcard-acoes,.t-acoes{opacity:1}}
 
 
 /* v39: ajustes vistos nos prints */
@@ -533,9 +443,7 @@ button.x:hover{color:var(--accent);background:var(--accent-soft)}
 
 
 /* v40: acessibilidade e detalhes */
-.proc-card:focus-visible,.linha:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.r-tar .ck{flex:none;margin-top:1px}
-.kcard-nota textarea{resize:vertical;max-height:260px}
+.linha:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 
 /* v41: mudanças nos dois computadores */
@@ -554,9 +462,8 @@ button.x:hover{color:var(--accent);background:var(--accent-soft)}
 ::-webkit-scrollbar{width:9px;height:9px}
 ::-webkit-scrollbar-thumb{background:var(--line-forte);border-radius:99px;border:2px solid var(--card)}
 ::-webkit-scrollbar-track{background:transparent}
-.mono,.due,.proc-num,.chart-n{font-variant-numeric:tabular-nums}
+.mono,.due,.chart-n{font-variant-numeric:tabular-nums}
 .btn:active,.filtro-chip:active,.stat-chip:active{transform:scale(.97)}
-.proc-card:hover{transform:translateY(-1px)}
 .linha:hover{transform:translateY(-1px)}
 .logo{width:27px;height:27px;border-radius:8px;background:var(--accent);color:#fff;display:inline-grid;place-items:center;font-size:15px;font-weight:800;flex:none;letter-spacing:0}
 .gaveta[data-faixa="venc"] .g-cab{box-shadow:inset 0 3px 0 var(--t-regra)}
@@ -575,24 +482,10 @@ footer{font-size:11.5px;opacity:.8}
 .r-orient .oitem + .oitem{border-top:1px solid var(--line)}
 .r-orient .oitem .otx{flex:1}
 .r-orient .oitem .ometa{color:var(--muted);font-size:11.5px;white-space:nowrap}
-.r-card{background:var(--card);border:1px solid var(--line);border-radius:var(--raio);padding:14px 18px;margin:10px 0;box-shadow:var(--sombra)}
-.r-card .r-head{display:flex;align-items:center;gap:12px;cursor:pointer;flex-wrap:wrap}
-.r-card .r-head h3{margin:0;font-size:16px;flex:1;min-width:200px}
-.r-card .r-head .r-sub{color:var(--muted);font-size:12.5px}
-.r-sec{margin:14px 0 4px}
-.r-exp{border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0;background:var(--paper)}
-.r-exp .r-num{font-weight:600;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.r-exp .r-lbl{color:var(--muted);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-top:8px}
-.r-exp p{margin:2px 0;font-size:14px}
 .r-item{padding:5px 0;font-size:14px;display:flex;gap:8px;align-items:flex-start}
 .r-item + .r-item{border-top:1px solid var(--line)}
 .r-item .rk{color:var(--muted);flex:none}
 .r-item.done{color:var(--muted);text-decoration:line-through}
-.r-tar{display:flex;gap:8px;align-items:flex-start;padding:4px 0;font-size:14px}
-.r-tar .ckm{flex:none;width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line-forte);margin-top:3px}
-.r-tar .ckm.on{background:var(--t-pratica);border-color:var(--t-pratica)}
-.r-tar.done{color:var(--muted);text-decoration:line-through}
-.r-hit{background:var(--aviso-bg);border-radius:4px;padding:0 2px}
 
 /* v43: Controle redesenhado */
 .abas-inner{overflow-x:auto;max-width:100%;scrollbar-width:none}
@@ -1073,7 +966,6 @@ input.inval{border-color:var(--t-regra);box-shadow:0 0 0 1px var(--t-regra)}
 .c-grupo.g-correg-prox,.c-grupo.g-correg-prox .c-grupo-n{color:var(--t-atencao)}
 .g-correg-prox{color:var(--t-atencao);font-weight:600}
 .c-sel:disabled{opacity:.55;cursor:not-allowed}
-.chip-feito{display:inline-block;border-radius:6px;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;color:var(--t-pratica);background:var(--t-pratica-bg)}
 
 /* v53: fases tiradas dos documentos (bloco do índice) */
 .fz-intro{font-size:12.5px;margin:0 0 4px}
@@ -1084,6 +976,22 @@ input.inval{border-color:var(--t-regra);box-shadow:0 0 0 1px var(--t-regra)}
 .fz-div{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;margin-top:6px;cursor:pointer}
 .fz-div input{margin:2px 0 0;flex:none}
 .ix-fase{white-space:pre}
+
+/* v56: aba Hoje (lista A fazer e Feitos hoje) */
+.hoje-cab{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 0}
+.hoje-cab h2{font-size:18px;margin:0}
+.hoje-vazio{color:var(--muted);font-size:13.5px;line-height:1.5;padding:0 2px 4px}
+.hoje .feitos-metricas{margin-top:28px}
+.c-desde,.c-orig{font-size:11px;color:var(--muted)}
+.hoje .c-l2{flex-wrap:wrap;row-gap:1px}
+.c-ic.tirar{font-size:18px}
+.c-ic.tirar:hover{color:var(--t-regra);background:var(--t-regra-bg)}
+.sel-lista.alta{max-height:min(48vh,420px)}
+.sel-item .c-alerta{margin-top:3px;white-space:normal}
+span.tk-reu{cursor:default}
+span.tk-reu:hover{border-color:var(--t-promotora-bg);color:var(--t-promotora)}
+.tk-orient{margin-top:22px}
+.tk-orient .sec-h{margin:0 0 4px}
 </style>
 </head>
 <body>
@@ -1719,8 +1627,7 @@ function limparDepoisDeJuntar(R, B) {
   for (const t2 of (R.tarefas || [])) { t2.procedimentoIds = (t2.procedimentoIds || []).filter((id) => procs.has(id)); if (!t2.concluida) t2.concluidaEm = ''; }
   for (const l of (R.lembretes || [])) l.procedimentoIds = (l.procedimentoIds || []).filter((id) => procs.has(id));
   for (const p of (R.procedimentos || [])) if (p.anexadoA && !procs.has(p.anexadoA)) p.anexadoA = '';
-  const hoje = hojeStr();
-  if (Array.isArray(R.focoDia)) R.focoDia = R.focoDia.filter((f) => f.data !== hoje || procs.has(f.procedimentoId));
+  if (Array.isArray(R.focoDia)) R.focoDia = R.focoDia.filter((f) => procs.has(f.procedimentoId));
   const regs = new Set([].concat(R.pessoas || [], R.entidades || [], R.expedientes || []).map((x) => x.id));
   if (Array.isArray(R.vinculos)) R.vinculos = R.vinculos.filter((v) => regs.has(v.origem) && regs.has(v.destino));
 }
@@ -1761,7 +1668,7 @@ function rotuloRegistro(col, r) {
   if (col === 'vinculos') return 'Vínculo do Índice';
   if (col === 'reunioes') return 'Reunião de ' + (r.data || '?');
   if (col === 'orientacoes') return 'Orientação "' + recorte(r.texto || '', 60) + '"';
-  if (col === 'focoDia') return 'Foco do dia de ' + fmtData(r.data || '');
+  if (col === 'focoDia') return 'Item da lista A fazer de ' + fmtData(r.data || '');
   return 'Item (' + col + ')';
 }
 function fmtValorCampo(k, v) {
@@ -2205,8 +2112,7 @@ function menuAcoes(itensMenu, rotulo, titulo) {
 }
 function destinoColar() {
   if (S.aba === 'indice') return ['Cola o bloco de envolvidos (skill indexar-envolvidos)', importarBlocoClaude];
-  if (S.aba === 'reunioes') return ['Cola o bloco da reunião (skill reuniao-tarefas-mp)', colarReuniao];
-  if (S.aba === 'tarefas') return null;
+  if (S.aba === 'tarefas') return ['Cola o bloco da reunião (skill reuniao-tarefas-mp): tarefas, lembretes e orientações', colarReuniao];
   return ['Cola o bloco de procedimentos (skill atualizar-controle-mp)', colarProcedimentos];
 }
 function montarAcoesBase() {
@@ -2235,11 +2141,9 @@ function montarAcoesBase() {
   ])));
 }
 const ICONES_ABA = {
-  foco: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
+  hoje: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg>',
   controle: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>',
-  feitos: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>',
   tarefas: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg>',
-  reunioes: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8"/><path d="M8 13h5"/></svg>',
   indice: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
 };
 function montarAbas() {
@@ -2248,10 +2152,8 @@ function montarAbas() {
   const wrap = el('div', { class: 'abas-inner' });
   const defs = [
     ['controle', 'Controle'],
-    ['foco', 'Foco do dia'],
-    ['feitos', 'Feitos hoje'],
+    ['hoje', 'Hoje'],
     ['tarefas', 'Tarefas'],
-    ['reunioes', 'Reuniões'],
     ['indice', 'Índice de envolvidos']
   ];
   for (const par of defs) {
@@ -2266,6 +2168,8 @@ function montarAbas() {
     const ic = el('span', { style: 'display:inline-flex' });
     ic.innerHTML = ICONES_ABA[par[0]] || '';
     b.append(ic, par[1]);
+    const nAba = db && par[0] === 'hoje' ? itensAFazer().length : 0;
+    if (nAba) b.append(el('span', { class: 'cont', title: nAba + ' na lista A fazer' }, String(nAba)));
     wrap.append(b);
   }
   nav.append(wrap);
@@ -2278,14 +2182,15 @@ function resetarNavegacao() {
   IX.view = 'busca'; IX.q = ''; IX.fichaId = null; IX.tema = null;
   IX.filtro.pessoas = ''; IX.filtro.entidades = ''; IX.filtro.expedientes = '';
   pilhaIx.length = 0;
-  SR.q = ''; SR.aberta = null;
   fecharGaveta(false);
   render();
 }
 
 /* ---------- render ---------- */
+const ABAS = ['controle', 'hoje', 'tarefas', 'indice'];
 function render() {
   fecharPopover();
+  if (ABAS.indexOf(S.aba) === -1) S.aba = 'controle';
   montarAbas();
   montarAcoesBase();
   montarFaixa();
@@ -2294,16 +2199,14 @@ function render() {
   main.innerHTML = '';
   if (!db) { main.append(telaInicial()); return; }
   if (S.aba === 'controle') { main.append(telaControle()); return; }
-  if (S.aba === 'foco') { main.append(telaFoco()); return; }
-  if (S.aba === 'feitos') { main.append(telaFeitosHoje()); return; }
+  if (S.aba === 'hoje') { main.append(telaHoje()); return; }
   if (S.aba === 'tarefas') { main.append(telaTarefas()); return; }
   if (S.aba === 'indice') { main.append(telaIndice()); return; }
-  if (S.aba === 'reunioes') { main.append(telaReunioes()); return; }
 }
 function telaInicial() {
   const c = el('div', { class: 'inicio' });
   c.append(el('h2', { class: 'serif' }, 'Abra a base para começar'));
-  c.append(el('p', {}, 'Controle, foco do dia, tarefas, reuniões e índice de envolvidos ficam em um único arquivo .json, que você controla.'));
+  c.append(el('p', {}, 'Controle, Hoje, Tarefas e Índice de envolvidos ficam em um único arquivo .json, que você controla.'));
   c.append(el('p', { class: 'muted', style: 'font-size:13.5px' }, googleSuportado()
     ? 'Pelo site, a base fica no seu Google Drive: entre com Google em qualquer computador. O app confere sozinho quando o outro computador salva.'
     : 'Para usar em mais de um computador, guarde o arquivo numa pasta sincronizada (OneDrive, Google Drive ou Dropbox) e abra por ela nos dois. O app confere sozinho quando o outro computador salva.'));
@@ -2371,19 +2274,6 @@ function hojeStr() {
 function feitoHoje(p) {
   return (p.registro || []).some((r) => r.data === hojeStr());
 }
-function marcarFeito(p, nota) {
-  if (!Array.isArray(p.registro)) p.registro = [];
-  if (feitoHoje(p)) return;
-  p.registro.push({ data: hojeStr(), nota: nota || '' });
-  p.alteradoEm = new Date().toISOString();
-  touch();
-}
-function desmarcarFeito(p) {
-  const hj = hojeStr();
-  p.registro = (p.registro || []).filter((r) => r.data !== hj);
-  p.alteradoEm = new Date().toISOString();
-  touch();
-}
 
 /* ---------- métricas de produtividade ---------- */
 function metricasAbertas() { try { return localStorage.getItem('metricasAbertas') === '1'; } catch (e) { return false; } }
@@ -2437,64 +2327,121 @@ function gerarMetricas(aoAlternar) {
   return c;
 }
 
-function telaFeitosHoje() {
-  const c = el('div');
+/* ---------- Hoje (v56): a lista "A fazer" e os feitos de hoje ----------
+   A fazer: os casos que você quer fazer ou que mandaram fazer. Ficam na lista de um dia para o outro, até saírem
+   pelo ✓ de feito, pela indexação do caso (bloco do Índice) ou pelo ×. Ficam em db.focoDia, o antigo foco do dia
+   (item com lista: true; o item antigo, sem isso, vale só no dia em que foi posto).
+   Feitos hoje: os procedimentos com o dia de hoje no registro de trabalho. O registro diz de onde veio (origens:
+   'feito' pelo ✓, 'indice' pela indexação); o registro antigo, sem origens, conta como do ✓. */
+function normFoco(f) {
+  return Object.assign({ id: uid('fd'), procedimentoId: '', nota: '', concluido: false, coluna: '', data: hojeStr(), criadoEm: new Date().toISOString() }, f || {});
+}
+function pendenteNaLista(f) { return !f.concluido && (f.lista === true || f.data === hojeStr()); }
+function itensAFazer() {
+  const vistos = new Set(), out = [];
+  for (const f of db.focoDia) {
+    if (!pendenteNaLista(f) || vistos.has(f.procedimentoId)) continue;
+    const p = acharProc(f.procedimentoId);
+    if (!p || p.arquivado) continue;
+    vistos.add(f.procedimentoId);
+    out.push({ f: f, p: p });
+  }
+  return out;
+}
+function naLista(procId) { return db.focoDia.some((f) => f.procedimentoId === procId && pendenteNaLista(f)); }
+function porNaLista(procId) {
+  if (naLista(procId)) return false;
+  db.focoDia.push(normFoco({ procedimentoId: procId, lista: true }));
+  touch();
+  return true;
+}
+function tirarDaLista(procId) {
+  db.focoDia = db.focoDia.filter((f) => !(f.procedimentoId === procId && pendenteNaLista(f)));
+  touch();
+}
+function origensDe(r) { return Array.isArray(r.origens) ? r.origens : ['feito']; }
+function registroDeHoje(p) { return (p.registro || []).find((r) => r.data === hojeStr()) || null; }
+/* conta o trabalho de hoje no procedimento ("Feitos hoje") e tira o caso da lista A fazer */
+function registrarTrabalhoHoje(p, origem) {
+  const agora = new Date().toISOString();
+  if (!Array.isArray(p.registro)) p.registro = [];
+  let r = registroDeHoje(p);
+  if (!r) { r = { data: hojeStr(), nota: '', origens: [] }; p.registro.push(r); }
+  const os = origensDe(r);
+  if (os.indexOf(origem) === -1) { r.origens = os.concat(origem); r.em = agora; p.alteradoEm = agora; }
+  for (const f of db.focoDia) {
+    if (f.procedimentoId === p.id && pendenteNaLista(f)) { f.concluido = true; f.concluidoEm = agora; f.concluidoPor = origem; }
+  }
+  touch();
+}
+/* desfaz o que uma origem fez hoje: desmarcar o ✓ não apaga o dia de um caso indexado hoje. Se o dia deixa de
+   contar, o caso volta para a lista A fazer quando saiu dela hoje por essa origem. Sem origem (o × de "Feitos
+   hoje"), apaga o dia; o caso volta para a lista se saiu dela hoje e não está com o ✓ */
+function desfazerTrabalhoHoje(p, origem) {
   const hj = hojeStr();
-  const feitos = db.procedimentos.filter((p) => (p.registro || []).some((r) => r.data === hj));
-  c.append(el('h2', { class: 'serif', style: 'font-size:18px;margin:12px 0 4px' }, 'Feitos hoje · ' + new Date().toLocaleDateString('pt-BR')));
-  c.append(el('p', { class: 'muted', style: 'margin:0 0 14px' }, feitos.length ? feitos.length + ' procedimento(s) trabalhado(s) hoje.' : 'Nenhum procedimento marcado como feito hoje. Marque com o ✓ na aba Controle.'));
-  if (feitos.length) {
-    const lista = el('div', { class: 'proc-lista' });
-    for (const p of feitos) {
-      const f = faixaPrazo(p);
-      const pe = prazoEfetivo(p);
-      const d = diasAte(pe);
-      const card = el('div', { class: 'proc-card', role: 'button', tabindex: '0' });
-      card.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && e.target === card) { e.preventDefault(); abrirProc(p.id); } });
-      card.append(el('div', { class: 'proc-faixa ' + (f === 'concl' ? '' : f) }));
-      const info = el('div', { class: 'proc-info' });
-      info.append(el('div', { class: 'proc-topo' },
-        el('span', { class: 'proc-num' }, p.numero || '(s/ nº)'),
-        el('span', { class: 'proc-classe' }, classeAgrupada(p.classe))
-      ));
-      if (p.titulo) info.append(el('div', { class: 'proc-titulo' }, p.titulo));
-      if (p.assunto) info.append(el('div', { class: 'proc-assunto', title: p.assunto }, assuntosIndividuais(p.assunto).join(' · ') || p.assunto));
-      const pills = el('div', { class: 'proc-pills' });
-      if (estaFeito(p)) pills.append(el('span', { class: 'chip-feito', title: tituloFeito(p).replace('. Clique para desmarcar', '') }, '✓ feito'));
-      if (pe) {
-        let cls = 'nulo', txt = pe;
-        {
-          if (f === 'venc') { cls = 'venc'; txt += ' · ' + Math.abs(d) + 'd atraso'; }
-          else if (d === 0) { cls = 'prox'; txt += ' · hoje'; }
-          else if (f === 'prox') { cls = 'prox'; txt += ' · ' + d + 'd'; }
-          else { cls = 'folg'; txt += ' · ' + d + 'd'; }
-        }
-        pills.append(el('span', { class: 'proc-prazo ' + cls }, txt));
-      }
-      const nVinc = totalVinculadosProc(p.id);
-      if (nVinc) pills.append(el('span', { class: 'vinc-badge' }, '📌 ' + nVinc));
-      if (!procIndexado(p)) pills.append(el('span', { class: 'idx-badge', title: 'Sem expediente no Índice de envolvidos' }, 'não indexado'));
-      info.append(pills);
-      if (p.anexadoA) {
-        const princ = procPrincipal(p);
-        if (princ) pills.append(el('span', { class: 'chip', style: 'font-size:10.5px' }, '📎 anexado a ' + (princ.numero || '?')));
-      }
-      const anexos = anexosDe(p.id);
-      if (anexos.length) pills.append(el('span', { class: 'chip', style: 'font-size:10.5px' }, '📎 ' + anexos.length + ' anexo(s)'));
-      if ((p.temas || []).length) { for (const tm of p.temas) pills.append(el('span', { class: 't-cat' }, tm)); }
-      if (p.proximaAcao) info.append(el('div', { class: 'proc-acao' }, '→ ' + p.proximaAcao));
-      if (p.anotacoes) info.append(el('div', { class: 'proc-acao' }, p.anotacoes));
-      const tVinc = tarefasDoProc(p.id).filter((t2) => !t2.concluida);
-      if (tVinc.length) {
-        const tDiv = el('div', { style: 'margin-top:6px;font-size:13px' });
-        for (const tv of tVinc) tDiv.append(el('div', { style: 'color:var(--muted)' }, '☐ ' + tv.texto));
-        info.append(tDiv);
-      }
-      card.append(info);
-      card.addEventListener('click', () => abrirProc(p.id));
-      lista.append(card);
+  const r = registroDeHoje(p);
+  const os = r ? origensDe(r) : [];
+  const resto = origem ? os.filter((o) => o !== origem) : [];
+  if (r && (!origem || resto.length < os.length)) {
+    if (resto.length) r.origens = resto;
+    else p.registro = p.registro.filter((x) => x !== r);
+    p.alteradoEm = new Date().toISOString();
+  }
+  if (resto.length) { touch(); return; }
+  for (const f of db.focoDia) {
+    if (f.procedimentoId !== p.id || !f.concluido || diaLocal(f.concluidoEm) !== hj) continue;
+    if (origem ? f.concluidoPor !== origem : estaFeito(p)) continue;
+    f.concluido = false; f.concluidoEm = ''; f.concluidoPor = '';
+  }
+  touch();
+}
+function telaHoje() {
+  const c = el('div', { class: 'hoje' });
+  c.append(el('div', { class: 'hoje-cab' },
+    el('h2', { class: 'serif' }, 'Hoje · ' + new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })),
+    el('button', { class: 'btn primary sm', onclick: dialogAdicionarLista }, '+ Adicionar à lista')));
+  const secao = (titulo, n) => el('div', { class: 'seclab' }, titulo, el('span', { class: 'sn' }, String(n)), el('span', { class: 'srule' }));
+  const botaoTirar = (titulo, fn) => {
+    const b = el('button', { type: 'button', class: 'c-ic tirar', title: titulo, 'aria-label': titulo }, '×');
+    b.addEventListener('click', (e) => { e.stopPropagation(); fn(); });
+    return b;
+  };
+  const aFazer = itensAFazer();
+  c.append(secao('A fazer', aFazer.length));
+  if (!aFazer.length) c.append(el('div', { class: 'hoje-vazio' }, 'Nada na lista. Ponha os casos pelo ◎ no Controle ou em "+ Adicionar à lista". Cada um fica aqui até você marcar o ✓, indexar o caso ou tirar pelo ×.'));
+  else {
+    const painel = el('div', { class: 'c-painel', role: 'list' });
+    for (const it of aFazer) {
+      const desde = it.f.data !== hojeStr() && paraData(it.f.data) ? el('span', { class: 'c-desde', title: 'Na lista desde ' + paraBR(it.f.data) }, 'desde ' + dataCurta(it.f.data)) : null;
+      painel.append(linhaProc(it.p, '', { soPrazo: true, tag: desde, extra: botaoTirar('Tirar da lista A fazer', () => {
+        const foto = fotoBase();
+        tirarDaLista(it.p.id);
+        render();
+        oferecerDesfazer('Tirado da lista A fazer.', foto);
+      }) }));
     }
-    c.append(lista);
+    c.append(painel);
+  }
+  const feitos = db.procedimentos.map((p) => ({ p: p, r: registroDeHoje(p) })).filter((x) => x.r)
+    .sort((a, b) => (b.r.em || '').localeCompare(a.r.em || '') || (a.p.numero || '').localeCompare(b.p.numero || ''));
+  c.append(secao('Feitos hoje', feitos.length));
+  if (!feitos.length) c.append(el('div', { class: 'hoje-vazio' }, 'Nada ainda. Entra aqui o caso que você indexar (bloco do Índice) ou marcar com o ✓.'));
+  else {
+    const painel = el('div', { class: 'c-painel', role: 'list' });
+    for (const x of feitos) {
+      const indexado = origensDe(x.r).indexOf('indice') !== -1;
+      painel.append(linhaProc(x.p, '', {
+        soPrazo: true,
+        tag: indexado ? el('span', { class: 'c-orig', title: 'Entrou em Feitos hoje pela indexação (bloco do Índice)' }, 'indexado hoje') : null,
+        extra: botaoTirar('Tirar de Feitos hoje (não conta como trabalhado hoje)', () => {
+          const foto = fotoBase();
+          desfazerTrabalhoHoje(x.p);
+          render();
+          oferecerDesfazer('Tirado de Feitos hoje.', foto);
+        })
+      }));
+    }
+    c.append(painel);
   }
   const metricasBox = el('div', { class: 'feitos-metricas' });
   const desenharMetricas = () => { metricasBox.innerHTML = ''; metricasBox.append(gerarMetricas(desenharMetricas)); };
@@ -2529,11 +2476,12 @@ function telaFeitosHoje() {
       const box = el('div', { class: 'hist-procs' });
       for (const p of dia.procs) {
         const reg = (p.registro || []).find((r) => r.data === dia.ds);
+        const nota = reg ? (reg.nota || (Array.isArray(reg.origens) && reg.origens.indexOf('indice') !== -1 ? 'indexado no Índice' : '')) : '';
         box.append(el('div', { class: 'hist-proc', role: 'button', tabindex: '0', onclick: () => abrirProc(p.id) },
           el('span', { class: 'mono' }, p.numero || '(s/ nº)'),
           el('span', { class: 'muted' }, classeAgrupada(p.classe)),
           el('span', { class: 'hist-proc-tit' }, recorte(p.titulo || '', 90)),
-          reg && reg.nota ? el('div', { class: 'hist-proc-nota' }, recorte(reg.nota, 200)) : null));
+          nota ? el('div', { class: 'hist-proc-nota' }, recorte(nota, 200)) : null));
       }
       hist.append(box);
     }
@@ -2541,203 +2489,36 @@ function telaFeitosHoje() {
   c.append(hist);
   return c;
 }
-
-/* ---------- foco do dia ---------- */
-function normFoco(f) {
-  return Object.assign({ id: uid('fd'), procedimentoId: '', nota: '', concluido: false, coluna: '', data: hojeStr(), criadoEm: new Date().toISOString() }, f || {});
-}
-function focoDeHoje() { return db.focoDia.filter((f) => f.data === hojeStr()); }
-const COLUNAS_FOCO = [['venc', 'Vencidas'], ['nova', 'Novas'], ['prio', 'Prioridades']];
-function colunaFoco(f) {
-  if (f.coluna && COLUNAS_FOCO.some((c) => c[0] === f.coluna)) return f.coluna;
-  const p = acharProc(f.procedimentoId);
-  const fp = p ? faixaPrazo(p) : '';
-  if (fp === 'venc') return 'venc';
-  if (fp === 'prox') return 'prio';
-  return 'nova';
-}
-function adicionarAoFoco(procId) {
-  if (db.focoDia.some((f) => f.procedimentoId === procId && f.data === hojeStr())) { recado('Já está no foco de hoje.'); return false; }
-  db.focoDia.push(normFoco({ procedimentoId: procId }));
-  touch(); render(); recado('Adicionado ao foco do dia.');
-  return true;
-}
-function telaFoco() {
-  const c = el('div');
-  const hoje = focoDeHoje();
-  c.append(el('div', { style: 'display:flex;justify-content:space-between;align-items:center;margin:8px 0 4px;flex-wrap:wrap;gap:8px' },
-    el('h2', { class: 'serif', style: 'font-size:18px;margin:0' }, 'Foco do dia · ' + new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })),
-    el('button', { class: 'btn primary sm', onclick: dialogAdicionarFoco }, '+ Adicionar procedimento')
-  ));
-  if (!hoje.length) {
-    c.append(el('div', { class: 'foco-vazio' },
-      el('p', {}, 'Nenhum procedimento no foco de hoje.'),
-      el('p', { style: 'font-size:13px' }, 'Adicione os expedientes que pretende trabalhar e anote o que precisa ser feito em cada um.')));
-  } else {
-    const cols = { venc: [], prio: [], nova: [] };
-    for (const f of hoje) {
-      cols[colunaFoco(f)].push(f);
-    }
-    const feitoF = (f) => { const p = acharProc(f.procedimentoId); return p ? feitoHoje(p) : !!f.concluido; };
-    for (const k of Object.keys(cols)) cols[k].sort((a, b) => (feitoF(a) ? 1 : 0) - (feitoF(b) ? 1 : 0));
-    const nFeitos = hoje.filter(feitoF).length;
-    c.append(el('div', { class: 'foco-progresso' },
-      el('div', { class: 'foco-barra' }, el('div', { style: 'width:' + Math.round((nFeitos / hoje.length) * 100) + '%' })),
-      el('span', {}, nFeitos + ' de ' + hoje.length + ' concluído(s)')));
-    const kanban = el('div', { class: 'kanban' });
-    const coldefs = [
-      ['k-venc', 'Vencidas', cols.venc],
-      ['k-nova', 'Novas', cols.nova],
-      ['k-prio', 'Prioridades', cols.prio]
-    ];
-    const colIds = ['venc', 'nova', 'prio'];
-    for (let ci = 0; ci < coldefs.length; ci++) {
-      const cd = coldefs[ci];
-      const colId = colIds[ci];
-      const colEl = el('div', { class: 'kanban-col' });
-      colEl.append(el('div', { class: 'kanban-cab ' + cd[0] }, cd[1], el('span', { class: 'kn' }, String(cd[2].length))));
-      const corpo = el('div', { class: 'kanban-corpo' });
-      corpo.dataset.col = colId;
-      corpo.addEventListener('dragover', (e) => { e.preventDefault(); corpo.classList.add('drag-over'); });
-      corpo.addEventListener('dragleave', () => { corpo.classList.remove('drag-over'); });
-      corpo.addEventListener('drop', (e) => {
-        e.preventDefault();
-        corpo.classList.remove('drag-over');
-        const fid = e.dataTransfer.getData('text/plain');
-        const item = db.focoDia.find((x) => x.id === fid);
-        if (item) { item.coluna = colId; touch(); render(); }
-      });
-      for (const f of cd[2]) corpo.append(kcard(f));
-      colEl.append(corpo);
-      kanban.append(colEl);
-    }
-    c.append(kanban);
-  }
-  const tarefasUrgentes = db.tarefas.filter((t2) => !t2.concluida && (faixaTarefa(t2) === 'venc' || faixaTarefa(t2) === 'hoje' || faixaTarefa(t2) === 'prox'));
-  const lemHoje = db.lembretes.filter((l) => l.ativo && diasLembrete(l) !== null && diasLembrete(l) <= 0);
-  const tarefasFoco = db.tarefas.filter((t2) => !t2.concluida && (t2.procedimentoIds || []).some((pid) => hoje.some((f) => f.procedimentoId === pid)));
-  const todasTarefasVisiveis = Array.from(new Map([...tarefasUrgentes, ...tarefasFoco].map((t2) => [t2.id, t2])).values());
-  if (todasTarefasVisiveis.length || lemHoje.length) {
-    c.append(el('div', { class: 'seclab', style: 'margin-top:20px' }, 'Tarefas e lembretes do dia', el('span', { class: 'sn' }, String(todasTarefasVisiveis.length + lemHoje.length)), el('span', { class: 'srule' })));
-    const porPrazo = (a, b) => { const da = paraData(a.dataLimite), dbb = paraData(b.dataLimite); if (da && dbb) return da - dbb; return da ? -1 : dbb ? 1 : 0; };
-    c.append(painelTk(todasTarefasVisiveis.sort(porPrazo).map((t2) => linhaTarefa(t2)).concat(lemHoje.map((l) => linhaLembrete(l)))));
-  }
-  const diasAnt = Array.from(new Set(db.focoDia.filter((f) => f.data !== hojeStr()).map((f) => f.data))).sort().reverse().slice(0, 5);
-  if (diasAnt.length) {
-    c.append(el('div', { class: 'seclab', style: 'margin-top:28px' }, 'Dias anteriores', el('span', { class: 'srule' })));
-    for (const dt of diasAnt) {
-      const itens = db.focoDia.filter((f) => f.data === dt);
-      const dP = dt.split('-');
-      const chave = 'foco:' + dt;
-      c.append(cabDobravel(chave, dP[2] + '/' + dP[1] + '/' + dP[0] + ' · ' + itens.length + ' item(ns)', itens.length, render));
-      if (!dobradas.has(chave)) { for (const f of itens) c.append(kcard(f, true)); }
-    }
-  }
-  return c;
-}
-function kcard(f, readonly) {
-  const p = acharProc(f.procedimentoId);
-  const concluido = !readonly && p ? feitoHoje(p) : (p ? (p.registro || []).some((r) => r.data === f.data) : !!f.concluido);
-  const card = el('div', { class: 'kcard' + (concluido && !readonly ? ' feito' : '') + (readonly ? ' leitura' : '') });
-  if (!readonly) {
-    card.addEventListener('mousedown', (e) => { card.draggable = !e.target.closest('textarea, select, button, input'); });
-    card.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text/plain', f.id); e.dataTransfer.effectAllowed = 'move'; card.classList.add('dragging'); });
-    card.addEventListener('dragend', () => { card.classList.remove('dragging'); card.draggable = false; });
-  }
-  const topo = el('div', { class: 'kcard-topo' });
-  if (!readonly) {
-    const ck = el('button', { class: 'ck' + (concluido ? ' on' : ''), style: 'flex:none;margin-top:1px', title: concluido ? 'Desmarcar feito hoje' : 'Concluir: registra como feito hoje no Controle' });
-    ck.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (p) { if (concluido) desmarcarFeito(p); else marcarFeito(p, p.anotacoes || ''); }
-      f.concluido = !concluido;
-      ck.classList.add('pop');
-      touch(); setTimeout(() => render(), 350);
-    });
-    topo.append(ck);
-  } else {
-    topo.append(el('span', { class: 'kcard-marca' + (concluido ? ' on' : '') }, concluido ? '✓' : '·'));
-  }
-  const info = el('div', { class: 'kcard-info' });
-  if (p) {
-    info.append(el('div', {}, el('span', { class: 'kcard-num' }, p.numero || '(s/ nº)'), el('span', { class: 'kcard-classe' }, classeAgrupada(p.classe))));
-    if (p.titulo) info.append(el('div', { class: 'kcard-titulo', title: p.titulo }, p.titulo));
-    if (!readonly) {
-      const pills = el('div', { class: 'kcard-pills' });
-      if (estaFeito(p)) pills.append(el('span', { class: 'chip-feito', title: tituloFeito(p).replace('. Clique para desmarcar', '') }, '✓ feito'));
-      const pe = prazoEfetivo(p);
-      if (pe) {
-        const d = diasAte(pe);
-        const fp = faixaPrazo(p);
-        let cls = '', txt = pe;
-        if (fp === 'venc') { cls = 'late'; txt = Math.abs(d) + 'd atraso'; }
-        else if (d === 0) { cls = 'soon'; txt = 'hoje'; }
-        else if (fp === 'prox') { cls = 'soon'; txt = d + 'd'; }
-        pills.append(el('span', { class: 'due ' + cls }, txt));
-      }
-      const nV = tarefasDoProc(p.id).filter((t2) => !t2.concluida).length;
-      if (nV) pills.append(el('span', { class: 'vinc-badge', title: nV + ' tarefa(s) pendente(s)' }, '📌 ' + nV));
-      info.append(pills);
-    }
-  } else {
-    info.append(el('div', { class: 'muted' }, '(procedimento removido)'));
-  }
-  topo.append(info);
-  if (!readonly && p) topo.append(el('button', { class: 'btn-mini', title: 'Abrir o procedimento', onclick: (e) => { e.stopPropagation(); abrirProc(p.id); } }, '↗'));
-  card.append(topo);
-  if (!readonly && p) {
-    const ta = el('textarea', { placeholder: 'O que fazer hoje neste procedimento…', rows: 2 });
-    ta.value = p.anotacoes || '';
-    const ajustar = () => { if (!ta.scrollHeight) return; ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight + 2, 260) + 'px'; };
-    ta.addEventListener('input', () => { p.anotacoes = ta.value; touch(); ajustar(); });
-    requestAnimationFrame(ajustar);
-    card.append(el('div', { class: 'kcard-nota' }, ta));
-    const mover = el('select', { class: 'kcard-mover', title: 'Mover para outra coluna' });
-    for (const cdef of COLUNAS_FOCO) mover.append(el('option', { value: cdef[0] }, cdef[1]));
-    mover.value = colunaFoco(f);
-    mover.addEventListener('change', () => { f.coluna = mover.value; touch(); render(); });
-    card.append(el('div', { class: 'kcard-acoes' },
-      mover,
-      el('button', { class: 'btn-mini', title: 'Tirar do foco de hoje', onclick: (e) => { e.stopPropagation(); const foto = fotoBase(); db.focoDia = db.focoDia.filter((x) => x.id !== f.id); touch(); render(); oferecerDesfazer('Tirado do foco de hoje.', foto); } }, '×')));
-  } else if (p) {
-    const reg = (p.registro || []).find((r) => r.data === f.data);
-    const nota = (reg && reg.nota) || f.nota || '';
-    if (nota) card.append(el('div', { class: 'kcard-hist-nota' }, nota));
-  }
-  return card;
-}
-
-function dialogAdicionarFoco() {
+function dialogAdicionarLista() {
   const buscaF = el('input', { type: 'search', placeholder: 'Buscar por número, título ou assunto…', autocomplete: 'off', style: 'width:100%' });
-  const listaF = el('div', { class: 'sel-lista' });
+  const listaF = el('div', { class: 'sel-lista alta' });
   const status = el('div', { class: 'muted', style: 'font-size:12.5px;min-height:18px' });
-  let adicionados = 0;
+  let postos = 0;
   const desenhar = () => {
     listaF.innerHTML = '';
     const q = norm(buscaF.value);
-    const jaNoFoco = new Set(focoDeHoje().map((f) => f.procedimentoId));
-    let itens = db.procedimentos.filter((p) => !p.arquivado && !jaNoFoco.has(p.id));
+    let itens = db.procedimentos.filter((p) => !p.arquivado && !naLista(p.id));
     if (q) itens = itens.filter((p) => textoBuscaProc(p).indexOf(q) !== -1);
-    else itens = itens.filter((p) => (faixaPrazo(p) === 'venc' || faixaPrazo(p) === 'prox') && !estaFeito(p))
-      .sort((a, b) => (paraData(prazoEfetivo(a)) || 0) - (paraData(prazoEfetivo(b)) || 0));
-    if (!q) listaF.append(el('div', { class: 'sel-grupo' }, itens.length ? 'Sugestões: prazos vencidos e próximos' : 'Digite para buscar.'));
+    else itens = itens.filter((p) => (foraDoPadrao(p) || chegaAoLimite(p)) && !estaFeito(p)).sort((a, b) => porUrgencia(a, b) || (a.numero || '').localeCompare(b.numero || ''));
+    if (!q) listaF.append(el('div', { class: 'sel-grupo' }, itens.length ? 'Sugestões: fora do padrão da Corregedoria e os que chegam ao limite em ' + JANELA_CORREG + ' dias' : 'Digite para buscar.'));
     if (q && !itens.length) { listaF.append(el('div', { class: 'muted', style: 'font-size:12px;padding:4px' }, 'Nenhum encontrado.')); return; }
     for (const p of itens.slice(0, 12)) {
-      const f = faixaPrazo(p);
+      const tv = tituloVisivel(p);
       listaF.append(el('button', { class: 'sel-item', onclick: () => {
-        adicionarAoFoco(p.id);
-        adicionados++;
-        status.textContent = adicionados + ' adicionado(s) ao foco de hoje.';
+        porNaLista(p.id);
+        postos++;
+        status.textContent = postos + (postos === 1 ? ' caso posto' : ' casos postos') + ' na lista A fazer.';
+        render();
         desenhar();
         buscaF.focus();
       } }, el('span', { class: 'mono' }, p.numero || 's/nº'), ' ', classeAgrupada(p.classe),
-        f === 'venc' || f === 'prox' ? el('span', { class: 'due ' + (f === 'venc' ? 'late' : 'soon'), style: 'margin-left:6px' }, prazoEfetivo(p)) : null,
-        p.titulo ? el('div', { class: 'muted', style: 'font-size:12.5px' }, recorte(p.titulo, 80)) : null));
+        tv ? el('div', { class: 'muted', style: 'font-size:12.5px' }, recorte(tv, 80)) : null,
+        linhaAlerta(p, true)));
     }
   };
   buscaF.addEventListener('input', desenhar);
   desenhar();
-  abrirDialogo('Adicionar ao foco do dia', [campo('Procedimentos', el('div', {}, buscaF, listaF), 'Clique para adicionar; a janela continua aberta para adicionar outros.'), status], () => {}, 'Pronto');
+  abrirDialogo('Adicionar à lista A fazer', [campo('Procedimentos', el('div', {}, buscaF, listaF), 'Clique para pôr na lista; a janela continua aberta para pôr outros.'), status], () => {}, 'Pronto');
   setTimeout(() => buscaF.focus(), 50);
 }
 /* ---------- controle de procedimentos ---------- */
@@ -2829,9 +2610,6 @@ function tarefasDoProc(procId) {
 }
 function lembretesDoProc(procId) {
   return db.lembretes.filter((l) => (l.procedimentoIds || []).indexOf(procId) !== -1);
-}
-function totalVinculadosProc(procId) {
-  return tarefasDoProc(procId).length + lembretesDoProc(procId).length;
 }
 
 function assuntosIndividuais(raw) {
@@ -3230,6 +3008,12 @@ function textoLimite(p, x) {
   if (k === 'IC') return x.peloPrazo ? q + ' vence o prazo do IC, com mais de 1 ano' : q + ', IC completa 1 ano com o prazo vencido';
   return q + ', ' + k + ' completa ' + PADROES_CORREG[k] + ' dias';
 }
+/* v56: do mais urgente ao menos: os fora do padrão (os mais atrasados antes), depois os que chegam ao limite (os mais próximos antes) */
+function porUrgencia(a, b) {
+  const chave = (p) => (foraDoPadrao(p) ? [0, -excessoCorreg(p)] : [1, (proximoLimite(p) || { falta: 999 }).falta]);
+  const x = chave(a), y = chave(b);
+  return (x[0] - y[0]) || (x[1] - y[1]);
+}
 /* dias além do limite (para pôr os mais atrasados primeiro) */
 function excessoCorreg(p) {
   const k = classeCorreg(p), ms = motivosCorreg(p).map((m) => m.tipo), ic = inicioDaClasse(p);
@@ -3383,7 +3167,6 @@ function pillIndice(p, aoClicar) {
   b.addEventListener('keydown', (e) => e.stopPropagation());
   return b;
 }
-function estaNoFoco(id) { return db.focoDia.some((f) => f.procedimentoId === id && f.data === hojeStr()); }
 
 /* preferências do Controle guardadas neste navegador */
 let gruposFechados = new Set();
@@ -3496,8 +3279,7 @@ function ordenarProcs(lista) {
   };
   if (filtrosProc.padrao) {
     /* lista da Corregedoria: primeiro os fora do padrão, os mais atrasados antes; depois os que chegam ao limite, os mais próximos antes */
-    const chave = (p) => (foraDoPadrao(p) ? [0, -excessoCorreg(p)] : [1, (proximoLimite(p) || { falta: 999 }).falta]);
-    return lista.sort((a, b) => { const x = chave(a), y = chave(b); return (x[0] - y[0]) || (x[1] - y[1]) || porNumero(a, b); });
+    return lista.sort((a, b) => porUrgencia(a, b) || porNumero(a, b));
   }
   return lista.sort(cmp[ordemProc.campo] || cmp.prazoEfetivo);
 }
@@ -3617,7 +3399,8 @@ function marcarLinhaAtual(id) {
   const r = linhaDoProc(id);
   if (r) { r.classList.add('atual'); if (typeof r.scrollIntoView === 'function') r.scrollIntoView({ block: 'nearest' }); }
 }
-function linhaProc(p, termo) {
+function linhaProc(p, termo, op) {
+  op = op || {};
   const banda = bandaPrazo(p);
   const pe = prazoEfetivo(p);
   const d = diasAte(pe);
@@ -3635,7 +3418,8 @@ function linhaProc(p, termo) {
   if (cl) l2.append(el('span', { class: 'c-cl' }, cl));
   const pj = numeroJudicial(p);
   if (pj) l2.append(el('span', { class: 'c-pj', title: 'Processo judicial' }, 'PJ ' + pj));
-  const modoParado = ordemProc.campo === 'eventoAntigo';
+  if (op.tag) l2.append(op.tag);
+  const modoParado = !op.soPrazo && ordemProc.campo === 'eventoAntigo';
   if (modoParado) { const cp = chipPrazoCurto(p); if (cp) l2.append(cp); }
   const motivo = motivosBusca.get(p.id);
   if (motivo) l2.append(el('span', { class: 'c-motivo' }, motivo));
@@ -3662,11 +3446,14 @@ function linhaProc(p, termo) {
   }
 
   const feito = estaFeito(p);
-  const noFoco = estaNoFoco(p.id);
   const bFeito = el('button', { type: 'button', class: 'c-ic c-feito' + (feito ? ' on' : ''), 'aria-pressed': String(feito), title: feito ? tituloFeito(p) : 'Marcar como feito (fica até você desmarcar ou o SIM registrar movimento novo)' }, '✓');
   bFeito.addEventListener('click', (e) => { e.stopPropagation(); alternarFeitoLinha(p); });
-  const bFoco = el('button', { type: 'button', class: 'c-ic foco' + (noFoco ? ' on' : ''), 'aria-pressed': String(noFoco), title: noFoco ? 'No foco de hoje (clique para tirar)' : 'Pôr no foco de hoje' }, '◎');
-  bFoco.addEventListener('click', (e) => { e.stopPropagation(); alternarFocoLinha(p); });
+  let bFoco = op.extra;
+  if (!bFoco) {
+    const noLista = naLista(p.id);
+    bFoco = el('button', { type: 'button', class: 'c-ic foco' + (noLista ? ' on' : ''), 'aria-pressed': String(noLista), title: noLista ? 'Na lista A fazer, da aba Hoje (clique para tirar)' : 'Pôr na lista A fazer, da aba Hoje' }, '◎');
+    bFoco.addEventListener('click', (e) => { e.stopPropagation(); alternarListaLinha(p); });
+  }
   for (const b of [bFeito, bFoco]) b.addEventListener('keydown', (e) => e.stopPropagation());
 
   row.append(main, prazoEl, el('div', { class: 'c-acoes' }, bFeito, bFoco));
@@ -3694,32 +3481,37 @@ function atualizarLinha(id) {
   if (tinhaFoco) nova.focus({ preventScroll: true });
   if (atualizarResumoControle) atualizarResumoControle();
 }
-/* o ✓ da linha e da gaveta: marca ou desmarca o feito. Marcar também registra o trabalho de hoje ("Feitos hoje");
-   desmarcar tira o registro de hoje */
+/* o ✓ da linha e da gaveta: marca ou desmarca o feito. Marcar também conta o trabalho de hoje ("Feitos hoje") e
+   tira o caso da lista A fazer; desmarcar desfaz só o que o ✓ fez hoje */
 function alternarFeito(p) {
   const marcar = !estaFeito(p);
   definirFeito(p, marcar);
-  if (marcar) { if (!Array.isArray(p.registro)) p.registro = []; if (!feitoHoje(p)) p.registro.push({ data: hojeStr(), nota: '' }); }
-  else p.registro = (p.registro || []).filter((r) => r.data !== hojeStr());
+  if (marcar) registrarTrabalhoHoje(p, 'feito'); else desfazerTrabalhoHoje(p, 'feito');
   touch();
   return marcar;
 }
 function alternarFeitoLinha(p) {
-  alternarFeito(p);
-  atualizarLinha(p.id);
+  if (S.aba === 'controle') { alternarFeito(p); atualizarLinha(p.id); montarAbas(); return; }
+  /* na aba Hoje o caso muda de lugar: redesenha e oferece desfazer */
+  const foto = fotoBase();
+  const estava = naLista(p.id);
+  const marcou = alternarFeito(p);
+  render();
+  oferecerDesfazer(marcou ? (estava ? 'Feito: saiu da lista A fazer e está em Feitos hoje.' : 'Marcado como feito.') : 'Feito desmarcado.', foto);
 }
-function alternarFocoLinha(p) {
-  if (estaNoFoco(p.id)) {
+/* o ◎ da linha do Controle: põe ou tira da lista A fazer (aba Hoje) */
+function alternarListaLinha(p) {
+  if (naLista(p.id)) {
     const foto = fotoBase();
-    db.focoDia = db.focoDia.filter((f) => !(f.procedimentoId === p.id && f.data === hojeStr()));
-    touch();
+    tirarDaLista(p.id);
     atualizarLinha(p.id);
-    oferecerDesfazer('Tirado do foco de hoje.', foto);
+    montarAbas();
+    oferecerDesfazer('Tirado da lista A fazer.', foto);
   } else {
-    db.focoDia.push(normFoco({ procedimentoId: p.id }));
-    touch();
+    porNaLista(p.id);
     atualizarLinha(p.id);
-    recado('Posto no foco de hoje.', { rotulo: 'Ver o foco', fn: () => { fecharGaveta(); S.aba = 'foco'; render(); } });
+    montarAbas();
+    recado('Posto na lista A fazer.', { rotulo: 'Ver a lista', fn: () => { fecharGaveta(); S.aba = 'hoje'; render(); } });
   }
 }
 function telaControle() {
@@ -3843,7 +3635,7 @@ function telaControle() {
     const nHoje = db.procedimentos.filter((p) => feitoHoje(p)).length;
     resumo.innerHTML = '';
     resumo.append(n === total ? total + ' procedimento(s)' : n + ' de ' + total, ' · ',
-      el('button', { type: 'button', class: 'c-link', title: 'Abrir a aba Feitos hoje', onclick: () => { S.aba = 'feitos'; render(); } }, nHoje + ' feito(s) hoje'));
+      el('button', { type: 'button', class: 'c-link', title: 'Abrir a aba Hoje', onclick: () => { S.aba = 'hoje'; render(); } }, nHoje + ' feito(s) hoje'));
     const porId = new Map(db.procedimentos.map((p) => [p.id, p]));
     const nFora = ultimaListaIds.filter((id) => foraDoPadrao(porId.get(id))).length;
     const nProx = ultimaListaIds.filter((id) => { const p = porId.get(id); return !foraDoPadrao(p) && chegaAoLimite(p); }).length;
@@ -4167,12 +3959,12 @@ function abrirProc(id, foco) {
   const secFatos = fatos.childNodes.length ? secaoG(null, fatos) : null;
 
   /* ações do dia */
-  const noFoco = focoDeHoje().some((f) => f.procedimentoId === p.id);
+  const noLista = naLista(p.id);
   const feito = estaFeito(p);
   const acoes = el('div', { class: 'g-acoes' },
-    el('button', { class: 'btn sm ' + (noFoco ? 'ghost marcado' : 'ghost'), title: noFoco ? 'Ir para o Foco do dia' : 'Pôr no Foco do dia',
-      onclick: () => { if (noFoco) { fecharGaveta(); S.aba = 'foco'; render(); return; } aplicarGaveta(); adicionarAoFoco(p.id); abrirProc(p.id); } },
-      noFoco ? '◎ No foco' : '◎ Pôr no foco'),
+    el('button', { class: 'btn sm ' + (noLista ? 'ghost marcado' : 'ghost'), title: noLista ? 'Ver a lista A fazer, na aba Hoje' : 'Pôr na lista A fazer, da aba Hoje',
+      onclick: () => { if (noLista) { fecharGaveta(); S.aba = 'hoje'; render(); return; } aplicarGaveta(); porNaLista(p.id); render(); abrirProc(p.id); recado('Posto na lista A fazer.'); } },
+      noLista ? '◎ Na lista' : '◎ Pôr na lista'),
     el('button', { class: 'btn sm ' + (feito ? 'ghost marcado' : 'ghost'), title: feito ? tituloFeito(p) : 'Marcar como feito: fica até você desmarcar ou o SIM registrar movimento novo',
       onclick: () => { aplicarGaveta(); alternarFeito(p); render(); abrirProc(p.id); } },
       feito ? '✓ Feito' : '✓ Marcar feito'),
@@ -4194,7 +3986,7 @@ function abrirProc(id, foco) {
   const secControle = secaoG('Meu controle',
     campo('Próxima ação', cProximaAcao),
     campo('Prazo interno', prazoInt, 'Só seu: entra no lugar do prazo do SIM quando vence antes dele.'),
-    campo('Anotações', cAnotacoes, 'A mesma anotação aparece no cartão do Foco do dia.'));
+    campo('Anotações', cAnotacoes));
 
   /* dados do SIM, recolhidos */
   const cTitulo = texto(p.titulo);
@@ -4264,13 +4056,13 @@ function abrirProc(id, foco) {
 
   /* histórico: dias trabalhados e o último evento do SIM, juntos */
   const hist = [];
-  for (const r of (p.registro || [])) if (r && r.data) hist.push({ data: r.data, tipo: 'trab', texto: r.nota || '' });
+  for (const r of (p.registro || [])) if (r && r.data) hist.push({ data: r.data, tipo: 'trab', texto: r.nota || (Array.isArray(r.origens) && r.origens.indexOf('indice') !== -1 ? 'indexado no Índice' : '') });
   const deIso = paraISO(dataEvento(p));
   if (deIso) hist.push({ data: deIso, tipo: 'sim', texto: textoEvento(p) });
   hist.sort((a, b) => b.data.localeCompare(a.data) || (a.tipo === 'trab' ? -1 : 1));
   const nTrab = (p.registro || []).length;
   const secHist = secaoG(null, el('h3', {}, 'Histórico', nTrab ? el('span', { class: 'g-h3-dica' }, 'trabalhado em ' + nTrab + ' dia(s)') : null));
-  if (!hist.length) secHist.append(el('div', { class: 'muted g-dica' }, 'Nada ainda. "Marcar feito" registra o dia em que você trabalhou aqui.'));
+  if (!hist.length) secHist.append(el('div', { class: 'muted g-dica' }, 'Nada ainda. Marcar feito ou indexar o caso registra o dia em que você trabalhou aqui.'));
   else {
     const todos = historicosAbertos.has(p.id);
     const box = el('div', { class: 'g-hist' });
@@ -4401,7 +4193,7 @@ function removerProcedimento(id) {
   for (const x of db.procedimentos) if (x.anexadoA === id) x.anexadoA = '';
   for (const t2 of db.tarefas) t2.procedimentoIds = (t2.procedimentoIds || []).filter((y) => y !== id);
   for (const l of db.lembretes) l.procedimentoIds = (l.procedimentoIds || []).filter((y) => y !== id);
-  db.focoDia = db.focoDia.filter((f) => !(f.procedimentoId === id && f.data === hojeStr()));
+  db.focoDia = db.focoDia.filter((f) => f.procedimentoId !== id);
   for (const r of db.reunioes) for (const e of (r.expedientes || [])) if (e.procedimentoId === id) e.procedimentoId = '';
 }
 function arquivarProc() {
@@ -5839,6 +5631,34 @@ function blocoFasesConferencia(plano) {
   }
   return b;
 }
+/* v56: os procedimentos do Controle que o bloco indexa vão para "Feitos hoje" */
+function procsDoBloco(plano) {
+  const procs = [];
+  let semProc = 0;
+  for (const i of plano.itens) {
+    if (i.tipo !== 'expediente') continue;
+    const p = procDoExpediente(i.existente || i.dados);
+    if (!p) { semProc++; continue; }
+    if (procs.indexOf(p) === -1) procs.push(p);
+  }
+  return { procs: procs, semProc: semProc };
+}
+function blocoFeitosHojeConferencia(plano) {
+  plano.caixasHoje = [];
+  const r = procsDoBloco(plano);
+  if (!r.procs.length && !r.semProc) return null;
+  const b = el('div', { class: 'fz-conf' },
+    el('div', { class: 'sec-h' }, 'Feitos hoje', el('span', { class: 'cont' }, String(r.procs.length))));
+  if (r.procs.length) b.append(el('p', { class: 'muted fz-intro' }, 'O caso indexado entra em "Feitos hoje", na aba Hoje, e sai da lista A fazer. O ✓ de feito não muda.'));
+  for (const p of r.procs) {
+    const inp = el('input', { type: 'checkbox' });
+    inp.checked = true;
+    plano.caixasHoje.push({ id: p.id, inp: inp });
+    b.append(el('label', { class: 'fz-div' }, inp, el('span', {}, 'Contar como feito hoje: ', el('span', { class: 'mono' }, p.numero || 's/ nº'), ' ' + classeAgrupada(p.classe) + (naLista(p.id) ? ' (está na lista A fazer)' : ''))));
+  }
+  if (r.semProc) b.append(el('div', { class: 'fz-sub muted' }, (r.semProc === 1 ? '1 expediente do bloco não está no Controle e não entra' : r.semProc + ' expedientes do bloco não estão no Controle e não entram') + ' em Feitos hoje.'));
+  return b;
+}
 function parseBloco(txt) {
   if (!txt || !txt.trim()) throw new Error('nada foi colado.');
   let s = txt.trim();
@@ -5965,12 +5785,15 @@ function aplicarImportacao(plano) {
     if (r.data) datas++;
     if (r.historico) historicos++;
   }
+  /* v56: o caso indexado conta como feito hoje (sem o ✓) e sai da lista A fazer */
+  let hoje = 0;
+  for (const id of plano.contarHoje || []) { const p = acharProc(id); if (p) { registrarTrabalhoHoje(p, 'indice'); hoje++; } }
   touch();
   const exps = plano.itens.filter((i) => i.tipo === 'expediente');
   if (exps.length === 1) { S.aba = 'indice'; IX.view = 'ficha'; IX.fichaId = plano.refMap[exps[0].ref].novoId; pilhaIx.length = 0; }
   render();
   window.scrollTo(0, 0);
-  return { criados: criados, completados: completados, vincs: vincs, datas: datas, historicos: historicos };
+  return { criados: criados, completados: completados, vincs: vincs, datas: datas, historicos: historicos, hoje: hoje };
 }
 function confirmarImportacao(plano) {
   const corpo = [];
@@ -5994,6 +5817,8 @@ function confirmarImportacao(plano) {
   }
   if (plano.vincExistentes) corpo.push(el('p', { class: 'muted dica' }, plano.vincExistentes + ' vínculo(s) do bloco já existiam e serão ignorados.'));
   if (plano.fases.length) corpo.push(blocoFasesConferencia(plano));
+  const bHoje = blocoFeitosHojeConferencia(plano);
+  if (bHoje) corpo.push(bHoje);
   if (plano.avisos.length) {
     const av = el('div', { class: 'aviso' });
     plano.avisos.forEach((a) => av.append(el('div', null, a)));
@@ -6002,9 +5827,11 @@ function confirmarImportacao(plano) {
   abrirDialogo('Conferir antes de aplicar', corpo, () => {
     const foto = fotoBase();
     plano.trocar = new Set(plano.caixas.filter((c) => c.inp.checked).map((c) => c.chave));
+    plano.contarHoje = (plano.caixasHoje || []).filter((c) => c.inp.checked).map((c) => c.id);
     const r = aplicarImportacao(plano);
     let msg = 'Índice atualizado: ' + r.criados + ' registro(s) criado(s), ' + r.completados + ' completado(s), ' + r.vincs + ' vínculo(s) novo(s).';
     if (r.datas || r.historicos) msg += ' No Controle: ' + [r.datas ? r.datas + (r.datas === 1 ? ' data de instauração' : ' datas de instauração') : '', r.historicos ? r.historicos + (r.historicos === 1 ? ' histórico de classes' : ' históricos de classes') : ''].filter(Boolean).join(' e ') + '.';
+    if (r.hoje) msg += ' Em Feitos hoje: ' + r.hoje + '.';
     setTimeout(() => oferecerDesfazer(msg, foto), 60);
   }, 'Aplicar na base');
   if (plano.caixas.length) {
@@ -6055,19 +5882,6 @@ function procLabel(procId) {
   const p = acharProc(procId);
   if (!p) return null;
   return (classeAgrupada(p.classe) || '') + ' ' + (p.numero || '');
-}
-function chipsProc(ids) {
-  if (!ids || !ids.length) return null;
-  const frag = document.createDocumentFragment();
-  for (const procId of ids) {
-    const rot = procLabel(procId);
-    if (!rot) continue;
-    const sp = el('span', { class: 'chip clique', title: 'Abrir o procedimento', role: 'button', tabindex: '0', style: 'cursor:pointer' }, '📋 ' + rot.trim());
-    sp.addEventListener('click', (e) => { e.stopPropagation(); abrirProc(procId); });
-    sp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.stopPropagation(); abrirProc(procId); } });
-    frag.append(sp);
-  }
-  return frag.childNodes.length ? frag : null;
 }
 function seletorProc(container, valoresIniciais) {
   const selecionados = Array.isArray(valoresIniciais) ? valoresIniciais.slice() : (valoresIniciais ? [valoresIniciais] : []);
@@ -6169,7 +5983,6 @@ function dispensarLembrete(l) {
 }
 
 /* ---------- reuniões ---------- */
-const SR = { q: '', aberta: null };
 let recadoReuniao = '';
 function acharReuniao(id) { return ((db && db.reunioes) || []).find((r) => r.id === id) || null; }
 function acharProcPorNumero(numero) {
@@ -6219,7 +6032,6 @@ function confirmarReuniao(r) {
   const ori = Array.isArray(r.orientacoes) ? r.orientacoes : [];
   const oriNovas = ori.filter((o) => !db.orientacoes.some((x) => norm(x.texto) === norm(typeof o === 'string' ? o : o.texto)));
   const pend = Array.isArray(r.pendencias) ? r.pendencias : [];
-  const menc = Array.isArray(r.mencoes) ? r.mencoes : [];
   const ligados = exps.filter((e) => acharProcPorNumero(e.numero)).length;
   const jaExiste = db.reunioes.find((x) => x.data === r.data && norm(x.titulo) === norm(r.titulo || r.tipo || ''));
   const item = (txt) => el('div', { class: 'r-item' }, el('span', { class: 'rk' }, '•'), txt);
@@ -6228,8 +6040,8 @@ function confirmarReuniao(r) {
     item(exps.length + ' expediente(s), ' + ligados + ' já no Controle (as tarefas deles ficam vinculadas; os demais ficam com o número em texto)'),
     item(nTar + ' tarefa(s) → aba Tarefas, subseção da reunião'),
     item(pend.length + ' lembrete(s) → aba Tarefas › Lembretes'),
-    item(oriNovas.length + ' orientação(ões) nova(s) de ' + ori.length + ' → painel de orientações permanentes'),
-    item(menc.length + ' menção(ões) indexada(s) para busca')
+    item(oriNovas.length + ' orientação(ões) nova(s) de ' + ori.length + ' → aba Tarefas, Orientações permanentes'),
+    item('Contexto e menções ficam guardados no arquivo, sem tela no app')
   ];
   if (jaExiste) corpo.push(el('div', { class: 'aviso' }, 'Já existe uma reunião com a mesma data e título. Se continuar, será gravada outra; apague a antiga depois se for repetição.'));
   abrirDialogo('Conferir reunião', corpo, () => { const foto = fotoBase(); importarReuniao(r); setTimeout(() => oferecerDesfazer(recadoReuniao, foto), 60); }, 'Gravar');
@@ -6287,147 +6099,26 @@ function importarReuniao(r) {
     db.orientacoes.push(o); reg.orientacaoIds.push(o.id);
   }
   db.reunioes.unshift(reg);
-  SR.aberta = reg.id;
   touch();
   render();
   recadoReuniao = 'Reunião gravada: ' + reg.tarefaIds.length + ' tarefa(s), ' + reg.lembreteIds.length + ' lembrete(s), ' + reg.orientacaoIds.length + ' orientação(ões).';
   recado(recadoReuniao);
 }
-function excluirReuniao(reg) {
-  if (!confirm('Excluir a reunião de ' + reg.data + '? As tarefas e lembretes criados por ela também serão removidos. As orientações permanentes ficam.')) return;
-  const foto = fotoBase();
-  db.tarefas = db.tarefas.filter((t2) => t2.reuniaoId !== reg.id);
-  db.lembretes = db.lembretes.filter((l) => l.reuniaoId !== reg.id);
-  db.reunioes = db.reunioes.filter((x) => x.id !== reg.id);
-  if (SR.aberta === reg.id) SR.aberta = null;
-  touch(); render();
-  oferecerDesfazer('Reunião excluída.', foto);
-}
-function marcaTexto(texto, termo) {
-  const s = String(texto || '');
-  if (!termo) return s;
-  const i = norm(s).indexOf(termo);
-  if (i === -1 || norm(s).length !== s.length) return s;
-  return el('span', {}, s.slice(0, i), el('span', { class: 'r-hit' }, s.slice(i, i + termo.length)), s.slice(i + termo.length));
-}
-function reuniaoBate(reg, termo) {
-  if (!termo) return true;
-  const partes = [reg.data, reg.titulo, reg.participantes.join(' ')].concat(reg.contexto, reg.duvidas);
-  for (const e of reg.expedientes) partes.push(e.numero, e.assunto, e.situacao, e.decisao, e.observacoes);
-  for (const m of reg.mencoes) partes.push(m.nome, m.tipo, m.contexto);
-  for (const id of reg.tarefaIds) { const t2 = db.tarefas.find((x) => x.id === id); if (t2) partes.push(t2.texto, t2.detalhe); }
-  for (const id of reg.lembreteIds) { const l = db.lembretes.find((x) => x.id === id); if (l) partes.push(l.texto); }
-  for (const id of reg.orientacaoIds) { const o = db.orientacoes.find((x) => x.id === id); if (o) partes.push(o.texto); }
-  return norm(partes.join(' ')).indexOf(termo) !== -1;
-}
-function telaReunioes() {
-  const c = el('div');
-  const busca = el('input', { type: 'search', id: 'busca-reunioes', placeholder: 'Buscar em tudo: nome, empresa, expediente, palavra da conversa…', autocomplete: 'off', style: 'width:100%;max-width:560px;padding:8px 12px;font-size:14px;background:var(--card);border:1px solid var(--line-forte);border-radius:9px;font-family:inherit;color:var(--ink)' });
-  busca.value = SR.q;
-  c.append(el('div', { style: 'margin:6px 0 14px' }, busca));
-  const conteudo = el('div');
-  c.append(conteudo);
-  const desenharConteudo = () => { conteudo.innerHTML = ''; conteudo.append(conteudoReunioes()); };
-  busca.addEventListener('input', () => { SR.q = busca.value; desenharConteudo(); });
-  desenharConteudo();
-  return c;
-}
-function conteudoReunioes() {
-  const c = el('div');
-  const termo = norm(SR.q);
-  const oris = db.orientacoes.filter((o) => !termo || norm(o.texto).indexOf(termo) !== -1);
-  if (db.orientacoes.length) {
-    const box = el('div', { class: 'r-orient' });
-    box.append(el('div', { class: 'seclab' }, 'Orientações permanentes', el('span', { class: 'sn' }, String(oris.length)), el('span', { class: 'srule' })));
-    if (!oris.length) box.append(el('div', { class: 'muted', style: 'font-size:13px' }, 'Nenhuma orientação bate com a busca.'));
-    for (const o of oris.slice().sort((a, b) => (paraData(b.data) || 0) - (paraData(a.data) || 0))) {
-      box.append(el('div', { class: 'oitem' },
-        el('span', { class: 'otx' }, marcaTexto(o.texto, termo)),
-        el('span', { class: 'ometa' }, o.data || ''),
-        el('button', { class: 'btn-mini', title: 'Excluir orientação', onclick: () => { const foto = fotoBase(); db.orientacoes = db.orientacoes.filter((x) => x.id !== o.id); touch(); render(); oferecerDesfazer('Orientação excluída.', foto); } }, '×')
-      ));
-    }
-    c.append(box);
+/* v56: as orientações permanentes (vindas das reuniões) ficam no pé da aba Tarefas */
+function painelOrientacoes() {
+  if (!db.orientacoes.length) return null;
+  const chave = 'tk:orient';
+  const box = el('div', { class: 'r-orient tk-orient' });
+  box.append(cabDobravel(chave, 'Orientações permanentes', db.orientacoes.length, render));
+  if (dobradas.has(chave)) return box;
+  for (const o of db.orientacoes.slice().sort((a, b) => (paraData(b.data) || 0) - (paraData(a.data) || 0))) {
+    box.append(el('div', { class: 'oitem' },
+      el('span', { class: 'otx' }, o.texto),
+      el('span', { class: 'ometa' }, o.data || ''),
+      el('button', { class: 'btn-mini', title: 'Excluir orientação', onclick: () => { const foto = fotoBase(); db.orientacoes = db.orientacoes.filter((x) => x.id !== o.id); touch(); render(); oferecerDesfazer('Orientação excluída.', foto); } }, '×')));
   }
-  if (!db.reunioes.length) {
-    c.append(el('div', { class: 'vazio-tarefas' }, 'Nenhuma reunião gravada. Use "Colar do Claude" com o bloco gerado pela skill reuniao-tarefas-mp.'));
-    return c;
-  }
-  const lista = db.reunioes.filter((reg) => reuniaoBate(reg, termo)).sort((a, b) => (paraData(b.data) || 0) - (paraData(a.data) || 0));
-  c.append(el('div', { class: 'seclab' }, 'Reuniões', el('span', { class: 'sn' }, String(lista.length)), el('span', { class: 'srule' })));
-  if (!lista.length) c.append(el('div', { class: 'vazio-tarefas' }, 'Nenhuma reunião bate com a busca.'));
-  for (const reg of lista) c.append(cardReuniao(reg, termo));
-  return c;
+  return box;
 }
-function cardReuniao(reg, termo) {
-  const aberta = SR.aberta === reg.id || !!termo;
-  const card = el('div', { class: 'r-card', 'data-id': reg.id });
-  const nPend = reg.tarefaIds.filter((id) => { const t2 = db.tarefas.find((x) => x.id === id); return t2 && !t2.concluida; }).length;
-  const head = el('div', { class: 'r-head' },
-    el('span', { style: 'color:var(--muted);font-size:12px' }, aberta ? '▾' : '▸'),
-    el('h3', {}, 'Reunião de ' + reg.data + (reg.titulo ? ' · ' + reg.titulo : '')),
-    el('span', { class: 'r-sub' }, reg.participantes.join(', ')),
-    el('span', { class: 'chip' }, reg.expedientes.length + ' exp.'),
-    el('span', { class: 'chip' }, nPend + ' pendente(s)'),
-    el('button', { class: 'btn-mini', title: 'Excluir reunião', onclick: (e) => { e.stopPropagation(); excluirReuniao(reg); } }, '×')
-  );
-  head.addEventListener('click', () => { SR.aberta = (aberta && !termo) ? null : reg.id; render(); });
-  card.append(head);
-  if (!aberta) return card;
-  const sec = (titulo, n) => el('div', { class: 'seclab r-sec' }, titulo, n !== undefined ? el('span', { class: 'sn' }, String(n)) : null, el('span', { class: 'srule' }));
-  const linhaTar = (id) => {
-    const t2 = db.tarefas.find((x) => x.id === id);
-    if (!t2) return null;
-    const row = el('div', { class: 'r-tar' + (t2.concluida ? ' done' : '') });
-    const ck = el('button', { class: 'ck' + (t2.concluida ? ' on' : ''), title: t2.concluida ? 'Reabrir tarefa' : 'Concluir tarefa' });
-    ck.addEventListener('click', () => { t2.concluida = !t2.concluida; t2.concluidaEm = t2.concluida ? new Date().toISOString() : ''; touch(); render(); });
-    const tx = el('span', { style: 'flex:1;cursor:pointer' }, marcaTexto(t2.texto, termo));
-    tx.addEventListener('click', () => formTarefa(t2));
-    row.append(ck, tx);
-    if (t2.detalhe) return el('div', {}, row, el('div', { class: 'muted', style: 'font-size:13px;white-space:pre-wrap;margin:2px 0 4px 24px' }, marcaTexto(t2.detalhe, termo)));
-    return row;
-  };
-  if (reg.expedientes.length) {
-    card.append(sec('Expedientes tratados', reg.expedientes.length));
-    for (const e of reg.expedientes) {
-      const box = el('div', { class: 'r-exp' });
-      const num = el('div', { class: 'r-num' });
-      const cp = e.procedimentoId ? chipsProc([e.procedimentoId]) : null;
-      if (cp) num.append(cp); else num.append(el('span', {}, marcaTexto(e.numero || '(sem número)', termo)));
-      if (e.numeroIncerto) num.append(el('span', { class: 'chip', style: 'background:var(--aviso-bg)' }, 'número incerto'));
-      if (e.assunto) num.append(el('span', { class: 'muted', style: 'font-weight:400' }, marcaTexto(e.assunto, termo)));
-      box.append(num);
-      if (e.situacao) box.append(el('div', { class: 'r-lbl' }, 'Situação antes'), el('p', {}, marcaTexto(e.situacao, termo)));
-      if (e.decisao) box.append(el('div', { class: 'r-lbl' }, 'Decisão'), el('p', {}, marcaTexto(e.decisao, termo)));
-      if (e.tarefaIds.length) { box.append(el('div', { class: 'r-lbl' }, 'Tarefas')); for (const id of e.tarefaIds) { const n = linhaTar(id); if (n) box.append(n); } }
-      if (e.observacoes) box.append(el('div', { class: 'r-lbl' }, 'Observações da Promotora'), el('p', {}, marcaTexto(e.observacoes, termo)));
-      card.append(box);
-    }
-  }
-  const soltas = reg.tarefaIds.filter((id) => !reg.expedientes.some((e) => e.tarefaIds.indexOf(id) !== -1));
-  if (soltas.length) { card.append(sec('Outras tarefas', soltas.length)); for (const id of soltas) { const n = linhaTar(id); if (n) card.append(n); } }
-  if (reg.lembreteIds.length) {
-    card.append(sec('Pendências e lembretes', reg.lembreteIds.length));
-    for (const id of reg.lembreteIds) { const l = db.lembretes.find((x) => x.id === id); if (l) card.append(el('div', { class: 'r-item' + (l.ativo ? '' : ' done') }, el('span', { class: 'rk' }, l.ativo ? '🔔' : '✅'), marcaTexto(l.texto, termo))); }
-  }
-  if (reg.orientacaoIds.length) {
-    card.append(sec('Orientações dadas nesta reunião', reg.orientacaoIds.length));
-    for (const id of reg.orientacaoIds) { const o = db.orientacoes.find((x) => x.id === id); if (o) card.append(el('div', { class: 'r-item' }, el('span', { class: 'rk' }, '•'), marcaTexto(o.texto, termo))); }
-  }
-  if (reg.contexto.length) { card.append(sec('Contexto interno', reg.contexto.length)); for (const x of reg.contexto) card.append(el('div', { class: 'r-item' }, el('span', { class: 'rk' }, '•'), marcaTexto(x, termo))); }
-  if (reg.mencoes.length) {
-    card.append(sec('Índice de menções', reg.mencoes.length));
-    for (const tp of ['pessoa', 'entidade', 'expediente', '']) {
-      const ms = reg.mencoes.filter((m) => (m.tipo || '') === tp);
-      if (!ms.length) continue;
-      card.append(el('div', { class: 'r-lbl', style: 'margin:8px 0 2px;color:var(--muted);font-size:11px;letter-spacing:.1em;text-transform:uppercase' }, tp === 'pessoa' ? 'Pessoas' : tp === 'entidade' ? 'Empresas e entidades' : tp === 'expediente' ? 'Expedientes citados' : 'Outros'));
-      for (const m of ms) card.append(el('div', { class: 'r-item' }, el('strong', { style: 'flex:none' }, marcaTexto(m.nome, termo)), el('span', { class: 'muted' }, marcaTexto(m.contexto, termo))));
-    }
-  }
-  if (reg.duvidas.length) { card.append(sec('Dúvidas de transcrição', reg.duvidas.length)); for (const x of reg.duvidas) card.append(el('div', { class: 'r-item' }, el('span', { class: 'rk' }, '?'), marcaTexto(x, termo))); }
-  return card;
-}
-
 /* ---------- tarefas (v47): entender o que foi digitado na linha rápida ---------- */
 const NOMES_DIAS = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
 function somarDias(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
@@ -6652,17 +6343,8 @@ function chipProcTarefa(p) {
   return b;
 }
 function dataCurtaBR(br) { const d = paraData(br); if (!d) return br || '?'; const p = (n) => String(n).padStart(2, '0'); return p(d.getDate()) + '/' + p(d.getMonth() + 1) + (d.getFullYear() !== hojeData().getFullYear() ? '/' + String(d.getFullYear()).slice(2) : ''); }
-function abrirReuniao(r) {
-  S.aba = 'reunioes'; SR.q = ''; SR.aberta = r.id;
-  render();
-  const card = Array.from(document.querySelectorAll('.r-card')).find((x) => x.dataset.id === r.id);
-  if (card && card.scrollIntoView) card.scrollIntoView({ block: 'start' });
-}
 function chipReuniao(r) {
-  const b = el('button', { type: 'button', class: 'tk-reu', title: 'Abrir a reunião de ' + r.data + (r.titulo ? ' · ' + r.titulo : '') }, 'reunião ' + dataCurtaBR(r.data));
-  b.addEventListener('click', (e) => { e.stopPropagation(); abrirReuniao(r); });
-  b.addEventListener('keydown', (e) => e.stopPropagation());
-  return b;
+  return el('span', { class: 'tk-reu', title: 'Veio da reunião de ' + r.data + (r.titulo ? ' · ' + r.titulo : '') }, 'reunião ' + dataCurtaBR(r.data));
 }
 function focarLinhaTk(id) {
   const r = Array.from(document.querySelectorAll('#main .tk-row')).find((x) => x.dataset.id === id);
@@ -6920,7 +6602,11 @@ function telaTarefas() {
   }
   c.append(sub);
   if (ST.subaba === 'lembretes') c.append(telaLembretes());
-  else c.append(telaTarefasLista());
+  else {
+    c.append(telaTarefasLista());
+    const po = painelOrientacoes();
+    if (po) c.append(po);
+  }
   return c;
 }
 
@@ -7032,7 +6718,6 @@ function telaTarefasLista() {
       cab.addEventListener('click', () => { if (dobradas.has(g.chave)) dobradas.delete(g.chave); else dobradas.add(g.chave); desenharLista(); });
       const linhaCab = el('div', { class: 'tk-grupo-l' }, cab);
       if (g.proc) linhaCab.append(el('button', { type: 'button', class: 'tk-grupo-ir', title: 'Abrir no Controle', onclick: () => abrirProc(g.proc.id) }, 'Controle ↗'));
-      if (g.reuniao) linhaCab.append(el('button', { type: 'button', class: 'tk-grupo-ir', title: 'Abrir a reunião', onclick: () => abrirReuniao(g.reuniao) }, 'Reunião ↗'));
       listaBox.append(linhaCab);
       if (!fechado) listaBox.append(painelTk(g.itens.map((t2) => linhaTarefa(t2, { termo: termo, semReuniao: g.semReuniao || !!g.reuniao, semProc: !!g.proc && (t2.procedimentoIds || []).length === 1 }))));
     }
