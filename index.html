@@ -992,6 +992,16 @@ span.tk-reu{cursor:default}
 span.tk-reu:hover{border-color:var(--t-promotora-bg);color:var(--t-promotora)}
 .tk-orient{margin-top:22px}
 .tk-orient .sec-h{margin:0 0 4px}
+
+/* v58: vínculos repetidos numa linha só */
+.env-papeis{display:inline-flex;gap:4px;flex:none;flex-wrap:wrap;justify-content:flex-end}
+.ix-vlista-d{display:grid;margin-top:6px}
+.ix-vlinha{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:13.5px}
+.ix-vlinha + .ix-vlinha{border-top:1px solid var(--line)}
+.ix-vlinha-p{flex:none;min-width:110px}
+.ix-vlinha-obs{flex:1;min-width:0}
+.ix-vlinha-ac{display:flex;gap:6px;flex:none}
+@media (max-width:720px){.ix-vlinha{flex-wrap:wrap}.ix-vlinha-obs{flex-basis:100%;order:3}}
 </style>
 </head>
 <body>
@@ -1179,6 +1189,7 @@ function validarBase(d) {
   d.tarefas = d.tarefas.map(normTarefa);
   d.lembretes = d.lembretes.map(normLembrete);
   d.focoDia = d.focoDia.map(normFoco);
+  d.vinculos = juntarVinculosRepetidos(d.vinculos, d.expedientes).lista;
   if (!d.meta || typeof d.meta !== 'object') {
     d.meta = { app: 'guia-extrajudicial', versao: 4, criadoEm: new Date().toISOString(), atualizadoEm: new Date().toISOString() };
   }
@@ -1619,10 +1630,7 @@ function limparDepoisDeJuntar(R, B) {
     const vistos = new Set(), antigos = velhos('focoDia');
     R.focoDia = R.focoDia.filter((f) => { const k = f.procedimentoId + '|' + f.data; if (vistos.has(k) && !antigos.has(f.id)) return false; vistos.add(k); return true; });
   }
-  if (Array.isArray(R.vinculos)) {
-    const vistos = new Set(), antigos = velhos('vinculos');
-    R.vinculos = R.vinculos.filter((v) => { const k = [v.origem, v.destino].sort().join('|') + '|' + norm(v.papel); if (vistos.has(k) && !antigos.has(v.id)) return false; vistos.add(k); return true; });
-  }
+  if (Array.isArray(R.vinculos)) R.vinculos = juntarVinculosRepetidos(R.vinculos, R.expedientes).lista;
   const procs = new Set((R.procedimentos || []).map((p) => p.id));
   for (const t2 of (R.tarefas || [])) { t2.procedimentoIds = (t2.procedimentoIds || []).filter((id) => procs.has(id)); if (!t2.concluida) t2.concluidaEm = ''; }
   for (const l of (R.lembretes || [])) l.procedimentoIds = (l.procedimentoIds || []).filter((id) => procs.has(id));
@@ -3150,7 +3158,7 @@ function infoIndice(p) {
   let r = cacheIdx.mapa.get(p.id);
   if (!r) {
     const exp = expedienteDoProc(p);
-    r = { exp: exp, n: exp ? vinculosDe(exp.id).filter((x) => tipoDe(x.outro.id) !== 'expediente').length : 0 };
+    r = { exp: exp, n: exp ? new Set(vinculosDe(exp.id).filter((x) => tipoDe(x.outro.id) !== 'expediente').map((x) => x.outro.id)).size : 0 };
     cacheIdx.mapa.set(p.id, r);
   }
   return r;
@@ -4081,8 +4089,8 @@ function abrirProc(id, foco) {
   secEnv.id = 'g-sec-indice';
   secEnvRef = secEnv;
   if (exp) {
-    const rel = vinculosDe(exp.id).filter((r) => tipoDe(r.outro.id) !== 'expediente')
-      .sort((a, b) => ordemPapel(papelCanonico(a.v.papel)) - ordemPapel(papelCanonico(b.v.papel)) || rotuloDe(a.outro).localeCompare(rotuloDe(b.outro), 'pt-BR'));
+    const rel = agruparPorOutro(vinculosDe(exp.id).filter((r) => tipoDe(r.outro.id) !== 'expediente'))
+      .sort((a, b) => ordemPapel(papeisDe(a.vs)[0] || '') - ordemPapel(papeisDe(b.vs)[0] || '') || rotuloDe(a.outro).localeCompare(rotuloDe(b.outro), 'pt-BR'));
     if (!rel.length) secEnv.append(el('div', { class: 'muted g-dica' }, 'Expediente indexado, ainda sem pessoas ou entidades vinculadas.'));
     const todos = envolvidosAbertos.has(p.id);
     const lista = el('div', { class: 'g-env' });
@@ -4091,7 +4099,7 @@ function abrirProc(id, foco) {
         onclick: () => { const pid = p.id; fecharGaveta(); abrirFicha(r.outro.id, { controle: pid }); },
         onkeydown: (e) => { if (e.key === 'Enter') { e.preventDefault(); e.currentTarget.click(); } } },
         el('span', { class: 'env-nome' }, rotuloDe(r.outro)),
-        chipPapel(r.v.papel) || el('span', { class: 'muted env-tipo' }, tipoDe(r.outro.id) === 'pessoa' ? 'pessoa' : 'entidade')));
+        chipsPapeis(r.vs).length ? el('span', { class: 'env-papeis' }, chipsPapeis(r.vs)) : el('span', { class: 'muted env-tipo' }, tipoDe(r.outro.id) === 'pessoa' ? 'pessoa' : 'entidade')));
     }
     if (rel.length) secEnv.append(lista);
     const rodape = el('div', { class: 'g-env-pe' });
@@ -4693,6 +4701,63 @@ function chipPapel(papel) {
   return el('span', { class: 'ix-papel' + (PAPEIS_ALVO.has(c) ? ' alvo' : ''), title: c !== salvo ? 'Salvo como "' + salvo + '"' : null }, c);
 }
 function ordemPapel(c) { const i = ORDEM_PAPEIS.indexOf(c); return i === -1 ? (c ? 100 : 999) : i; }
+/* v58: dois vínculos entre os mesmos registros são o mesmo quando têm o mesmo papel, ainda que escrito de outro
+   jeito ("Investigada", "Investigado", "Investigado(a)"), e, num expediente, quando os dois são papéis de alvo
+   (noticiado, investigado, requerido...): é a mesma posição, e o nome muda com a classe (NF, PP, IC). */
+function chaveVinculo(a, b, papel, ta, tb) {
+  ta = ta || tipoDe(a); tb = tb || tipoDe(b);
+  const c = papelCanonico(papel);
+  const alvo = (ta === 'expediente' || tb === 'expediente') && PAPEIS_ALVO.has(c);
+  return [a, b].sort().join('|') + '|' + (alvo ? '#alvo' : c);
+}
+function papelAlvoDaClasse(tipo) {
+  const s = siglaDaFase(tipo);
+  if (s === 'NF') return 'Noticiado(a)';
+  if (s === 'PP' || s === 'IC' || s === 'PIC' || s === 'PPIC') return 'Investigado(a)';
+  return '';
+}
+/* junta os vínculos repetidos: fica o primeiro, com as anotações dos outros; no alvo, o papel da classe do
+   expediente, quando algum dos repetidos já o tem */
+function juntarVinculosRepetidos(vinculos, expedientes) {
+  const porChave = new Map(), out = [];
+  const tipoExp = new Map((expedientes || []).map((x) => [x.id, x.tipo]));
+  let n = 0;
+  for (const v of (vinculos || [])) {
+    if (!v || typeof v !== 'object') { out.push(v); continue; }
+    const k = chaveVinculo(v.origem, v.destino, v.papel);
+    const ja = porChave.get(k);
+    if (!ja) { porChave.set(k, v); out.push(v); continue; }
+    n++;
+    const a = String(ja.obs || '').trim(), b = String(v.obs || '').trim();
+    if (b && norm(a).indexOf(norm(b)) === -1) ja.obs = a ? a + '; ' + b : b;
+    if (k.slice(-6) === '|#alvo') {
+      const pref = papelAlvoDaClasse(tipoExp.get(tipoDe(ja.origem) === 'expediente' ? ja.origem : ja.destino));
+      if (pref && papelCanonico(ja.papel) !== pref && papelCanonico(v.papel) === pref) ja.papel = v.papel;
+    }
+  }
+  return { lista: out, n: n };
+}
+/* para mostrar: os vínculos com o mesmo registro numa linha só */
+function agruparPorOutro(rel) {
+  const m = new Map();
+  for (const x of rel) {
+    const g = m.get(x.outro.id) || { outro: x.outro, vs: [] };
+    g.vs.push(x.v);
+    m.set(x.outro.id, g);
+  }
+  return Array.from(m.values());
+}
+function papeisDe(vs) {
+  return Array.from(new Set(vs.map((v) => papelCanonico(v.papel)).filter(Boolean))).sort((a, b) => ordemPapel(a) - ordemPapel(b) || a.localeCompare(b, 'pt-BR'));
+}
+function chipsPapeis(vs) {
+  return papeisDe(vs).map((c) => { const v = vs.find((x) => papelCanonico(x.papel) === c); return chipPapel(v ? v.papel : c); }).filter(Boolean);
+}
+function obsDe(vs) {
+  const vistos = new Set(), out = [];
+  for (const v of vs) { const o = String(v.obs || '').trim(); if (o && !vistos.has(norm(o))) { vistos.add(norm(o)); out.push(o); } }
+  return out;
+}
 function capitalizar(s) { s = String(s || '').trim(); return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
 
 /* vínculos e registros por id, guardados até a próxima alteração */
@@ -4777,19 +4842,21 @@ function teclasIx(row, abrir) {
   });
 }
 /* linha compacta de pessoa, entidade ou expediente
-   opcoes: termo (realce), ondeAparece (expedientes em que aparece), vinculo ({papel, obs}),
+   opcoes: termo (realce), ondeAparece (expedientes em que aparece), vinculo ({papel, obs}) ou vinculos (lista, v58),
+           semPapel (não repete o papel, que já está no cabeçalho do grupo),
            acoes (nó à direita), contagem ('sempre' | 'repetidos' | false), sub (texto extra),
            nota (texto à direita), ocultar (textos já ditos na tela, como o nome da entidade aberta) */
 function ixLinha(r, opcoes) {
   opcoes = opcoes || {};
   const t = tipoDe(r.id);
   const termo = opcoes.termo || '';
-  const v = opcoes.vinculo || null;
+  const vs = opcoes.vinculos || (opcoes.vinculo ? [opcoes.vinculo] : null);
+  const v = vs && vs.length ? { obs: obsDe(vs).join(' · ') } : null;
   const abrir = () => abrirFicha(r.id, { linha: r.id });
   const row = el('div', { class: 'ix-row', tabindex: '0', role: 'button', 'data-id': r.id, 'aria-label': 'Abrir ' + rotuloDe(r) });
   const l1 = el('div', { class: 'ix-l1' });
   const l2 = el('div', { class: 'ix-l2' });
-  if (v && v.papel) { const pp = chipPapel(v.papel); if (pp) l2.append(pp); }
+  if (vs && !opcoes.semPapel) for (const pp of chipsPapeis(vs)) l2.append(pp);
   if (t === 'expediente') {
     l1.append(el('span', { class: 'ix-tipo' }, r.tipo || 'Exp.'), el('strong', { class: 'mono ix-num' }, realcar(r.numero || 's/ nº', termo)));
     if (r.status) l1.append(el('span', { class: 'ix-status' + (statusEncerrado(r.status) ? ' fim' : '') }, r.status));
@@ -5172,6 +5239,36 @@ function acoesVinculo(v) {
   box.append(ed, rm);
   return box;
 }
+/* v58: a linha com mais de um vínculo (papéis diferentes com o mesmo registro): ✎ mostra cada um, × remove todos */
+function acoesVinculos(vs) {
+  if (vs.length === 1) return acoesVinculo(vs[0]);
+  const box = el('div', { class: 'ix-acoes' });
+  const ed = el('button', { type: 'button', class: 'c-ic ix-ed', title: 'Ver os ' + vs.length + ' vínculos: papel e anotação de cada um', 'aria-label': 'Ver os vínculos' }, '✎');
+  ed.addEventListener('click', (e) => { e.stopPropagation(); listaVinculos(vs); });
+  const rm = el('button', { type: 'button', class: 'c-ic ix-rm', title: 'Remover os ' + vs.length + ' vínculos (dá para desfazer)', 'aria-label': 'Remover os vínculos' }, '×');
+  rm.addEventListener('click', (e) => { e.stopPropagation(); removerVinculos(vs.map((v) => v.id)); });
+  for (const b of [ed, rm]) b.addEventListener('keydown', (e) => e.stopPropagation());
+  box.append(ed, rm);
+  return box;
+}
+function removerVinculos(ids) {
+  const foto = fotoBase();
+  const fora = new Set(ids);
+  db.vinculos = db.vinculos.filter((v) => !fora.has(v.id));
+  touch();
+  render();
+  oferecerDesfazer(ids.length === 1 ? 'Vínculo removido.' : ids.length + ' vínculos removidos.', foto);
+}
+function listaVinculos(vs) {
+  const a = achar(vs[0].origem), b = achar(vs[0].destino);
+  const linhas = vs.map((v) => el('div', { class: 'ix-vlinha' },
+    el('span', { class: 'ix-vlinha-p' }, chipPapel(v.papel) || el('span', { class: 'muted' }, 'sem papel')),
+    el('span', { class: 'ix-vlinha-obs' + (v.obs ? '' : ' muted') }, v.obs || 'sem anotação'),
+    el('span', { class: 'ix-vlinha-ac' },
+      el('button', { type: 'button', class: 'btn ghost sm', onclick: () => editarVinculo(v) }, 'Editar'),
+      el('button', { type: 'button', class: 'btn ghost sm', onclick: () => { $('#dlg').close(); removerVinculo(v.id); } }, 'Remover'))));
+  abrirDialogo('Vínculos', [el('p', { class: 'ix-vpar' }, el('strong', {}, rotuloDe(a)), el('span', { class: 'muted' }, ' ↔ '), el('strong', {}, rotuloDe(b))), el('div', { class: 'ix-vlista-d' }, linhas)], () => {}, 'Pronto');
+}
 /* papel em um clique, ou escrito à mão */
 function seletorPapel(valor) {
   let atual = String(valor || '').trim();
@@ -5200,6 +5297,8 @@ function editarVinculo(v) {
   ], () => {
     const np = papel.ler(), no = obs.value.trim();
     if (np === (v.papel || '') && no === (v.obs || '')) return;
+    const outro = db.vinculos.find((w) => w !== v && chaveVinculo(w.origem, w.destino, w.papel) === chaveVinculo(v.origem, v.destino, np));
+    if (outro) { alert('Já existe outro vínculo entre os dois como ' + (papelCanonico(outro.papel) || 'sem papel') + ', que é a mesma posição. Remova um dos dois.'); return false; }
     const foto = fotoBase();
     v.papel = np; v.obs = no;
     touch();
@@ -5264,16 +5363,16 @@ function telaFichaIx() {
     const chaves = Array.from(grupos.keys()).sort((a, b) => ordemPapel(a) - ordemPapel(b) || a.localeCompare(b, 'pt-BR'));
     const tipoOrd = (x) => (tipoDe(x.outro.id) === 'pessoa' ? 0 : 1);
     for (const k of chaves) {
-      const lista = grupos.get(k).sort((a, b) => tipoOrd(a) - tipoOrd(b) || rotuloDe(a.outro).localeCompare(rotuloDe(b.outro), 'pt-BR'));
+      const lista = agruparPorOutro(grupos.get(k)).sort((a, b) => tipoOrd(a) - tipoOrd(b) || rotuloDe(a.outro).localeCompare(rotuloDe(b.outro), 'pt-BR'));
       const cabG = cabIx('ficha:' + r.id + ':papel:' + k, k || 'Sem papel', lista.length, render, PAPEIS_ALVO.has(k) ? 'alvo' : '');
       c.append(cabG.el);
-      if (!cabG.fechado) c.append(painelIx(lista.map((x) => ixLinha(x.outro, { vinculo: { papel: '', obs: x.v.obs }, acoes: acoesVinculo(x.v), contagem: 'repetidos' }))));
+      if (!cabG.fechado) c.append(painelIx(lista.map((g) => ixLinha(g.outro, { vinculos: g.vs, semPapel: true, acoes: acoesVinculos(g.vs), contagem: 'repetidos' }))));
     }
   } else {
-    /* expedientes em que aparece */
-    const exps = rel.filter((x) => tipoDe(x.outro.id) === 'expediente')
+    /* expedientes em que aparece: uma linha por expediente, com os papéis lado a lado */
+    const exps = agruparPorOutro(rel.filter((x) => tipoDe(x.outro.id) === 'expediente'))
       .sort((a, b) => (b.outro.data || '').localeCompare(a.outro.data || '') || (a.outro.numero || '').localeCompare(b.outro.numero || ''));
-    const cabE = cabIx('ficha:' + r.id + ':expediente', 'Expedientes', new Set(exps.map((x) => x.outro.id)).size, render);
+    const cabE = cabIx('ficha:' + r.id + ':expediente', 'Expedientes', exps.length, render);
     c.append(cabE.el);
     if (!cabE.fechado) {
       if (!exps.length) c.append(el('p', { class: 'muted dica' }, 'Nenhum expediente vinculado ainda. Use "Novo vínculo".'));
@@ -5286,18 +5385,18 @@ function telaFichaIx() {
           bc.addEventListener('keydown', (e) => e.stopPropagation());
           box.append(bc);
         }
-        box.append(acoesVinculo(x.v));
-        return ixLinha(x.outro, { vinculo: x.v, acoes: box, contagem: false });
+        box.append(acoesVinculos(x.vs));
+        return ixLinha(x.outro, { vinculos: x.vs, acoes: box, contagem: false });
       })));
     }
     /* ligações diretas: dirigentes, sócios, servidores… */
-    const lig = rel.filter((x) => tipoDe(x.outro.id) !== 'expediente')
-      .sort((a, b) => ordemPapel(papelCanonico(a.v.papel)) - ordemPapel(papelCanonico(b.v.papel)) || rotuloDe(a.outro).localeCompare(rotuloDe(b.outro), 'pt-BR'));
+    const lig = agruparPorOutro(rel.filter((x) => tipoDe(x.outro.id) !== 'expediente'))
+      .sort((a, b) => ordemPapel(papeisDe(a.vs)[0] || '') - ordemPapel(papeisDe(b.vs)[0] || '') || rotuloDe(a.outro).localeCompare(rotuloDe(b.outro), 'pt-BR'));
     if (lig.length) {
       const cabL = cabIx('ficha:' + r.id + ':ligacoes', t === 'pessoa' ? 'Ligações com entidades e pessoas' : 'Ligações com pessoas e entidades', lig.length, render);
       c.append(cabL.el);
       const jaDito = t === 'entidade' ? [r.nome].concat(r.aliases || []).map(norm) : [];
-      if (!cabL.fechado) c.append(painelIx(lig.map((x) => ixLinha(x.outro, { vinculo: x.v, acoes: acoesVinculo(x.v), contagem: 'repetidos', ocultar: jaDito }))));
+      if (!cabL.fechado) c.append(painelIx(lig.map((x) => ixLinha(x.outro, { vinculos: x.vs, acoes: acoesVinculos(x.vs), contagem: 'repetidos', ocultar: jaDito }))));
     }
     /* quem divide 2 ou mais expedientes com este registro */
     const junto = juntoCom(r.id);
@@ -5531,9 +5630,11 @@ function formVinculo(origemId, pre) {
   ], () => {
     if (!selecionado) { alert('Escolha com quem vincular.'); return false; }
     const pp = papel.ler();
-    const igual = db.vinculos.find((v) =>
-      ((v.origem === origemId && v.destino === selecionado.id) || (v.origem === selecionado.id && v.destino === origemId)) && papelCanonico(v.papel) === papelCanonico(pp));
-    if (igual) { alert('Este vínculo, com este papel, já existe.'); return false; }
+    const igual = db.vinculos.find((v) => chaveVinculo(v.origem, v.destino, v.papel) === chaveVinculo(origemId, selecionado.id, pp));
+    if (igual) {
+      alert(papelCanonico(igual.papel) === papelCanonico(pp) ? 'Este vínculo, com este papel, já existe.' : 'Já existe o vínculo como ' + papelCanonico(igual.papel) + ', que é a mesma posição neste expediente. Para trocar o papel, edite esse vínculo.');
+      return false;
+    }
     db.vinculos.push({ id: uid('v'), origem: origemId, destino: selecionado.id, papel: pp, obs: obsV.value.trim() });
     touch();
     recado('Vínculo criado: ' + rotuloDe(selecionado) + (pp ? ' · ' + papelCanonico(pp) : '') + '.');
@@ -5675,7 +5776,7 @@ function parseBloco(txt) {
 }
 function planejarImportacao(txt) {
   const b = parseBloco(txt);
-  const plano = { itens: [], vincNovos: [], vincExistentes: 0, avisos: [], refMap: {}, fases: [], trocar: new Set(), caixas: [] };
+  const plano = { itens: [], vincNovos: [], vincExistentes: 0, vincCompletar: [], avisos: [], refMap: {}, fases: [], trocar: new Set(), caixas: [] };
   let seq = 0;
   const registrar = (tipo, ref, existente, dados, rotuloNovo) => {
     const chave = ref || ('auto' + (++seq));
@@ -5713,12 +5814,17 @@ function planejarImportacao(txt) {
     if (!o || !d2) { plano.avisos.push('Vínculo com referência desconhecida foi ignorado (' + sTrim(v.origem) + ' → ' + sTrim(v.destino) + ').'); continue; }
     const papel = sTrim(v.papel);
     if (o.existente && d2.existente) {
-      const oId = o.existente.id, dId = d2.existente.id;
-      const ja = db.vinculos.find((w) => ((w.origem === oId && w.destino === dId) || (w.origem === dId && w.destino === oId)) && norm(w.papel) === norm(papel));
-      if (ja) { plano.vincExistentes++; continue; }
+      const k = chaveVinculo(o.existente.id, d2.existente.id, papel);
+      const ja = db.vinculos.find((w) => chaveVinculo(w.origem, w.destino, w.papel) === k);
+      if (ja) {
+        plano.vincExistentes++;
+        if (!sTrim(ja.obs) && sTrim(v.obs)) plano.vincCompletar.push({ id: ja.id, obs: sTrim(v.obs) });
+        continue;
+      }
     }
-    const rep = plano.vincNovos.find((w) => ((w.origem === sTrim(v.origem) && w.destino === sTrim(v.destino)) || (w.origem === sTrim(v.destino) && w.destino === sTrim(v.origem))) && norm(w.papel) === norm(papel));
-    if (rep) continue;
+    const kb = chaveVinculo(sTrim(v.origem), sTrim(v.destino), papel, o.tipo, d2.tipo);
+    const rep = plano.vincNovos.find((w) => chaveVinculo(w.origem, w.destino, w.papel, plano.refMap[w.origem].tipo, plano.refMap[w.destino].tipo) === kb);
+    if (rep) { if (!rep.obs && sTrim(v.obs)) rep.obs = sTrim(v.obs); continue; }
     plano.vincNovos.push({ origem: sTrim(v.origem), destino: sTrim(v.destino), papel: papel, obs: sTrim(v.obs) });
   }
   if (!plano.itens.length && !plano.vincNovos.length) throw new Error('o bloco não trouxe nenhum registro aproveitável.');
@@ -5765,12 +5871,14 @@ function aplicarImportacao(plano) {
       criados++;
     }
   }
+  for (const cv of (plano.vincCompletar || [])) { const w = db.vinculos.find((x) => x.id === cv.id); if (w && !sTrim(w.obs)) w.obs = cv.obs; }
   let vincs = 0;
   for (const v of plano.vincNovos) {
     const oId = plano.refMap[v.origem].novoId;
     const dId = plano.refMap[v.destino].novoId;
-    const ja = db.vinculos.find((w) => ((w.origem === oId && w.destino === dId) || (w.origem === dId && w.destino === oId)) && norm(w.papel) === norm(v.papel));
-    if (ja) continue;
+    const k = chaveVinculo(oId, dId, v.papel);
+    const ja = db.vinculos.find((w) => chaveVinculo(w.origem, w.destino, w.papel) === k);
+    if (ja) { if (!sTrim(ja.obs) && v.obs) ja.obs = v.obs; continue; }
     db.vinculos.push({ id: uid('v'), origem: oId, destino: dId, papel: v.papel, obs: v.obs });
     vincs++;
   }
@@ -5815,7 +5923,7 @@ function confirmarImportacao(plano) {
       corpo.push(el('div', { class: 'linha-sub' }, nomeDe(oRef) + ' → ' + nomeDe(dRef) + ' ', v.papel ? chip(v.papel, 'papel') : null));
     }
   }
-  if (plano.vincExistentes) corpo.push(el('p', { class: 'muted dica' }, plano.vincExistentes + ' vínculo(s) do bloco já existiam e serão ignorados.'));
+  if (plano.vincExistentes) corpo.push(el('p', { class: 'muted dica' }, plano.vincExistentes + ' vínculo(s) do bloco já existiam e não serão repetidos (o mesmo papel, ainda que escrito de outro jeito, ou outro papel de alvo no mesmo expediente).'));
   if (plano.fases.length) corpo.push(blocoFasesConferencia(plano));
   const bHoje = blocoFeitosHojeConferencia(plano);
   if (bHoje) corpo.push(bHoje);
